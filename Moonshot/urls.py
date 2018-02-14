@@ -18,4 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^register/$', views.UserFormView.as_view(), name='register'),
+
 ]
