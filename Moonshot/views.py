@@ -1,40 +1,33 @@
 from django.shortcuts import render, redirect
-frmo django.contrib.auth import authenticate, login
-from django.views.generic import view
-from .forms import UserForm
+from django.contrib.auth import authenticate, login
+from django.views.generic import *
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+
+from database.functions import *
+from Moonshot.forms import UserRegistrationForm
+
+def home(request):
+    return render(request, 'home.html')
 
 
-class UserForm(View):
-    form_class = UserForm
-    template_name = 'Moonshot/registration_form.html'
-
-    #display blank form
-    def get(selfself, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
-
-
-    #process form data
-    def post(selfSelf, request):
-        form = self.form_class(request.POST)
-
+def register(request, template_name):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
-
-            user = form.save(commit=False)
-
-            #cleaned (normalized) data
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user.set_password(password)
-            user.save()
-
-            #return user object if credentials are correct
-
-            user=authenticate(username=username, password=password)
-
-            if user is not None:
-                if user.is_active:
-                    login(reques, user)
-                    return redirect('Moonshot/index.html')
-
-        return render(request, self.template_name, {'form': form})
+            userObj = form.cleaned_data
+            name = userObj['name']
+            username = userObj['username']
+            email =  userObj['email']
+            password =  userObj['password']
+            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+                User.objects.create_user(username, email, password)
+                user = authenticate(username = username, password = password)
+                create_user(user, name)
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                raise forms.ValidationError('Looks like a username with that email or password already exists')
+    else:
+        form = UserRegistrationForm()
+    return render(request, template_name, {'form' : form})

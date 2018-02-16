@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
+from Moonshot.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^register/$', views.UserFormView.as_view(), name='register'),
 
+    url(r'^register/$', register, {'template_name': 'register.html'}, name='register'),
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
+    url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
+
+    url(r'^$', home),
+    
 ]
