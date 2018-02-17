@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^register/$', register, {'template_name': 'register.html'}, name='register'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
+    url(r'^experience/$', auth_views.logout, {'template_name': 'experience.html'}),
 
     url(r'^$', home),
     

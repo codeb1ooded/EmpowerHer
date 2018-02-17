@@ -4,6 +4,9 @@ from django.views.generic import *
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 
+from .models import EXPERIENCE
+from django.template import loader
+
 from database.functions import *
 from Moonshot.forms import UserRegistrationForm
 
@@ -31,3 +34,13 @@ def register(request, template_name):
     else:
         form = UserRegistrationForm()
     return render(request, template_name, {'form' : form})
+
+
+
+def experience_list(request):
+    all_experiences=EXPERIENCE.objects.all()
+    template=loader.get_template('template/experience.html')
+    context={
+        'all_experiences': all_experiences,
+    }
+    return HttpResponse(template.render(context, request))
