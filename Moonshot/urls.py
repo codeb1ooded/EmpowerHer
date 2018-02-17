@@ -16,16 +16,18 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
 from Moonshot.views import *
+from chat.views import *
+# from Moonshot.chat.views import call
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
     url(r'^register/$', register, {'template_name': 'register.html'}, name='register'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
-
     url(r'^$', home),
-    
+    url(r'^post/$', Post, name='post'),
+    url(r'^messages/$', Messages, name='messages'),
+    url(r'^home/$', Home, name='home'),
+
 ]

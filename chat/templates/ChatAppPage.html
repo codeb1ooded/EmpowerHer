@@ -1,102 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Anita Moonshot</title>
-    <style type="text/css">
-      div.bbl {
-        background-color: #ddd;
-        padding: 5px 10px;
-        border-radius: 10px;
-        color: #555;
-        margin-bottom: 5px; 
+{% load staticfiles %}
 
-      }
-    </style>
-    <!-- Bootstrap -->
+<html>
+
+<head>
+    <title>Chat Panel</title>
+  <style>
+    #chat-bottom {
+    position: fixed;
+    bottom: 10px;
+}
+
+.panel-body {
+    overflow-y: scroll;
+    height: 85%;
+}
+  </style>
     <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'chat.css' %}">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="container-fluid">
-      
-      <div class="well text-center">
-        <h4>My Chat App</h4>
-      </div>
-      <div class="col-sm-8">
-        <div class="nomsg">
-          <h1 style="color: #ccc">No Message Yet!</h1>
-          <div class="msg-wrapper"></div>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div id="chat-body" class="panel panel-default">
+        <div class="panel-heading">Chat Box</div>
+        <div id="msg-list-div" class="panel-body">
+            <ul id="msg-list" class="list-group">
+                {% for obj in chat %}
+                    {% if obj.SENDER_KEY == request.user %}
+                        <li class="text-right list-group-item">{{ obj.MESSAGE }}</li>
+                    {% else %}
+
+                        <li class="text-left list-group-item">{{ obj.MESSAGE }}</li>
+                    {% endif %}
+                {% empty %}
+                    <li class="text-right list-group-item">No messages yet!</li>
+                {% endfor %}
+                <script>
+                    var chatlist = document.getElementById('msg-list-div');
+                    chatlist.scrollTop = chatlist.scrollHeight;
+                </script>
+            </ul>
         </div>
-      </div>
+    </div>
 
-      <div class="col-sm-4">
-        <form action="" method="POST">
-          <b>Type your message below span. <span class="glyphicon glyphicon-arrow-down"></span></b>
-          <hr>
-          <div class="form-group">
-            <label for="exampleInputEmail1">User Name</label>
-            <input type="text" class="username form-control" id="exampleInputEmail1" placeholder="User Name">
-          </div>
-          
-          <div class="form-group">
-            <label for="exampleInputPassword1">Message</label>
-            <input type="text" class="message form-control" id="exampleInputPassword1" placeholder="Message">
-          </div>
-          
-          <button type="submit" class="btn btn-success">Send <span class="glyphicon glyphicon-send"></span></button>
-        </form>
-      </div>
-  </div>
+    <form id="chat-form" method="post" action="/post/">
+        <div id="chat-bottom" class="input-group">
+            <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
+            <span class="input-group-btn">
+                <input class="btn btn-default" id="send" type="submit" value="Send"/>
+                <s
+            </span>
+        </div>
+    </form>
+</body>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>  
+<script>
+$('#chat-form').on('submit', function(event){
+    event.preventDefault();
 
-    <script type="text/javascript">
-      var socket = io.connect( 'http://localhost:5000/')
-      //broadcast a message
-      socket.on( 'connect', function() {
-        socket.emit( 'my event', {
-          data : 'User Connected',
-        } )
-      } )  
-      var form = $( 'form' ).on( 'submit', function( e ){
-        e.preventDefault()
-        var user_name1 = $( 'input.username' ).val()
-        var message = $( 'input.message' ).val()
-        socket.emit( 'my event', {
-          user : user_name1,
-          msg : message
-        } )
+    $.ajax({
+        url : '/post/',
+        type : 'POST',
+        data : { msgbox : $('#chat-msg').val() },
 
-        //Empty the msg field
+        success : function(json){
+            $('#chat-msg').val('');
+            $('#msg-list').append('<li class="text-right list-group-item">' + json.msg + '</li>');
+            var chatlist = document.getElementById('msg-list-div');
+            chatlist.scrollTop = chatlist.scrollHeight;
+        }
+    });
+});
 
-        $( 'input.message' ).val( '' ).focus()
-      } )    
+function getMessages(){
+    if (!scrolling) {
+        $.get('/messages/', function(messages){
+            $('#msg-list').html(messages);
+            var chatlist = document.getElementById('msg-list-div');
+            chatlist.scrollTop = chatlist.scrollHeight;
+        });
+    }
+    scrolling = false;
+}
 
-    //capture
-    socket.on( 'my response', function( msg ){
-      if( typeof msg.user !== 'undefined' ){
-        $( 'h1' ).remove()
-        $( 'div.msg-wrapper' ).append( '<div class="msgbbl"><b>'+msg.user+'</b> '+msg.msg+'</div>')
-      }
-      console.log( msg )
-    }  )
+var scrolling = false;
+$(function(){
+    $('#msg-list-div').on('scroll', function(){
+        scrolling = true;
+    });
+    refreshTimer = setInterval(getMessages, 500);
+});
 
-    </script>
+$(document).ready(function() {
+     $('#send').attr('disabled','disabled');
+     $('#chat-msg').keyup(function() {
+        if($(this).val() != '') {
+           $('#send').removeAttr('disabled');
+        }
+        else {
+        $('#send').attr('disabled','disabled');
+        }
+     });
+ });
 
-  </body>
+// using jQuery
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+</script>
+<!--<script src="{% static 'chat.js' %}"></script>-->
 </html>
