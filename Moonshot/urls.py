@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^post/$', Post, name='post'),
     url(r'^messages/$', Messages, name='messages'),
     url(r'^home/$', Home, name='home'),
+    url(r'^guides/$', Guide, name='guide'),
 
 ]

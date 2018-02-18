@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # from chat import settings
 from django.shortcuts import get_object_or_404
-from Moonshot.models import LIVE_CHAT,USER
+from Moonshot.models import LIVE_CHAT,USER, GUIDE_AVAILABLE
 
 
 def Home(request):
@@ -27,3 +27,7 @@ def Post(request):
 def Messages(request):
     c = LIVE_CHAT.objects.all()
     return render(request, 'messages.html', {'chat': c})
+
+def Guide(request):
+    c = GUIDE_AVAILABLE.objects.all()
+    return render(request, "All_guide.html", {'home': 'active', 'chat': c})
