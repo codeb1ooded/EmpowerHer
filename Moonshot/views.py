@@ -39,8 +39,8 @@ def register(request, template_name):
 
 def experience_list(request):
     all_experiences=EXPERIENCE.objects.all()
-    template=loader.get_template('template/experience.html')
+    template=loader.get_template('experience.html')
     context={
         'all_experiences': all_experiences,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, "experience.html", context)
