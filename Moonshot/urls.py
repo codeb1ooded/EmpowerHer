@@ -27,5 +27,9 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
 
     url(r'^$', home),
-    
+    url(r'^event/$', event_page),
+    url(r'^experience/$', experience_list, name='experience'),
+
+    url(r'^upvote_experience/$', upvote_experience),
+
 ]
