@@ -189,7 +189,7 @@ class UPVOTE_ANSWER(models.Model):
 
 
 class UPVOTE_EXPERIENCE(models.Model):
-    UPVOTE_EXPERIENCE_ID = models.IntegerField(primary_key=True)
+    UPVOTE_EXPERIENCE_ID = models.CharField(primary_key=True, max_length=100)
     EXPERIENCE_KEY = models.ForeignKey(
         EXPERIENCE,
 		null=True,

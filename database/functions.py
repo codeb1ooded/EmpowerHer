@@ -105,3 +105,20 @@ def is_user_upvoted_answer(username, answer_id):
     user = get_user(username)
     answer = get_answer(answer_id)
     return len(UPVOTE_ANSWER.objects.filter(USER_KEY=user, ANSWER_KEY=answer)) > 0
+
+
+def up_down_vote_experience(username, experience_id, upvote):
+    user = get_user(username)
+    experience = get_experience(experience_id)
+    upvoteid = username + "-" + experience_id
+    if upvote:
+        query_upvote = UPVOTE_EXPERIENCE( UPVOTE_EXPERIENCE_ID = upvoteid,
+                                            USER_KEY = user,
+                                            EXPERIENCE_KEY = experience) # foreign key need to be done
+        query_upvote.save()
+        EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES + 1)
+        return experience.NUM_UPVOTES + 1
+    else:
+        UPVOTE_EXPERIENCE.objects.filter(UPVOTE_EXPERIENCE_ID = upvoteid).delete()
+        EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES - 1)
+        return experience.NUM_UPVOTES - 1

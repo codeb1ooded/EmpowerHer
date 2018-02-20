@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.views.generic import *
 from django.contrib.auth.models import User
 from django.http import *
+from django.conf import settings
 import json
 
 from database.functions import *
@@ -50,15 +51,17 @@ def event_page(request):
         rn = 5
     for i in range(0, rn):
         experience = {}
+        experience['experience_id'] = experiences[i].EXPERIENCE_ID
         experience['experience'] = experiences[i].EXPERIENCE
         experience['timestamp'] = experiences[i].TIMESTAMP
         experience['username'] = experiences[i].USER_KEY.USER_REF.username
         experience['name'] = experiences[i].USER_KEY.NAME
         experience['upvotes'] = experiences[i].NUM_UPVOTES
+        experience['is_upvoted'] = False
         if is_logged_in:
             experience['is_upvoted'] = is_user_upvoted_experience(username, experiences[i].EXPERIENCE_ID)
         else:
-            experience['is_upvoted'] = false
+            experience['is_upvoted'] = False
         experience_array.append(experience)
 
     question_array = []
@@ -82,7 +85,7 @@ def event_page(request):
             if is_logged_in:
                 question['is_upvoted'] = is_user_upvoted_answer(username, answer.ANSWER_ID)
             else:
-                question['is_upvoted'] = false
+                question['is_upvoted'] = False
 
         question_array.append(question)
 
@@ -91,6 +94,7 @@ def event_page(request):
                             'registration_open_date':event.REGISTRATION_OPEN_DATE, 'registration_close_date':event.REGISTRATION_CLOSE_DATE,
                             'event_date_1':event.EVENT_DATE_1, 'event_date_2':event.EVENT_DATE_2, 'details':event.DETAILS,
                             'website':event.WEBSITE, 'location':event.LOCATION,
+                            'username': username,
                             'logged_in': is_logged_in, 'is_guide': is_guide, 'is_going': is_going,
                             'guides':guide_array, 'experiences':experience_array, 'questions':question_array})
 
@@ -115,3 +119,22 @@ def register(request, template_name):
     else:
         form = UserRegistrationForm()
     return render(request, template_name, {'form' : form})
+
+#@login_required
+def upvote_experience(request):
+    '''if not request.user.is_authenticated:
+        print "not authenticate"
+        return redirect('/login')'''
+
+    experience_id = request.GET['experience_id']
+    newstate = request.GET['state']
+    username = request.GET['username']
+    upvote = True
+
+    if newstate == "True":
+        upvote = True
+    else:
+        upvote = False
+
+    upvotes = up_down_vote_experience(username, experience_id, upvote)
+    return HttpResponse(upvotes)
