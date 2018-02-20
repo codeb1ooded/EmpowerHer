@@ -48,18 +48,16 @@ class EVENT(models.Model):
 
 class QUESTION(models.Model):
     QUESTION_ID = models.IntegerField(primary_key=True)
-    QUSETION = models.CharField(max_length=1000)
+    QUESTION = models.CharField(max_length=1000)
     DESCRIPTION = models.CharField(max_length=1000)
     TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     EVENT_KEY = models.ForeignKey(
         EVENT,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
@@ -72,21 +70,19 @@ class ANSWER(models.Model):
     ANSWER_ID = models.IntegerField(primary_key=True)
     ANSWER = models.CharField(max_length=100000)
     TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    NUM_UPVOTES = models.IntegerField(default=0)
     EVENT_KEY = models.ForeignKey(
         EVENT,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     QUESTION_KEY = models.ForeignKey(
         QUESTION ,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
@@ -99,21 +95,20 @@ class EXPERIENCE(models.Model):
     EXPERIENCE_ID = models.IntegerField(primary_key=True)
     EXPERIENCE = models.CharField(max_length=100000)
     TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    NUM_UPVOTES = models.IntegerField(default=0)
     EVENT_KEY = models.ForeignKey(
         EVENT,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
 
     def __unicode__(self):
-		return self.EXPERIENCE + '\n' + self.EVENT_KEY.NAME
+		return self.EVENT_KEY.NAME + " By " + self.USER_KEY.NAME
 
 
 class GUIDE_AVAILABLE(models.Model):
@@ -121,19 +116,17 @@ class GUIDE_AVAILABLE(models.Model):
     ''' Score related to guidance '''
     EVENT_KEY = models.ForeignKey(
         EVENT,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
 
     def __unicode__(self):
-		return self.EVENT_KEY.NAME
+		return self.EVENT_KEY.NAME + " By " + self.USER_KEY.NAME
 
 
 class TAG(models.Model):
@@ -148,13 +141,11 @@ class TAGGED_EVENT(models.Model):
     RELATION_ID = models.IntegerField(primary_key=True)
     TAG_KEY = models.ForeignKey(
         TAG,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     EVENT_KEY = models.ForeignKey(
         EVENT,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
@@ -167,13 +158,11 @@ class GOING_EVENT(models.Model):
     GOING_ID = models.IntegerField(primary_key=True)
     EVENT_KEY = models.ForeignKey(
         EVENT,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
@@ -186,13 +175,11 @@ class UPVOTE_ANSWER(models.Model):
     UPVOTE_ANSWER_ID = models.IntegerField(primary_key=True)
     ANSWER_KEY = models.ForeignKey(
         ANSWER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
@@ -202,16 +189,14 @@ class UPVOTE_ANSWER(models.Model):
 
 
 class UPVOTE_EXPERIENCE(models.Model):
-    UPVOTE_EXPERIENCE_ID = models.IntegerField(primary_key=True)
+    UPVOTE_EXPERIENCE_ID = models.CharField(primary_key=True, max_length=100)
     EXPERIENCE_KEY = models.ForeignKey(
         EXPERIENCE,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
     )
@@ -224,14 +209,12 @@ class UPVOTE_GUIDE(models.Model):
     UPVOTE_GUIDE_ID = models.IntegerField(primary_key=True)
     GUIDE_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
         related_name='guide',
     )
     USER_KEY = models.ForeignKey(
         USER,
-        on_delete=models.CASCADE,
 		null=True,
 		blank=True,
         related_name='guided',
@@ -239,3 +222,26 @@ class UPVOTE_GUIDE(models.Model):
 
     def __unicode__(self):
 		return self.GUIDE_KEY.NAME
+
+
+class LIVE_CHAT(models.Model):
+    CHAT_ID = models.IntegerField(primary_key=True)
+    TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    MESSAGE = models.CharField(max_length=1000)
+    SENDER_KEY = models.ForeignKey(
+        USER,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name='sender'
+    )
+    RECEIVER_ID = models.ForeignKey(
+        USER,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name='receiver'
+    )
+
+    def __unicode__(self):
+        return self.MESSAGE

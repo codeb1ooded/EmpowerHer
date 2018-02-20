@@ -28,5 +28,8 @@ urlpatterns = [
     url(r'^experience/$', experience_list, name='experience'),
 
     url(r'^$', home),
-    
+    url(r'^event/$', event_page),
+
+    url(r'^upvote_experience/$', upvote_experience),
+
 ]
