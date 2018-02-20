@@ -93,7 +93,8 @@ def event_page(request):
         question_array.append(question)
 
 
-    return render(request, 'event_page.html', {'event_name':event.NAME, 'description': event.DESCRIPTION,
+    EVENT_ID = models.IntegerField(primary_key=True)
+    return render(request, 'event_page.html', {'event_name':event.NAME, 'description': event.DESCRIPTION, 'event_id': event.EVENT_ID,
                             'registration_open_date':event.REGISTRATION_OPEN_DATE, 'registration_close_date':event.REGISTRATION_CLOSE_DATE,
                             'event_date_1':event.EVENT_DATE_1, 'event_date_2':event.EVENT_DATE_2, 'details':event.DETAILS,
                             'website':event.WEBSITE, 'location':event.LOCATION,
