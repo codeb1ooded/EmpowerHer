@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Answers</title>
+</head>
+<body>
+  <h3>ANSWERS</h3>
+  <ul>
+  	{{form}}
+    {% for ques in all_questions %}
+    	<li>{{ques.QUESTION }}</li>
+    		{% for ans in all_answers %}
+    			{% if ans.QUESTION_KEY.QUESTION == form %}
+    				<li>{{ans.ANSWER }}</li>
+    			{% endif %}
+       		{% endfor %}
+    {% endfor %}
+  </ul>
+  
+</body>
+</html>

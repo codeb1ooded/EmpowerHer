@@ -11,6 +11,8 @@ from django.template import loader
 
 from database.functions import *
 from Moonshot.forms import UserRegistrationForm
+from Moonshot.models import QUESTION,ANSWER
+from Moonshot.forms import question
 
 def home(request):
     return render(request, 'home.html')
@@ -153,3 +155,41 @@ def upvote_experience(request):
 
     upvotes = up_down_vote_experience(username, experience_id, upvote)
     return HttpResponse(upvotes)
+
+
+def question_list(request):
+    all_questions = QUESTION.objects.all();
+    template=loader.get_template('questions.html')
+
+    context={
+                'all_questions':all_questions,
+
+    }
+
+    return HttpResponse(template.render(context, request))
+
+def ques_list(request):
+    all_questions = QUESTION.objects.all();
+    template=loader.get_template('ques.html')
+
+    context={
+                'all_questions':all_questions,
+
+    }
+
+    return HttpResponse(template.render(context, request))
+
+def answer_list(request):
+    all_questions = QUESTION.objects.all();
+    all_answers=ANSWER.objects.all()
+    form=question()
+    if request.method=="POST":
+        form=request.POST['tag']
+    template=loader.get_template('answers.html')
+    context={
+                'all_questions':all_questions,
+                'all_answers':all_answers,
+                'form':form
+    }
+
+    return HttpResponse(template.render(context, request))

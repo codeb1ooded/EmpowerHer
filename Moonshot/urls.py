@@ -25,7 +25,9 @@ urlpatterns = [
     url(r'^register/$', register, {'template_name': 'register.html'}, name='register'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
-
+    url(r'^questions/$', question_list, name='questions'),
+    url(r'^answers/$', answer_list, name='answers'),
+    url(r'^ques/$', ques_list, name='ques'),
     url(r'^$', home),
     url(r'^event/$', event_page),
     url(r'^experience/$', experience_list, name='experience'),
