@@ -193,3 +193,18 @@ def answer_list(request):
     }
 
     return HttpResponse(template.render(context, request))
+
+def ans_list(request):
+    all_questions = QUESTION.objects.all();
+    all_answers=ANSWER.objects.all()
+    form=question()
+    if request.method=="POST":
+        form=request.POST['tag']
+    template=loader.get_template('ans.html')
+    context={
+                'all_questions':all_questions,
+                'all_answers':all_answers,
+                'form':form
+    }
+
+    return HttpResponse(template.render(context, request))

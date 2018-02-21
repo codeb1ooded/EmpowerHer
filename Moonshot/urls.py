@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^questions/$', question_list, name='questions'),
     url(r'^answers/$', answer_list, name='answers'),
     url(r'^ques/$', ques_list, name='ques'),
+    url(r'^ans/$', ans_list, name='ans'),
     url(r'^$', home),
     url(r'^event/$', event_page),
     url(r'^experience/$', experience_list, name='experience'),
