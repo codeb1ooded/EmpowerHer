@@ -6,9 +6,9 @@ from django.shortcuts import get_object_or_404
 from Moonshot.models import LIVE_CHAT,USER, GUIDE_AVAILABLE
 
 
-def Home(request):
+def Home(request, guide_name):
     c = LIVE_CHAT.objects.all()
-    return render(request, "ChatAppPage.html", {'home': 'active', 'chat': c})
+    return render(request, "ChatAppPage.html", {'home': 'active', 'chat': c, 'guide':guide_name})
 
 def Post(request):
     if request.method == "POST":

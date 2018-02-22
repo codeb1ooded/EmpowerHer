@@ -29,10 +29,13 @@
 <body>
     <div id="chat-body" class="panel panel-default">
         <div class="panel-heading text-center">Chat with {{ guide }}</div>
+
         <div id="msg-list-div" class="panel-body">
+
+            <div class="col-sm-3 col-sm-offset-4 frame">
             <ul id="msg-list" class="list-group">
                 {% for obj in chat %}
-                    {% if obj.SENDER_KEY == request.user and obj.RECEIVER_KEY.NAME == obj.guide%}
+                    {% if obj.SENDER_KEY == request.user and obj.RECEIVER_KEY.NAME == obj.guide %}
                         <li class="text-right list-group-item">{{ obj.MESSAGE }}</li>
                     {% else %}
 
@@ -46,6 +49,9 @@
                     chatlist.scrollTop = chatlist.scrollHeight;
                 </script>
             </ul>
+                <div>
+                <div class="msj-rta macro" style="margin:auto">
+            </div>
         </div>
     </div>
 
@@ -54,7 +60,6 @@
             <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
             <span class="input-group-btn">
                 <input class="btn btn-default" id="send" type="submit" value="Send"/>
-                <s
             </span>
         </div>
     </form>

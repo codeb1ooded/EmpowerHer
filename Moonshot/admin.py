@@ -16,7 +16,3 @@ admin.site.register(UPVOTE_ANSWER)
 admin.site.register(UPVOTE_EXPERIENCE)
 admin.site.register(UPVOTE_GUIDE)
 admin.site.register(LIVE_CHAT)
-<<<<<<< HEAD
-
-=======
->>>>>>> 4b420c56986687bf11b77f1c972877d3bbef0420

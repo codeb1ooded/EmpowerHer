@@ -8,11 +8,11 @@
 
 <body>
     <div id="chat-body" class="panel panel-default">
-        <div class="panel-heading">Chat Box</div>
+        <div class="panel-heading">Guides Here</div>
         <div id="msg-list-div" class="panel-body">
             <ul id="msg-list" class="list-group">
                 {% for obj in chat %}
-                    <li class="text-left list-group-item">{{ obj.USER_KEY.NAME }} for {{ obj.EVENT_KEY.NAME }} &nbsp; <span><a class="glyphicon glyphicon-share-alt" href="{% url 'home' %}"></a></span></li>
+                    <li class="text-left list-group-item">{{ obj.USER_KEY.NAME }} for {{ obj.EVENT_KEY.NAME }} &nbsp; <a href="{% url 'home' obj.USER_KEY.NAME %}"><span class="glyphicon glyphicon-share-alt" ></span></a></li>
 
                 {% empty %}
                     <li class="text-right list-group-item">No messages yet!</li>
