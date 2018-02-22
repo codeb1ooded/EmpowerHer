@@ -122,3 +122,27 @@ def up_down_vote_experience(username, experience_id, upvote):
         UPVOTE_EXPERIENCE.objects.filter(UPVOTE_EXPERIENCE_ID = upvoteid).delete()
         EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES - 1)
         return experience.NUM_UPVOTES - 1
+
+
+def user_going(username, event_id, going):
+    user = get_user(username)
+    event = get_event_details(event_id)
+    going_id = username + "-" + event_id
+    if going:
+        query_going = GOING_EVENT(GOING_ID = going_id, USER_KEY = user, EVENT_KEY = event)
+        query_going.save()
+    else :
+        GOING_EVENT.objects.filter(GOING_ID = going_id).delete()
+    return not going
+
+
+def user_guiding(username, event_id, guiding):
+    user = get_user(username)
+    event = get_event_details(event_id)
+    guiding_id = username + "-" + event_id
+    if guiding:
+        query_guiding = GUIDE_AVAILABLE(GUIDE_ID = guiding_id, USER_KEY = user, EVENT_KEY = event)
+        query_guiding.save()
+    else :
+        GUIDE_AVAILABLE.objects.filter(GUIDE_ID = guiding_id).delete()
+    return not guiding

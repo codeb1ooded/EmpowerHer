@@ -8,71 +8,22 @@
 <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
 </head>
 <body id="top">
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- Top Background Image Wrapper -->
 <div class="topspacer bgded overlay" style="background-image:url('../images/demo/backgrounds/01.png');">
-  <!-- ################################################################################################ -->
-  <div class="wrapper row1">
-    <header id="header" class="hoc clear">
-      <!-- ################################################################################################ -->
-      <!-- <div id="logo" class="fl_left">
-        <h1><a href="../index.html">Yoffa</a></h1>
-    </div> -->
-      <!-- ################################################################################################ -->
-      <nav id="mainav" class="fl_right">
-        <ul class="clear">
-          <li><a href="/">Home</a></li>
-          <li class="active"><a class="drop" href="#">Pages</a>
-            <ul>
-              <li><a href="gallery.html">Gallery</a></li>
-              <li><a href="full-width.html">Full Width</a></li>
-              <li class="active"><a href="sidebar-left.html">Sidebar Left</a></li>
-              <li><a href="sidebar-right.html">Sidebar Right</a></li>
-              <li><a href="basic-grid.html">Basic Grid</a></li>
-            </ul>
-          </li>
-          <li><a class="drop" href="#">Dropdown</a>
-            <ul>
-              <li><a href="#">Level 2</a></li>
-              <li><a class="drop" href="#">Level 2 + Drop</a>
-                <ul>
-                  <li><a href="#">Level 3</a></li>
-                  <li><a href="#">Level 3</a></li>
-                  <li><a href="#">Level 3</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Level 2</a></li>
-            </ul>
-          </li>
-          <li><a href="#">Link Text</a></li>
-          <li><a href="#">Link Text</a></li>
-        </ul>
-      </nav>
-    </header>
-    <!-- ################################################################################################ -->
-  </div>
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
   <div id="breadcrumb" class="hoc clear">
-    <!-- ################################################################################################ -->
     <h6 class="heading">{{ event_name }}</h6>
-    <!-- <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Lorem</a></li>
-      <li><a href="#">Ipsum</a></li>
-      <li><a href="#">Dolor</a></li>
-  </ul> -->
-    <!-- ################################################################################################ -->
+    <div style="float:right; ">
+        <div id="going-button" class="{% if is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                data-state="{{ is_going }}">
+            <span id="going-text"> {% if not is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+        </div>
+        <div id="guide-button" class="{% if is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+            data-state="{{ is_guide }}">
+            <span id="guide-text"> {% if not is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+        </div>
+    </div>
   </div>
-  <!-- ################################################################################################ -->
+
 </div>
-<!-- End Top Background Image Wrapper -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
 <div class="wrapper row3">
   <main style="padding:80px;" class="container clear">
     <!-- main body -->
@@ -186,6 +137,40 @@
             $.get('/upvote_experience/', {experience_id: expid, state: newstate, username: "{{ username }}"}, function(data){
                 $('#upvote-' + expid).html(data);
             });
+        });
+        $('#going-button').click(function(){
+            var oldstate, newstate;
+            oldstate = $(this).attr("data-state");
+            if (oldstate === "False") {
+                $(this).addClass('going-guided-button').removeClass('going-guide-button');
+                newstate =  "True";
+                $(this).attr('data-state', "True");
+                $('#going-text').html("I am going!");
+            }
+            else {
+                $(this).addClass('going-guide-button').removeClass('going-guided-button');
+                newstate = "False";
+                $(this).attr('data-state', "False");
+                $('#going-text').html("Are you going?");
+            }
+            $.get('/going_event/', {event_id: "{{ event_id }}", state: newstate, username: "{{ username }}"}, function(data){});
+        });
+        $('#guide-button').click(function(){
+            var oldstate, newstate;
+            oldstate = $(this).attr("data-state");
+            if (oldstate === "False") {
+                $(this).addClass('going-guided-button').removeClass('going-guide-button');
+                newstate =  "True";
+                $(this).attr('data-state', "True");
+                $('#guide-text').html("I am a guide!");
+            }
+            else {
+                $(this).addClass('going-guide-button').removeClass('going-guided-button');
+                newstate = "False";
+                $(this).attr('data-state', "False");
+                $('#guide-text').html("Are you guiding?");
+            }
+            $.get('/guiding_event/', {event_id: "{{ event_id }}", state: newstate, username: "{{ username }}"}, function(data){});
         });
     });
 </script>

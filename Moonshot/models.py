@@ -112,7 +112,7 @@ class EXPERIENCE(models.Model):
 
 
 class GUIDE_AVAILABLE(models.Model):
-    GUIDE_ID = models.IntegerField(primary_key=True)
+    GUIDE_ID = models.CharField(primary_key=True, max_length=100) # (username + "-" = event_id)
     ''' Score related to guidance '''
     EVENT_KEY = models.ForeignKey(
         EVENT,
@@ -155,7 +155,7 @@ class TAGGED_EVENT(models.Model):
 
 
 class GOING_EVENT(models.Model):
-    GOING_ID = models.IntegerField(primary_key=True)
+    GOING_ID = models.CharField(primary_key=True, max_length=100) # (username + "-" = event_id)
     EVENT_KEY = models.ForeignKey(
         EVENT,
 		null=True,
@@ -172,7 +172,7 @@ class GOING_EVENT(models.Model):
 
 
 class UPVOTE_ANSWER(models.Model):
-    UPVOTE_ANSWER_ID = models.IntegerField(primary_key=True)
+    UPVOTE_ANSWER_ID = models.CharField(primary_key=True, max_length=100) # (username + "-" + answer_id)
     ANSWER_KEY = models.ForeignKey(
         ANSWER,
 		null=True,
@@ -189,7 +189,7 @@ class UPVOTE_ANSWER(models.Model):
 
 
 class UPVOTE_EXPERIENCE(models.Model):
-    UPVOTE_EXPERIENCE_ID = models.CharField(primary_key=True, max_length=100)
+    UPVOTE_EXPERIENCE_ID = models.CharField(primary_key=True, max_length=100) # (username + "-" + experience_id)
     EXPERIENCE_KEY = models.ForeignKey(
         EXPERIENCE,
 		null=True,

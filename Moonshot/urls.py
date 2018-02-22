@@ -34,5 +34,7 @@ urlpatterns = [
     url(r'^experience/$', experience_list, name='experience'),
 
     url(r'^upvote_experience/$', upvote_experience),
+    url(r'^going_event/$', going_event),
+    url(r'^guiding_event/$', guide_event),
 
 ]
