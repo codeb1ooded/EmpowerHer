@@ -28,11 +28,11 @@
 
 <body>
     <div id="chat-body" class="panel panel-default">
-        <div class="panel-heading">Chat Box</div>
+        <div class="panel-heading text-center">Chat with {{ guide }}</div>
         <div id="msg-list-div" class="panel-body">
             <ul id="msg-list" class="list-group">
                 {% for obj in chat %}
-                    {% if obj.SENDER_KEY == request.user %}
+                    {% if obj.SENDER_KEY == request.user and obj.RECEIVER_KEY.NAME == obj.guide%}
                         <li class="text-right list-group-item">{{ obj.MESSAGE }}</li>
                     {% else %}
 
