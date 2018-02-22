@@ -1,23 +1,64 @@
-<!--file to test if value received correct !-->
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Answers</title>
+  <title>{{ question.QUESTION }}</title>
+  <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+  <link href="{% static 'css/answers.css' %}" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
-  <h3>ANSWERS</h3>
-  <ul>
-  	{{form}}
-    {% for ques in all_questions %}
-    	<li>{{ques.QUESTION }}</li>
-    		{% for ans in all_answers %}
-    			{% if ans.QUESTION_KEY.QUESTION == form %}
-    				<li>{{ans.ANSWER }}</li>
-    			{% endif %}
-       		{% endfor %}
-    {% endfor %}
-  </ul>
-  
+  <h3>{{ question.QUESTION }}</h3>
+  <div class="answer-button"> Answer </div>
+  {% for answer in answers %}
+      <div class="questions question-card">
+          <div style="width: 100%;">
+              <div style="float:left; width: 10%">
+                  <img src="{% static 'images/avatar.png' %}" alt="">
+              </div>
+              <div style="">
+                  <username> By <a href="#">{{ answer.name }}</a> </username>
+                  <br/>
+                  <time>{{ answer.timestamp }}</time>
+              </div>
+          </div>
+          <div style="clear:both"></div>
+          <div>{{ answer.answer }} </div>
+          <div class="upvote-answer {% if answer.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
+          data-ansid="{{answer.answer_id}}" data-state="{{answer.is_upvoted}}">
+              <span id="text-{{ answer.answer_id }}"> {% if answer.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
+              <span id="upvote-{{ answer.answer_id }}"> {{ answer.upvotes }} </span> </div>
+      </div>
+  {% endfor %}
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/jquery.backtotop.js' %}"></script>
+  <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
+  <script src="{% static '/js/jquery.js' %}"></script>
+  <script src="{% static '/js/rango-ajax.js' %}"></script>
+  <script>
+      $(document).ready(function() {
+          $('.upvote-answer').click(function(){
+              var ansid, oldstate, newstate;
+              ansid = $(this).attr("data-ansid");
+              oldstate = $(this).attr("data-state");
+              if (oldstate === "False") {
+                  $(this).addClass('upvoted-button').removeClass('upvote-button');
+                  newstate =  "True";
+                  $(this).attr('data-state', "True");
+                  $('#text-' + ansid).html("Upvoted");
+              }
+              else {
+                  $(this).addClass('upvote-button').removeClass('upvoted-button');
+                  newstate = "False";
+                  $(this).attr('data-state', "False");
+                  $('#text-' + ansid).html("Upvote");
+              }
+              $.get('/upvote_answer/', {answer_id: ansid, state: newstate, username: "{{ username }}"}, function(data){
+                  $('#upvote-' + ansid).html(data);
+              });
+          });
+      });
+  </script>
 </body>
 </html>

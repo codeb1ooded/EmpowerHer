@@ -156,6 +156,21 @@ def upvote_experience(request):
     return HttpResponse(upvotes)
 
 
+def upvote_answer(request):
+    answer_id = request.GET['answer_id']
+    newstate = request.GET['state']
+    username = request.GET['username']
+    upvote = True
+
+    if newstate == "True":
+        upvote = True
+    else:
+        upvote = False
+
+    upvotes = up_down_vote_answer(username, answer_id, upvote)
+    return HttpResponse(upvotes)
+
+
 def question_list(request):
     all_questions = QUESTION.objects.all();
     template=loader.get_template('questions.html')
@@ -178,20 +193,6 @@ def ques_list(request):
 
     return HttpResponse(template.render(context, request))
 
-def answer_list(request):
-    all_questions = QUESTION.objects.all();
-    all_answers=ANSWER.objects.all()
-    form=question()
-    if request.method=="POST":
-        form=request.POST['tag']
-    template=loader.get_template('answers.html')
-    context={
-                'all_questions':all_questions,
-                'all_answers':all_answers,
-                'form':form
-    }
-
-    return HttpResponse(template.render(context, request))
 
 def ans_list(request):
     all_questions = QUESTION.objects.all();
@@ -207,7 +208,6 @@ def ans_list(request):
     }
 
     return HttpResponse(template.render(context, request))
-
 
 
 def going_event(request):
@@ -244,3 +244,30 @@ def guide_event(request):
         guiding = False
 
     return HttpResponse(user_guiding(username, event_id, guiding))
+
+
+def answers_for_question(request):
+    question_id = request.GET['question_id']
+    question = get_question(question_id)
+    answers = get_all_answers(question_id)
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+
+    answers_array = []
+    for i in range(0, len(answers)):
+        answer = {}
+        answer['name'] = answers[i].USER_KEY.NAME
+        answer['username'] = answers[i].USER_KEY.USER_REF.username
+        answer['answer'] = answers[i].ANSWER
+        answer['answer_id'] = answers[i].ANSWER_ID
+        answer['timestamp'] = answers[i].TIMESTAMP
+        answer['upvotes'] = answers[i].NUM_UPVOTES
+        answer['is_upvoted'] = False
+        if is_logged_in:
+            answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
+        answers_array.append(answer)
+
+    return render(request, "answers.html", {'question':question, 'answers':answers_array, 'username':username})

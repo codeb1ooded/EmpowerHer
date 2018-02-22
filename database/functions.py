@@ -52,14 +52,6 @@ def get_experience(experience_id):
         return None
 
 
-def get_answer(answer_id):
-    answer = ANSWER.objects.filter(ANSWER_ID = answer_id)
-    try:
-        return answer[0]
-    except:
-        return None
-
-
 def get_all_guides(event_id):
     guides = GUIDE_AVAILABLE.objects.filter(EVENT_KEY = event_id)
     return guides
@@ -73,6 +65,25 @@ def get_all_experiences(event_id):
 def get_all_questions(event_id):
     questions = QUESTION.objects.filter(EVENT_KEY = event_id)
     return questions
+
+
+def get_question(question_id):
+    question = QUESTION.objects.filter(QUESTION_ID = question_id)[0]
+    return question
+
+
+def get_all_answers(question_id):
+    question = get_question(question_id)
+    answers = ANSWER.objects.filter(QUESTION_KEY = question)
+    return answers
+
+
+def get_answer(answer_id):
+    answer = ANSWER.objects.filter(ANSWER_ID = answer_id)
+    try:
+        return answer[0]
+    except:
+        return None
 
 
 def get_top_answer(question_obj):
@@ -122,6 +133,23 @@ def up_down_vote_experience(username, experience_id, upvote):
         UPVOTE_EXPERIENCE.objects.filter(UPVOTE_EXPERIENCE_ID = upvoteid).delete()
         EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES - 1)
         return experience.NUM_UPVOTES - 1
+
+
+def up_down_vote_answer(username, answer_id, upvote):
+    user = get_user(username)
+    answer = get_answer(answer_id)
+    upvoteid = username + "-" + answer_id
+    if upvote:
+        query_upvote = UPVOTE_ANSWER( UPVOTE_ANSWER_ID = upvoteid,
+                                            USER_KEY = user,
+                                            ANSWER_KEY = answer)
+        query_upvote.save()
+        ANSWER.objects.filter(ANSWER_ID = answer_id).update (NUM_UPVOTES = answer.NUM_UPVOTES + 1)
+        return answer.NUM_UPVOTES + 1
+    else:
+        UPVOTE_ANSWER.objects.filter(UPVOTE_ANSWER_ID = upvoteid).delete()
+        ANSWER.objects.filter(ANSWER_ID = answer_id).update (NUM_UPVOTES = answer.NUM_UPVOTES - 1)
+        return answer.NUM_UPVOTES - 1
 
 
 def user_going(username, event_id, going):

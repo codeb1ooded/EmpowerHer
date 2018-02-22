@@ -13,14 +13,15 @@
 <body>
 <div class="wrap">
 	<h1><center>ANSWERS</center></h1>
-  {% for ans in all_answers %}
-  <div class="card">
-    <div class="card-pic-wrap">
-      <img src="">
-    </div>
-    <div class="card-content">
-        {% if ans.QUESTION_KEY.QUESTION == form %}
-          <h3>{{ans.ANSWER}}</h3>
+	{% for ans in all_answers %}
+	<div class="card">
+		<div class="card-pic-wrap">
+			<img src="">
+		</div>
+		<div class="card-content">
+			{% if ans.QUESTION_KEY.QUESTION == form %}
+			<h3>{{ans.ANSWER}}</h3>
+			{% endif %}
     </div>
   </div>
   {% endfor %}

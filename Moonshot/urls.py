@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
     url(r'^questions/$', question_list, name='questions'),
-    url(r'^answers/$', answer_list, name='answers'),
+    url(r'^answers/$', answers_for_question, name='answers'),
     url(r'^ques/$', ques_list, name='ques'),
     url(r'^ans/$', ans_list, name='ans'),
     url(r'^$', home),
@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^experience/$', experience_list, name='experience'),
 
     url(r'^upvote_experience/$', upvote_experience),
+    url(r'^upvote_answer/$', upvote_answer),
     url(r'^going_event/$', going_event),
     url(r'^guiding_event/$', guide_event),
 
