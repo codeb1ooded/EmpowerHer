@@ -27,7 +27,6 @@ def event_page(request):
     username = None
     if is_logged_in:
         username = request.user.username
-        print username
         is_guide = is_user_guide(username, event_id)
         is_going = is_user_going(username, event_id)
     event = get_event_details(event_id)
@@ -153,3 +152,39 @@ def upvote_experience(request):
 
     upvotes = up_down_vote_experience(username, experience_id, upvote)
     return HttpResponse(upvotes)
+
+
+def going_event(request):
+    '''if not request.user.is_authenticated:
+        print "not authenticate"
+        return redirect('/login')'''
+
+    event_id = request.GET['event_id']
+    newstate = request.GET['state']
+    username = request.GET['username']
+    going = True
+
+    if newstate == "True":
+        going = True
+    else:
+        going = False
+
+    return HttpResponse(user_going(username, event_id, going))
+
+
+def guide_event(request):
+    '''if not request.user.is_authenticated:
+        print "not authenticate"
+        return redirect('/login')'''
+
+    event_id = request.GET['event_id']
+    newstate = request.GET['state']
+    username = request.GET['username']
+    guiding = True
+
+    if newstate == "True":
+        guiding = True
+    else:
+        guiding = False
+
+    return HttpResponse(user_guiding(username, event_id, guiding))

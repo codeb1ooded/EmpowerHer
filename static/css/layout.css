@@ -11,6 +11,8 @@ File: Layout CSS
 @import url("font-awesome.min.css");
 @import url("custom.flexslider.css");
 @import url("framework.css");
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
 /* Rows
 --------------------------------------------------------------------------------------------------------------- */
@@ -223,7 +225,7 @@ nav ul, nav ol{margin:0; padding:0; list-style:none;}
 #breadcrumb li a::after{top:3px; right:0; content:"\f101";}
 #breadcrumb li:last-child a{margin:0; padding:0;}
 #breadcrumb li:last-child a::after{display:none;}
-#breadcrumb .heading{margin:0 0 20px 0; font-size:1.6rem;}
+#breadcrumb .heading{margin:0 0 20px 0; }
 
 /* Sidebar Navigation */
 .sidebar nav{display:block; width:100%;}
@@ -510,4 +512,50 @@ hr {
     color: #999;
     border: 1px solid #ddd;
     margin-right: 12px;
+}
+
+.going-guide-button {
+    border: 2px solid #D24D57;
+    position: relative;
+    display: inline-block;
+    margin-right: 30px;
+    padding: 14px 15px;
+    color: #fff;
+    font-size:14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    letter-spacing: .08em;
+    border-radius: 0;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.going-guided-button {
+    border: 2px solid #D24D57;
+    position: relative;
+    display: inline-block;
+    margin-right: 30px;
+    padding: 14px 15px;
+    color: #fff;
+    font-size:14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    letter-spacing: .08em;
+    border-radius: 0;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    text-shadow: none;
+    background: #D24D57;
 }
