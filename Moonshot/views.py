@@ -11,6 +11,7 @@ from django.template import loader
 
 from database.functions import *
 from Moonshot.forms import *
+from Moonshot.models import QUESTION,ANSWER
 
 def home(request):
     return render(request, 'home.html')
@@ -72,6 +73,7 @@ def event_page(request):
         rn = 5
     for i in range(0, rn):
         question = {}
+        question['question_id'] = questions[i].QUESTION_ID
         question['question'] = questions[i].QUESTION
         question['description'] = questions[i].DESCRIPTION
         question['timestamp'] = questions[i].TIMESTAMP
@@ -129,6 +131,21 @@ def upvote_experience(request):
         upvote = False
 
     upvotes = up_down_vote_experience(username, experience_id, upvote)
+    return HttpResponse(upvotes)
+
+
+def upvote_answer(request):
+    answer_id = request.GET['answer_id']
+    newstate = request.GET['state']
+    username = request.GET['username']
+    upvote = True
+
+    if newstate == "True":
+        upvote = True
+    else:
+        upvote = False
+
+    upvotes = up_down_vote_answer(username, answer_id, upvote)
     return HttpResponse(upvotes)
 
 
@@ -244,3 +261,55 @@ def register(request, template_name):
     else:
         form = UserRegistrationForm()
     return render(request, template_name, {'form' : form})
+
+
+
+def submit_answer_view(request):
+    print "Submit My answer"
+    answer_id = request.GET['answer_id']
+    question_id = request.GET['question_id']
+    answer = request.GET['answer']
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+
+    if answer_id == '-1':
+        answer_id = submit_answer(question_id, answer, username)
+    else:
+        answer_id = update_answer(question_id, answer_id, answer, username)
+    return HttpResponse(answer_id)
+
+
+def answers_for_question(request):
+    question_id = request.GET['question_id']
+    question = get_question(question_id)
+    answers = get_all_answers(question_id)
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+
+    ans = get_user_written_answer(username, question_id)
+    user_answer = None
+    answer_id = -1
+    if ans is not None:
+        user_answer = ans.ANSWER
+        answer_id = ans.ANSWER_ID
+    answers_array = []
+    for i in range(0, len(answers)):
+        answer = {}
+        answer['name'] = answers[i].USER_KEY.NAME
+        answer['username'] = answers[i].USER_KEY.USER_REF.username
+        answer['answer'] = answers[i].ANSWER
+        answer['answer_id'] = answers[i].ANSWER_ID
+        answer['timestamp'] = answers[i].TIMESTAMP
+        answer['upvotes'] = answers[i].NUM_UPVOTES
+        answer['is_upvoted'] = False
+        if is_logged_in:
+            answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
+        answers_array.append(answer)
+
+    return render(request, "question.html", {'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer, 'answer_id': answer_id})

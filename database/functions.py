@@ -64,6 +64,45 @@ def update_event(event_id, name, description, reg_start_date, reg_close_date, ev
         return -1
 
 
+def submit_answer(question_id, answer, username):
+    ans_id = len(EVENT.objects.all()) + 1
+    question = get_question(question_id)
+    user = get_user(username)
+    event = question.EVENT_KEY
+    query_add_answer = ANSWER( ANSWER_ID = ans_id,
+							   ANSWER = answer,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user,
+					   		   QUESTION_KEY = question)
+    query_add_answer.save()
+    query_check_answer_added = ANSWER.objects.filter(ANSWER_ID = ans_id)[0]
+    try:
+        return query_check_answer_added.ANSWER_ID
+    except:
+        return -1
+
+
+def update_answer(question_id, answer_id, answer, username):
+    question = get_question(question_id)
+    user = get_user(username)
+    event = question.EVENT_KEY
+    query_add_answer = ANSWER( ANSWER_ID = answer_id,
+							   ANSWER = answer,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user,
+					   		   QUESTION_KEY = question)
+    query_add_answer.save()
+    query_check_answer_added = ANSWER.objects.filter(ANSWER_ID = answer_id)[0]
+    try:
+        return query_check_answer_added.ANSWER_ID
+    except:
+        return -1
+
+
 def get_user(username):
     inbuilt_user = User.objects.filter(username=username)
     user = USER.objects.filter(USER_REF = inbuilt_user)
@@ -90,14 +129,6 @@ def get_experience(experience_id):
         return None
 
 
-def get_answer(answer_id):
-    answer = ANSWER.objects.filter(ANSWER_ID = answer_id)
-    try:
-        return answer[0]
-    except:
-        return None
-
-
 def get_all_guides(event_id):
     guides = GUIDE_AVAILABLE.objects.filter(EVENT_KEY = event_id)
     return guides
@@ -111,6 +142,34 @@ def get_all_experiences(event_id):
 def get_all_questions(event_id):
     questions = QUESTION.objects.filter(EVENT_KEY = event_id)
     return questions
+
+
+def get_question(question_id):
+    question = QUESTION.objects.filter(QUESTION_ID = question_id)[0]
+    return question
+
+
+def get_all_answers(question_id):
+    question = get_question(question_id)
+    answers = ANSWER.objects.filter(QUESTION_KEY = question)
+    return answers
+
+
+def get_answer(answer_id):
+    answer = ANSWER.objects.filter(ANSWER_ID = answer_id)
+    try:
+        return answer[0]
+    except:
+        return None
+
+def get_user_written_answer(username, question_id):
+    user = get_user(username)
+    question = get_question(question_id)
+    answer = ANSWER.objects.filter(USER_KEY = user, QUESTION_KEY=question)
+    try:
+        return answer[0]
+    except:
+        return None
 
 
 def get_top_answer(question_obj):
@@ -160,6 +219,23 @@ def up_down_vote_experience(username, experience_id, upvote):
         UPVOTE_EXPERIENCE.objects.filter(UPVOTE_EXPERIENCE_ID = upvoteid).delete()
         EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES - 1)
         return experience.NUM_UPVOTES - 1
+
+
+def up_down_vote_answer(username, answer_id, upvote):
+    user = get_user(username)
+    answer = get_answer(answer_id)
+    upvoteid = username + "-" + answer_id
+    if upvote:
+        query_upvote = UPVOTE_ANSWER( UPVOTE_ANSWER_ID = upvoteid,
+                                            USER_KEY = user,
+                                            ANSWER_KEY = answer)
+        query_upvote.save()
+        ANSWER.objects.filter(ANSWER_ID = answer_id).update (NUM_UPVOTES = answer.NUM_UPVOTES + 1)
+        return answer.NUM_UPVOTES + 1
+    else:
+        UPVOTE_ANSWER.objects.filter(UPVOTE_ANSWER_ID = upvoteid).delete()
+        ANSWER.objects.filter(ANSWER_ID = answer_id).update (NUM_UPVOTES = answer.NUM_UPVOTES - 1)
+        return answer.NUM_UPVOTES - 1
 
 
 def user_going(username, event_id, going):
