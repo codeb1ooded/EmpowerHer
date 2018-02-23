@@ -190,6 +190,40 @@ def create_event_view(request):
         return render(request, 'create_event.html', {'event_id':-1})
 
 
+def update_event_view(request):
+    event_id = request.GET['event_id']
+    print "Upadte"
+    if 'name' in request.GET:
+        name = request.GET['name']
+        description = request.GET['description']
+        reg_start_date = request.GET['reg_start_date']
+        reg_close_date = request.GET['reg_close_date']
+        event_start_date = request.GET['event_start_date']
+        event_close_date = request.GET['event_close_date']
+        details = request.GET['details']
+        website = request.GET['website']
+        location = request.GET['location']
+        update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+        return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description,
+                                                    'reg_start_date':reg_start_date, 'reg_close_date':reg_close_date, 'event_start_date': event_start_date, 'event_close_date': event_close_date,
+                                                'details':details, 'website':website, 'location':location})
+    else:
+        event = get_event_details(event_id)
+        name = event.NAME
+        description = event.DESCRIPTION
+        reg_start_date = event.REGISTRATION_OPEN_DATE
+        reg_close_date = event.REGISTRATION_CLOSE_DATE
+        event_start_date = event.EVENT_DATE_1
+        event_close_date = event.EVENT_DATE_2
+        details = event.DETAILS
+        website = event.WEBSITE
+        location = event.LOCATION
+        update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+        return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description,
+                                                    'reg_start_date':reg_start_date, 'reg_close_date':reg_close_date, 'event_start_date': event_start_date, 'event_close_date': event_close_date,
+                                                'details':details, 'website':website, 'location':location})
+
+
 def register(request, template_name):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)

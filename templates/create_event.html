@@ -11,48 +11,48 @@
 <body>
     <div class="wrap">
         <div>
-            <label for="name">Name</label>
-            <input id="name" type="text"/>
+            <label id="label-name" for="name"> Name </label>
+            <input id="name" type="text" value="{{ name }}"/>
         </div>
 
         <div>
-            <label for="description">Description</label>
-            <input id="description" type="text"/>
+            <textarea id="description" type="text" rows="20" cols="50"> {{ description }} </textarea>
+            <label id="label-description" for="description">Description</label>
         </div>
 
         <div>
-            <label for="reg_start_date">Registration Start Date</label>
-            <input id="reg_start_date" type="text"/>
+            <label id="label-reg_start_date" for="reg_start_date">Registration Start Date</label>
+            <input id="reg_start_date" type="text" value="{{ reg_start_date }}"/>
         </div>
 
         <div>
-            <label for="reg_close_date">Registration Close Date</label>
-            <input id="reg_close_date" type="text"/>
+            <label id="label-reg_close_date" for="reg_close_date">Registration Close Date</label>
+            <input id="reg_close_date" type="text" value="{{ reg_close_date }}"/>
         </div>
 
         <div>
-            <label for="event_start_date">Event Start Date</label>
-            <input id="event_start_date" type="text"/>
+            <label id="label-event_start_date" for="event_start_date">Event Start Date</label>
+            <input id="event_start_date" type="text"value="{{ event_start_date }}" />
         </div>
 
         <div>
-            <label for="event_close_date">Event Close Date</label>
-            <input id="event_close_date" type="text"/>
+            <label id="label-event_close_date" for="event_close_date">Event Close Date</label>
+            <input id="event_close_date" type="text" value="{{ event_close_date }}" />
         </div>
 
         <div>
-            <textarea id="details" type="text" rows="4" cols="50"></textarea>
-            <label for="details">Details</label>
+            <textarea id="details" type="text" rows="40" cols="500"> {{ details }} </textarea>
+            <label id="label-details" for="details">Details</label>
         </div>
 
         <div>
-            <label for="website">Website</label>
-            <input id="website" type="text"/>
+            <label id="label-website" for="website">Website</label>
+            <input id="website" type="text" value="{{ website }}" />
         </div>
 
         <div>
-            <label for="location">Location</label>
-            <input id="location" type="text"/>
+            <label id="label-location" for="location">Location</label>
+            <input id="location" type="text" value="{{ location }}" />
         </div>
 
         <div class="center-component">
@@ -100,12 +100,38 @@
         </div>
     </div>
 
-    <script>
-        var event_id = {{ event_id }};
-    </script>
-
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js"></script>
+    <script>
+        var event_id = {{ event_id }};
+        {% if name %}
+            $("#label-name").addClass('active');
+        {% endif %}
+        {% if description %}
+            $("#label-description").addClass('active');
+        {% endif %}
+        {% if reg_start_date %}
+            $("#label-reg_start_date").addClass('active');
+        {% endif %}
+        {% if reg_close_date %}
+            $("#label-reg_close_date").addClass('active');
+        {% endif %}
+        {% if event_start_date %}
+            $("#label-event_start_date").addClass('active');
+        {% endif %}
+        {% if event_close_date %}
+            $("#label-event_close_date").addClass('active');
+        {% endif %}
+        {% if details %}
+            $("#label-details").addClass('active');
+        {% endif %}
+        {% if website %}
+            $("#label-website").addClass('active');
+        {% endif %}
+        {% if location %}
+            $("#label-location").addClass('active');
+        {% endif %}
+    </script>
     <script src="{% static '/js/create_event.js' %}"></script>
 </body>
 </html>

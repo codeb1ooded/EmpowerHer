@@ -28,6 +28,7 @@ urlpatterns = [
 
     url(r'^$', home),
     url(r'^create_event/$', create_event_view),
+    url(r'^update_event/$', update_event_view),
     url(r'^event/$', event_page),
     url(r'^experience/$', experience_list, name='experience'),
 
