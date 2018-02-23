@@ -17,6 +17,46 @@ def home(request):
     return render(request, 'home.html')
 
 
+def sign_in_up_view(request):
+    signin_form = UserAuthenticationForm()
+    singnup_form = UserRegistrationForm()
+    return render(request, 'home.html', {'signin' : signin_form, 'signup':singnup_form})
+
+
+def sign_in_view(request):
+    form = UserAuthenticationForm(request.POST)
+    if form.is_valid():
+        userObj = form.cleaned_data
+        username = userObj['username']
+        password =  userObj['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            raise forms.ValidationError('Looks like a username with that email or password is incorrect!!')
+    return render(request, template_name, {'form' : form})
+
+
+def sign_up_view(request):
+    form = UserRegistrationForm(request.POST)
+    if form.is_valid():
+        userObj = form.cleaned_data
+        name = userObj['name']
+        username = userObj['username']
+        email =  userObj['email']
+        password =  userObj['password']
+        if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+            User.objects.create_user(username, email, password)
+            user = authenticate(username = username, password = password)
+            create_user(user, name)
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            raise forms.ValidationError('Looks like a username with that email or password already exists')
+    return render(request, template_name, {'form' : form})
+
+
 def event_page(request):
     if not request.method == 'GET' or not 'event_id' in request.GET:       # URL is not valid
         return HttpResponseBadRequest()
@@ -261,7 +301,6 @@ def register(request, template_name):
     else:
         form = UserRegistrationForm()
     return render(request, template_name, {'form' : form})
-
 
 
 def submit_answer_view(request):
