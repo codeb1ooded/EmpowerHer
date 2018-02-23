@@ -12,6 +12,8 @@ from django.template import loader
 from database.functions import *
 from Moonshot.forms import *
 from Moonshot.models import QUESTION,ANSWER
+from fusioncharts import FusionCharts
+from django.http import HttpResponse
 
 def home(request):
     return render(request, 'home.html')
@@ -313,3 +315,39 @@ def answers_for_question(request):
         answers_array.append(answer)
 
     return render(request, "question.html", {'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer, 'answer_id': answer_id})
+
+def chart(request):
+    # Chart data is passed to the `dataSource` parameter, as dict, in the form of key-value pairs.
+    dataSource = {}
+    # setting chart cosmetics
+    dataSource['chart'] = { 
+      "caption" : "User Performance",
+        "paletteColors" : "#0075c2",
+        "bgColor" : "#ffffff",
+        "borderAlpha": "20",
+        "canvasBorderAlpha": "0",
+        "usePlotGradientColor": "0",
+        "plotBorderAlpha": "10",
+        "showXAxisLine": "1",
+        "xAxisLineColor" : "#999999",
+        "showValues" : "0",
+        "divlineColor" : "#999999",
+        "divLineIsDashed" : "1",
+        "showAlternateHGridColor" : "0"
+      }
+     
+      
+    dataSource['data'] = []
+      # The data for the chart should be in an array wherein each element of the array is a JSON object as
+      # `label` and `value` keys.
+      # Iterate through the data in `Country` model and insert in to the `dataSource['data']` list.
+    for key in USER.objects.all():
+      data = {}
+      data['label'] = key.NAME
+      data['value'] = key.NUM_QUESTION_ASKED
+      dataSource['data'].append(data)
+
+      # Create an object for the Column 2D chart using the FusionCharts class constructor               
+    column2D = FusionCharts("column2D", "ex1" , "600", "400", "chart-1", "json", dataSource)
+      # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
+    return render(request, 'index.html', {'output': column2D.render()}) 
