@@ -58,6 +58,27 @@
                   $('#upvote-' + ansid).html(data);
               });
           });
+          var answer_area_exist = false;
+          var answer_id = '{{ answer_id }}';
+          var answer = {% if answer %} '{{ answer }}' {% else %} '' {% endif %};
+          $('.answer-button').click(function(){
+              if(answer_area_exist){
+                  $('.answer').remove();
+              }
+              else{
+                  $(this).after('<div class="answer"><textarea type="text" rows="7" id="write-answer">' + answer + '</textarea><div class="submit"><div class="submit-answer-button"> Submit </div></div></div>');
+              }
+              answer_area_exist = !answer_area_exist;
+          });
+          $('body').on('click', '.submit-answer-button', function() {
+              answer = $("#write-answer").val();
+              $.get('/submit_answer/', {question_id: '{{question.QUESTION_ID}}',
+                                        answer_id: answer_id, answer: answer}, function(data){
+                    answer_id = data;
+                    $('.answer').remove();
+                    alert("Your answer has been submitted");
+              });
+          });
       });
   </script>
 </body>

@@ -26,6 +26,45 @@ def create_user(user, name):
         return False
 
 
+def submit_answer(question_id, answer, username):
+    ans_id = len(EVENT.objects.all()) + 1
+    question = get_question(question_id)
+    user = get_user(username)
+    event = question.EVENT_KEY
+    query_add_answer = ANSWER( ANSWER_ID = ans_id,
+							   ANSWER = answer,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user,
+					   		   QUESTION_KEY = question)
+    query_add_answer.save()
+    query_check_answer_added = ANSWER.objects.filter(ANSWER_ID = ans_id)[0]
+    try:
+        return query_check_answer_added.ANSWER_ID
+    except:
+        return -1
+
+
+def update_answer(question_id, answer_id, answer, username):
+    question = get_question(question_id)
+    user = get_user(username)
+    event = question.EVENT_KEY
+    query_add_answer = ANSWER( ANSWER_ID = answer_id,
+							   ANSWER = answer,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user,
+					   		   QUESTION_KEY = question)
+    query_add_answer.save()
+    query_check_answer_added = ANSWER.objects.filter(ANSWER_ID = answer_id)[0]
+    try:
+        return query_check_answer_added.ANSWER_ID
+    except:
+        return -1
+
+
 def get_user(username):
     inbuilt_user = User.objects.filter(username=username)
     user = USER.objects.filter(USER_REF = inbuilt_user)
@@ -80,6 +119,15 @@ def get_all_answers(question_id):
 
 def get_answer(answer_id):
     answer = ANSWER.objects.filter(ANSWER_ID = answer_id)
+    try:
+        return answer[0]
+    except:
+        return None
+
+def get_user_written_answer(username, question_id):
+    user = get_user(username)
+    question = get_question(question_id)
+    answer = ANSWER.objects.filter(USER_KEY = user, QUESTION_KEY=question)
     try:
         return answer[0]
     except:

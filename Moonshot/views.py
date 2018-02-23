@@ -208,6 +208,24 @@ def guide_event(request):
     return HttpResponse(user_guiding(username, event_id, guiding))
 
 
+def submit_answer_view(request):
+    print "Submit My answer"
+    answer_id = request.GET['answer_id']
+    question_id = request.GET['question_id']
+    answer = request.GET['answer']
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+
+    if answer_id == '-1':
+        answer_id = submit_answer(question_id, answer, username)
+    else:
+        answer_id = update_answer(question_id, answer_id, answer, username)
+    return HttpResponse(answer_id)
+
+
 def answers_for_question(request):
     question_id = request.GET['question_id']
     question = get_question(question_id)
@@ -218,6 +236,12 @@ def answers_for_question(request):
     if is_logged_in:
         username = request.user.username
 
+    ans = get_user_written_answer(username, question_id)
+    user_answer = None
+    answer_id = -1
+    if ans is not None:
+        user_answer = ans.ANSWER
+        answer_id = ans.ANSWER_ID
     answers_array = []
     for i in range(0, len(answers)):
         answer = {}
@@ -232,4 +256,4 @@ def answers_for_question(request):
             answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
         answers_array.append(answer)
 
-    return render(request, "question.html", {'question':question, 'answers':answers_array, 'username':username})
+    return render(request, "question.html", {'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer, 'answer_id': answer_id})

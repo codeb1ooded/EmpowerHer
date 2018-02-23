@@ -6,6 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="{% static 'css/event_page.css' %}" rel="stylesheet" type="text/css" media="all">
 </head>
 <body id="top">
 <div class="topspacer bgded overlay" style="background-image:url('../images/demo/backgrounds/01.png');">
@@ -89,8 +90,8 @@
                   </div>
               </div>
               <div style="clear:both"></div>
-              <div class="condensed-answer">{{ question.answer }} </div>
-              <a href=""> See more </a>
+              <div class="question-answer condensed-answer">{{ question.answer }} </div>
+              <div class="see-more" style="color: #00CCBD;"> See more </div>
           </div>
       {% endfor %}
     </div>
@@ -162,6 +163,10 @@
                 $('#guide-text').html("Are you guiding?");
             }
             $.get('/guiding_event/', {event_id: "{{ event_id }}", state: newstate, username: "{{ username }}"}, function(data){});
+        });
+        $('.see-more').click(function() {
+            $(this).parent().find('.question-answer').removeClass('condensed-answer');
+            $(this).remove();
         });
     });
 </script>
