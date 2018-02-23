@@ -10,7 +10,7 @@ from .models import EXPERIENCE
 from django.template import loader
 
 from database.functions import *
-from Moonshot.forms import UserRegistrationForm
+from Moonshot.forms import *
 
 def home(request):
     return render(request, 'home.html')
@@ -102,28 +102,6 @@ def event_page(request):
                             'guides':guide_array, 'experiences':experience_array, 'questions':question_array})
 
 
-def register(request, template_name):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            userObj = form.cleaned_data
-            name = userObj['name']
-            username = userObj['username']
-            email =  userObj['email']
-            password =  userObj['password']
-            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                User.objects.create_user(username, email, password)
-                user = authenticate(username = username, password = password)
-                create_user(user, name)
-                login(request, user)
-                return HttpResponseRedirect('/')
-            else:
-                raise forms.ValidationError('Looks like a username with that email or password already exists')
-    else:
-        form = UserRegistrationForm()
-    return render(request, template_name, {'form' : form})
-
-
 def experience_list(request):
     event_id = request.GET['event_id']
     all_experiences = get_all_experiences(event_id)
@@ -188,3 +166,47 @@ def guide_event(request):
         guiding = False
 
     return HttpResponse(user_guiding(username, event_id, guiding))
+
+
+def create_event_view(request):
+    if 'event_id' in request.GET:
+        event_id = request.GET['event_id']
+        name = request.GET['name']
+        description = request.GET['description']
+        reg_start_date = request.GET['reg_start_date']
+        reg_close_date = request.GET['reg_close_date']
+        event_start_date = request.GET['event_start_date']
+        event_close_date = request.GET['event_close_date']
+        details = request.GET['details']
+        website = request.GET['website']
+        location = request.GET['location']
+        if event_id == '-1':
+            event_id = create_event(name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+        else:
+            event_id  = update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+        print event_id
+        return HttpResponse(event_id)
+    else:
+        return render(request, 'create_event.html', {'event_id':-1})
+
+
+def register(request, template_name):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            userObj = form.cleaned_data
+            name = userObj['name']
+            username = userObj['username']
+            email =  userObj['email']
+            password =  userObj['password']
+            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+                User.objects.create_user(username, email, password)
+                user = authenticate(username = username, password = password)
+                create_user(user, name)
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                raise forms.ValidationError('Looks like a username with that email or password already exists')
+    else:
+        form = UserRegistrationForm()
+    return render(request, template_name, {'form' : form})

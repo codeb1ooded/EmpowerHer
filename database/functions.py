@@ -25,6 +25,44 @@ def create_user(user, name):
     except:
         return False
 
+def create_event(name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+    event_id = len(EVENT.objects.all()) + 1
+    query_add_event = EVENT( EVENT_ID = event_id,
+							   NAME = name,
+							   DESCRIPTION = description,
+							   REGISTRATION_OPEN_DATE = reg_start_date,
+							   REGISTRATION_CLOSE_DATE = reg_close_date,
+					   		   EVENT_DATE_1 = event_start_date,
+					   		   EVENT_DATE_2 = event_close_date,
+					   		   DETAILS = details,
+					   		   WEBSITE = website,
+					   		   LOCATION = location) # foreign key need to be done
+    query_add_event.save()
+    query_check_event_added = EVENT.objects.filter(EVENT_ID = event_id)[0]
+    try:
+        return query_check_event_added.EVENT_ID
+    except:
+        return -1
+
+
+def update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+    query_add_event = EVENT( EVENT_ID = event_id,
+							   NAME = name,
+							   DESCRIPTION = description,
+							   REGISTRATION_OPEN_DATE = reg_start_date,
+							   REGISTRATION_CLOSE_DATE = reg_close_date,
+					   		   EVENT_DATE_1 = event_start_date,
+					   		   EVENT_DATE_2 = event_close_date,
+					   		   DETAILS = details,
+					   		   WEBSITE = website,
+					   		   LOCATION = location) # foreign key need to be done
+    query_add_event.save()
+    query_check_event_added = EVENT.objects.filter(EVENT_ID = event_id)[0]
+    try:
+        return query_check_event_added.EVENT_ID
+    except:
+        return -1
+
 
 def get_user(username):
     inbuilt_user = User.objects.filter(username=username)

@@ -28,10 +28,10 @@ class EVENT(models.Model):
     EVENT_ID = models.IntegerField(primary_key=True)
     NAME = models.CharField(max_length=100)
     DESCRIPTION = models.CharField(max_length=1000)
-    REGISTRATION_OPEN_DATE = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    REGISTRATION_CLOSE_DATE = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    EVENT_DATE_1 = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    EVENT_DATE_2 = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    REGISTRATION_OPEN_DATE = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    REGISTRATION_CLOSE_DATE = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    EVENT_DATE_1 = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    EVENT_DATE_2 = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     DETAILS = models.CharField(max_length=50000)
     WEBSITE = models.CharField(max_length=200)
     LOCATION = models.CharField(max_length=200)
@@ -50,7 +50,7 @@ class QUESTION(models.Model):
     QUESTION_ID = models.IntegerField(primary_key=True)
     QUESTION = models.CharField(max_length=1000)
     DESCRIPTION = models.CharField(max_length=1000)
-    TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    TIMESTAMP = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     EVENT_KEY = models.ForeignKey(
         EVENT,
 		null=True,
@@ -69,7 +69,7 @@ class QUESTION(models.Model):
 class ANSWER(models.Model):
     ANSWER_ID = models.IntegerField(primary_key=True)
     ANSWER = models.CharField(max_length=100000)
-    TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    TIMESTAMP = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     NUM_UPVOTES = models.IntegerField(default=0)
     EVENT_KEY = models.ForeignKey(
         EVENT,
@@ -94,7 +94,7 @@ class ANSWER(models.Model):
 class EXPERIENCE(models.Model):
     EXPERIENCE_ID = models.IntegerField(primary_key=True)
     EXPERIENCE = models.CharField(max_length=100000)
-    TIMESTAMP = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    TIMESTAMP = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     NUM_UPVOTES = models.IntegerField(default=0)
     EVENT_KEY = models.ForeignKey(
         EVENT,

@@ -1,0 +1,111 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>Event</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/create_event.css' %}" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <div class="wrap">
+        <div>
+            <label for="name">Name</label>
+            <input id="name" type="text"/>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <input id="description" type="text"/>
+        </div>
+
+        <div>
+            <label for="reg_start_date">Registration Start Date</label>
+            <input id="reg_start_date" type="text"/>
+        </div>
+
+        <div>
+            <label for="reg_close_date">Registration Close Date</label>
+            <input id="reg_close_date" type="text"/>
+        </div>
+
+        <div>
+            <label for="event_start_date">Event Start Date</label>
+            <input id="event_start_date" type="text"/>
+        </div>
+
+        <div>
+            <label for="event_close_date">Event Close Date</label>
+            <input id="event_close_date" type="text"/>
+        </div>
+
+        <div>
+            <textarea id="details" type="text" rows="4" cols="50"></textarea>
+            <label for="details">Details</label>
+        </div>
+
+        <div>
+            <label for="website">Website</label>
+            <input id="website" type="text"/>
+        </div>
+
+        <div>
+            <label for="location">Location</label>
+            <input id="location" type="text"/>
+        </div>
+
+        <div class="center-component">
+            <button class="colins-submit">
+                <svg width="196" height="70"
+                    viewPort="0 0 196 70" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg">
+
+                    <rect class="btn-shape btn-bg"
+                    x="3" y="3"
+                    width="190" height="64"
+                    rx="32" ry="32"
+                    fill="#ffffff"
+                    fill-opacity="1"
+                    stroke="#ccc" stroke-width="4"/>
+
+                    <rect class="btn-shape btn-color"
+                    x="3" y="3"
+                    width="190" height="64"
+                    rx="32" ry="32"
+                    fill="#ffffff"
+                    fill-opacity="0"
+                    stroke="rgb(30,205,151)" stroke-width="4"/>
+
+                    <text class="checkNode" x="96" y="40"
+                    font-family="Montserrat"
+                    font-size="22"
+                    fill-opacity="1"
+                    text-anchor="middle"
+                    fill="rgb(255,255,255)" >
+                    ✔
+                    </text>
+
+                    <text class="textNode" x="96" y="40"
+                    transform="scale(1)"
+                    font-family="Montserrat"
+                    font-size="16"
+                    fill-opacity="1"
+                    text-anchor="middle"
+                    fill="rgb(30,205,151)" >
+                    Submit
+                    </text>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        var event_id = {{ event_id }};
+    </script>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.13.1/TweenMax.min.js"></script>
+    <script src="{% static '/js/create_event.js' %}"></script>
+</body>
+</html>
