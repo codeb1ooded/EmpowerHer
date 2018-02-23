@@ -23,8 +23,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home),
 
-    url(r'^register/$', register, {'template_name': 'register.html'}, name='register'),
-    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
     url(r'^signinup/$', sign_in_up_view),
     url(r'^signin/$', sign_in_view),
