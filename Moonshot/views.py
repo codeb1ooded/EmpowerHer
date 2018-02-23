@@ -74,6 +74,7 @@ def event_page(request):
         rn = 5
     for i in range(0, rn):
         question = {}
+        question['question_id'] = questions[i].QUESTION_ID
         question['question'] = questions[i].QUESTION
         question['description'] = questions[i].DESCRIPTION
         question['timestamp'] = questions[i].TIMESTAMP
@@ -171,45 +172,6 @@ def upvote_answer(request):
     return HttpResponse(upvotes)
 
 
-def question_list(request):
-    all_questions = QUESTION.objects.all();
-    template=loader.get_template('questions.html')
-
-    context={
-                'all_questions':all_questions,
-
-    }
-
-    return HttpResponse(template.render(context, request))
-
-def ques_list(request):
-    all_questions = QUESTION.objects.all();
-    template=loader.get_template('ques.html')
-
-    context={
-                'all_questions':all_questions,
-
-    }
-
-    return HttpResponse(template.render(context, request))
-
-
-def ans_list(request):
-    all_questions = QUESTION.objects.all();
-    all_answers=ANSWER.objects.all()
-    form=question()
-    if request.method=="POST":
-        form=request.POST['tag']
-    template=loader.get_template('ans.html')
-    context={
-                'all_questions':all_questions,
-                'all_answers':all_answers,
-                'form':form
-    }
-
-    return HttpResponse(template.render(context, request))
-
-
 def going_event(request):
     '''if not request.user.is_authenticated:
         print "not authenticate"
@@ -270,4 +232,4 @@ def answers_for_question(request):
             answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
         answers_array.append(answer)
 
-    return render(request, "answers.html", {'question':question, 'answers':answers_array, 'username':username})
+    return render(request, "question.html", {'question':question, 'answers':answers_array, 'username':username})
