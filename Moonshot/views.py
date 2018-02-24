@@ -366,6 +366,17 @@ def submit_experience_view(request):
         experience_id = update_experience(experience_id, event_id, experience, username)
     return HttpResponse(experience_id)
 
+def submit_question_view(request):
+    event_id = request.GET['event_id']
+    question = request.GET['question']
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+    question_id = submit_question(event_id, question, username)
+    return HttpResponse(question_id)
+
 
 def answers_for_question(request):
     question_id = request.GET['question_id']

@@ -138,6 +138,24 @@ def update_experience(experience_id, event_id, experience, username):
         return -1
 
 
+def submit_question(event_id, question, username):
+    ques_id = len(QUESTION.objects.all()) + 1
+    event = get_event_details(event_id)
+    user = get_user(username)
+    query_add_question = QUESTION( QUESTION_ID = ques_id,
+							   QUESTION = question,
+                               DESCRIPTION = 'NA',
+							   TIMESTAMP = datetime.datetime.now(),
+							   EVENT_KEY = event,
+					   		   USER_KEY = user)
+    query_add_question.save()
+    query_check_question_added = QUESTION.objects.filter(QUESTION_ID = ques_id)[0]
+    try:
+        return query_check_question_added.QUESTION_ID
+    except:
+        return -1
+
+
 def get_user(username):
     inbuilt_user = User.objects.filter(username=username)
     user = USER.objects.filter(USER_REF = inbuilt_user)

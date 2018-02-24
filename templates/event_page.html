@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href="{% static 'css/event-page.css' %}" rel="stylesheet" type="text/css" media="all">
-<link href="{% static 'css/share_experience.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' rel='stylesheet' type='text/css'>
+<link href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' rel='stylesheet' type='text/css'>
+<link href="{% static 'css/share_experience.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
 </head>
 <body id="top">
@@ -18,7 +19,7 @@
             <div class="mobile-toggle"><span></span><span></span><span></span></div>
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href=".sec02">Ask Question</a></li>
+                <li> <span onclick="openAskQuestion()">Ask Question</span></li>
                 <li> <span onclick="openNav()">Share Experience</span></li>
                 <li><a href=".sec03">Notifications</a></li>
                 <li><a href=".sec04">User Profile</a></li>
@@ -34,6 +35,17 @@
         </div>
         <div class="div-button">
             <div id="submit-experience-button" class="submit-button"> Submit Experience!</div>
+        </div>
+    </div>
+    <div id="ask-question" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeAskQuestion()">&times;</a>
+        <div class="container-ask-question">
+            <div class="demo-flex-spacer"></div>
+            <div class="webflow-style-input">
+                <input id="ask-input" type="email" placeholder="What's your question?"></input>
+                <button id="ask-button" type="submit"><i class="icon ion-android-arrow-forward"></i></button>
+            </div>
+            <div class="demo-flex-spacer"></div>
         </div>
     </div>
     <div class="background-event">

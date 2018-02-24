@@ -2,9 +2,16 @@ function openNav() {
     document.getElementById("share-experience").style.width = "100%";
 }
 
-/* Close when someone clicks on the "x" symbol inside the overlay */
 function closeNav() {
     document.getElementById("share-experience").style.width = "0%";
+}
+
+function openAskQuestion() {
+    document.getElementById("ask-question").style.width = "100%";
+}
+
+function closeAskQuestion() {
+    document.getElementById("ask-question").style.width = "0%";
 }
 
 // Sticky Header
@@ -85,6 +92,15 @@ $(document).ready(function() {
             $('#submit-experience-button').removeClass('submited-button');
             $("#share-experience").width(0);
             alert("Your experience has been submitted");
+        });
+    });
+
+    $('#ask-button').click(function(){
+        var question = $("#ask-input").val();
+        alert(question);
+        $.get('/submit_question/', {event_id: event_id, question: question}, function(data){
+            $("#ask-question").width(0);
+            alert("Your question has been submitted");
         });
     });
 });

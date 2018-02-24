@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^upvote_answer/$', upvote_answer),
     url(r'^going_event/$', going_event),
     url(r'^guiding_event/$', guide_event),
+    url(r'^submit_question/$', submit_question_view),
     url(r'^submit_answer/$', submit_answer_view),
     url(r'^submit_experience/$', submit_experience_view),
 
