@@ -146,10 +146,42 @@ def event_page(request):
 
 def experience_list(request):
     event_id = request.GET['event_id']
-    all_experiences = get_all_experiences(event_id)
-    template = loader.get_template('experience.html')
+    event = get_event_details(event_id)
+    experiences = get_all_experiences(event_id)
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+
+    exp = get_experience_user_written(username, event_id)
+    user_experience = None
+    experience_id = -1
+    if exp is not None:
+        user_experience = exp.EXPERIENCE
+        experience_id = exp.EXPERIENCE_ID
+
+    all_experiences = []
+    for i in range(0, len(experiences)):
+        experience = {}
+        experience['name'] = experiences[i].USER_KEY.NAME
+        experience['username'] = experiences[i].USER_KEY.USER_REF.username
+        experience['experience'] = experiences[i].EXPERIENCE
+        experience['experience_id'] = experiences[i].EXPERIENCE_ID
+        experience['timestamp'] = experiences[i].TIMESTAMP
+        experience['upvotes'] = experiences[i].NUM_UPVOTES
+        experience['is_upvoted'] = False
+        if is_logged_in:
+            experience['is_upvoted'] = is_user_upvoted_experience(username, experiences[i].EXPERIENCE_ID)
+        all_experiences.append(experience)
+
     context = {
+        'event_id': event_id,
+        'event_name': event.NAME,
         'all_experiences': all_experiences,
+        'username':username,
+        'experience':user_experience,
+        'experience_id': experience_id
     }
     return render(request, "experience.html", context)
 
@@ -329,4 +361,6 @@ def answers_for_question(request):
             answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
         answers_array.append(answer)
 
-    return render(request, "question.html", {'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer, 'answer_id': answer_id})
+    return render(request, "question.html", {'event_id': question.EVENT_KEY.EVENT_ID, 'event_name': question.EVENT_KEY.NAME,
+                                            'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer,
+                                            'answer_id': answer_id})

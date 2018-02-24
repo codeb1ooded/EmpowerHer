@@ -172,6 +172,16 @@ def get_user_written_answer(username, question_id):
         return None
 
 
+def get_experience_user_written(username, event_id):
+    user = get_user(username)
+    event = get_event_details(event_id)
+    experience = EXPERIENCE.objects.filter(USER_KEY = user, EVENT_KEY=event)
+    try:
+        return experience[0]
+    except:
+        return None
+
+
 def get_top_answer(question_obj):
     answers = ANSWER.objects.filter(QUESTION_KEY=question_obj).order_by('-NUM_UPVOTES')
     try:
@@ -202,6 +212,12 @@ def is_user_upvoted_answer(username, answer_id):
     user = get_user(username)
     answer = get_answer(answer_id)
     return len(UPVOTE_ANSWER.objects.filter(USER_KEY=user, ANSWER_KEY=answer)) > 0
+
+
+def is_user_upvoted_experience(username, experience_id):
+    user = get_user(username)
+    experience = get_experience(experience_id)
+    return len(UPVOTE_EXPERIENCE.objects.filter(USER_KEY=user, EXPERIENCE_KEY=experience)) > 0
 
 
 def up_down_vote_experience(username, experience_id, upvote):

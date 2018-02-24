@@ -1,5 +1,10 @@
 body .question-page-content {
-    padding: 50px;
+    padding: 65px;
+}
+
+h3{
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .answer-button{
@@ -61,4 +66,12 @@ textarea[type=text] {
     overflow:auto;
     background-color: #00CCBD;
     margin-bottom: 10px;
+}
+
+.event-name{
+    color:#999999;
+}
+
+.event-name:hover {
+    color: #00CCBD;
 }
