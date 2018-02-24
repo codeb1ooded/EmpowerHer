@@ -1,0 +1,85 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ question.QUESTION }}</title>
+  <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+  <link href="{% static 'css/question.css' %}" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+  <h3>{{ question.QUESTION }}</h3>
+  <div class="answer-button"> Answer </div>
+  {% for answer in answers %}
+      <div class="questions question-card">
+          <div style="width: 100%;">
+              <div style="float:left; width: 10%">
+                  <img src="{% static 'images/avatar.png' %}" alt="">
+              </div>
+              <div style="">
+                  <username> By <a href="#">{{ answer.name }}</a> </username>
+                  <br/>
+                  <time>{{ answer.timestamp }}</time>
+              </div>
+          </div>
+          <div style="clear:both"></div>
+          <div>{{ answer.answer }} </div>
+          <div class="upvote-answer {% if answer.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
+          data-ansid="{{answer.answer_id}}" data-state="{{answer.is_upvoted}}">
+              <span id="text-{{ answer.answer_id }}"> {% if answer.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
+              <span id="upvote-{{ answer.answer_id }}"> {{ answer.upvotes }} </span> </div>
+      </div>
+  {% endfor %}
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/jquery.backtotop.js' %}"></script>
+  <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
+  <script src="{% static '/js/jquery.js' %}"></script>
+  <script src="{% static '/js/rango-ajax.js' %}"></script>
+  <script>
+      $(document).ready(function() {
+          $('.upvote-answer').click(function(){
+              var ansid, oldstate, newstate;
+              ansid = $(this).attr("data-ansid");
+              oldstate = $(this).attr("data-state");
+              if (oldstate === "False") {
+                  $(this).addClass('upvoted-button').removeClass('upvote-button');
+                  newstate =  "True";
+                  $(this).attr('data-state', "True");
+                  $('#text-' + ansid).html("Upvoted");
+              }
+              else {
+                  $(this).addClass('upvote-button').removeClass('upvoted-button');
+                  newstate = "False";
+                  $(this).attr('data-state', "False");
+                  $('#text-' + ansid).html("Upvote");
+              }
+              $.get('/upvote_answer/', {answer_id: ansid, state: newstate, username: "{{ username }}"}, function(data){
+                  $('#upvote-' + ansid).html(data);
+              });
+          });
+          var answer_area_exist = false;
+          var answer_id = '{{ answer_id }}';
+          var answer = {% if answer %} '{{ answer }}' {% else %} '' {% endif %};
+          $('.answer-button').click(function(){
+              if(answer_area_exist){
+                  $('.answer').remove();
+              }
+              else{
+                  $(this).after('<div class="answer"><textarea type="text" rows="7" id="write-answer">' + answer + '</textarea><div class="submit"><div class="submit-answer-button"> Submit </div></div></div>');
+              }
+              answer_area_exist = !answer_area_exist;
+          });
+          $('body').on('click', '.submit-answer-button', function() {
+              answer = $("#write-answer").val();
+              $.get('/submit_answer/', {question_id: '{{question.QUESTION_ID}}',
+                                        answer_id: answer_id, answer: answer}, function(data){
+                    answer_id = data;
+                    $('.answer').remove();
+                    alert("Your answer has been submitted");
+              });
+          });
+      });
+  </script>
+</body>
+</html>
