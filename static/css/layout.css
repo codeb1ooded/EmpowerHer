@@ -413,9 +413,7 @@ table a, #experiences a{background-color:inherit;}
 }
 @import url('https://fonts.googleapis.com/css?family=Asap+Condensed:600i,700');
 .card {
-
-
-  background: linear-gradient(#E96874, #6E3663, #2B0830);
+  background: linear-gradient(#00CCBD, #11a398, #115650);
   border-radius: 2px;
   box-shadow: 0 6px 12px -3px rgba(0,0,0,.3);
   color: #fff;
@@ -439,6 +437,13 @@ table a, #experiences a{background-color:inherit;}
 }
 .card header > *:last-child {
   text-align: right;
+}
+.card h6{
+    color: #11302d;
+    font-size: 20px;
+}
+.card a{
+    color: #e8f2f1;
 }
 
 hr {
@@ -505,7 +510,7 @@ hr {
 }
 
 .going-guide-button {
-    border: 2px solid #D24D57;
+    border: 2px solid #00CCBD;
     position: relative;
     display: inline-block;
     margin-right: 30px;
@@ -527,7 +532,7 @@ hr {
 }
 
 .going-guided-button {
-    border: 2px solid #D24D57;
+    border: 2px solid #00CCBD;
     position: relative;
     display: inline-block;
     margin-right: 30px;
@@ -547,5 +552,5 @@ hr {
     -o-transition: all 1s ease;
     transition: all 1s ease;
     text-shadow: none;
-    background: #D24D57;
+    background: #00CCBD;
 }
