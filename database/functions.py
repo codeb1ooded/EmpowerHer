@@ -103,6 +103,41 @@ def update_answer(question_id, answer_id, answer, username):
         return -1
 
 
+def submit_experience(event_id, experience, username):
+    exp_id = len(EXPERIENCE.objects.all()) + 1
+    event = get_event_details(event_id)
+    user = get_user(username)
+    query_add_experience = EXPERIENCE( EXPERIENCE_ID = exp_id,
+							   EXPERIENCE = experience,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user)
+    query_add_experience.save()
+    query_check_experience_added = EXPERIENCE.objects.filter(EXPERIENCE_ID = exp_id)[0]
+    try:
+        return query_check_experience_added.EXPERIENCE_ID
+    except:
+        return -1
+
+
+def update_experience(experience_id, event_id, experience, username):
+    event = get_event_details(event_id)
+    user = get_user(username)
+    query_add_experience = EXPERIENCE( EXPERIENCE_ID = experience_id,
+							   EXPERIENCE = experience,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user)
+    query_add_experience.save()
+    query_check_experience_added = EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id)[0]
+    try:
+        return query_check_experience_added.EXPERIENCE_ID
+    except:
+        return -1
+
+
 def get_user(username):
     inbuilt_user = User.objects.filter(username=username)
     user = USER.objects.filter(USER_REF = inbuilt_user)

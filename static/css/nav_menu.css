@@ -63,6 +63,15 @@ nav ul li {
     margin-left: 35px;
     line-height: 1.5;
 }
+nav ul span {
+    color: #888888;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+nav ul span:hover {
+    color: #00CCBD;
+    font-weight: bold;
+}
 nav ul a {
     color: #888888;
     text-transform: uppercase;

@@ -9,13 +9,24 @@
   <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
 </head>
 <body>
+    <div id="share-experience" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="paper">
+            <div class="paper-content">
+                <textarea id="experience-text" autofocus>{% if experience %} {{ experience }} {% endif %}</textarea>
+            </div>
+        </div>
+        <div class="div-button">
+            <div id="submit-experience-button" class="submit-button"> Submit Experience!</div>
+        </div>
+    </div>
     <header class="main_h sticky">
         <div class="row">
             <a class="logo" href="#">P/F</a>
             <div class="mobile-toggle"><span></span><span></span><span></span></div>
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href=".sec02">Share Experience</a></li>
+                <li> <span onclick="openNav()">Share Experience</span></li>
                 <li><a href=".sec03">Notifications</a></li>
                 <li><a href=".sec04">User Profile</a></li>
             </ul>   </nav>
@@ -49,8 +60,11 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/jquery.backtotop.js' %}"></script>
   <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
+  <script src="{% static 'js/experience.js' %}"></script>
   <script>
       $(document).ready(function() {
+          var user_exp_id = "{{ experience_id }}";
+          var experience = {% if experience %} '{{ experience }}' {% else %} '' {% endif %};
           $('.upvote-experience').click(function(){
               var expid, oldstate, newstate;
               expid = $(this).attr("data-expid");
@@ -69,6 +83,17 @@
               }
               $.get('/upvote_experience/', {experience_id: expid, state: newstate, username: "{{ username }}"}, function(data){
                   $('#upvote-' + expid).html(data);
+              });
+          });
+          $('#submit-experience-button').click(function(){
+              $('#submit-experience-button').addClass('submited-button');
+              experience = $("#experience-text").val();
+              alert(experience);
+              $.get('/submit_experience/', {event_id: "{{ event_id }}", experience_id: user_exp_id, experience: experience}, function(data){
+                  user_exp_id = data;
+                  $('#submit-experience-button').removeClass('submited-button');
+                  $("#share-experience").width(0);
+                  alert("Your experience has been submitted");
               });
           });
       });

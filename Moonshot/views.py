@@ -314,7 +314,6 @@ def update_event_view(request):
 
 
 def submit_answer_view(request):
-    print "Submit My answer"
     answer_id = request.GET['answer_id']
     question_id = request.GET['question_id']
     answer = request.GET['answer']
@@ -329,6 +328,23 @@ def submit_answer_view(request):
     else:
         answer_id = update_answer(question_id, answer_id, answer, username)
     return HttpResponse(answer_id)
+
+
+def submit_experience_view(request):
+    experience_id = request.GET['experience_id']
+    event_id = request.GET['event_id']
+    experience = request.GET['experience']
+
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
+
+    if experience_id == '-1':
+        experience_id = submit_experience(event_id, experience, username)
+    else:
+        experience_id = update_experience(experience_id, event_id, experience, username)
+    return HttpResponse(experience_id)
 
 
 def answers_for_question(request):
