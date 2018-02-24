@@ -133,15 +133,35 @@ def event_page(request):
 
         question_array.append(question)
 
+    exp = get_experience_user_written(username, event_id)
+    user_experience = None
+    experience_id = -1
+    if exp is not None:
+        user_experience = exp.EXPERIENCE
+        experience_id = exp.EXPERIENCE_ID
 
-    EVENT_ID = models.IntegerField(primary_key=True)
-    return render(request, 'event_page.html', {'event_name':event.NAME, 'description': event.DESCRIPTION, 'event_id': event.EVENT_ID,
-                            'registration_open_date':event.REGISTRATION_OPEN_DATE, 'registration_close_date':event.REGISTRATION_CLOSE_DATE,
-                            'event_date_1':event.EVENT_DATE_1, 'event_date_2':event.EVENT_DATE_2, 'details':event.DETAILS,
-                            'website':event.WEBSITE, 'location':event.LOCATION,
-                            'username': username,
-                            'logged_in': is_logged_in, 'is_guide': is_guide, 'is_going': is_going,
-                            'guides':guide_array, 'experiences':experience_array, 'questions':question_array})
+    context = {
+        'event_id': event.EVENT_ID,
+        'event_name':event.NAME,
+        'description': event.DESCRIPTION,
+        'registration_open_date':event.REGISTRATION_OPEN_DATE,
+        'registration_close_date':event.REGISTRATION_CLOSE_DATE,
+        'event_date_1':event.EVENT_DATE_1,
+        'event_date_2':event.EVENT_DATE_2,
+        'details':event.DETAILS,
+        'website':event.WEBSITE,
+        'location':event.LOCATION,
+        'username': username,
+        'logged_in': is_logged_in,
+        'is_guide': is_guide,
+        'is_going': is_going,
+        'experience':user_experience,
+        'experience_id': experience_id,
+        'guides':guide_array,
+        'experiences':experience_array,
+        'questions':question_array
+    }
+    return render(request, 'event_page.html', context)
 
 
 def experience_list(request):

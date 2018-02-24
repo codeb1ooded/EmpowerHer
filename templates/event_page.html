@@ -6,7 +6,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
-<link href="{% static 'css/event_page.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="{% static 'css/event-page.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="{% static 'css/share_experience.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' rel='stylesheet' type='text/css'>
 <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
 </head>
@@ -18,11 +19,23 @@
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href=".sec02">Ask Question</a></li>
+                <li> <span onclick="openNav()">Share Experience</span></li>
                 <li><a href=".sec03">Notifications</a></li>
                 <li><a href=".sec04">User Profile</a></li>
             </ul>   </nav>
         </div>
     </header>
+    <div id="share-experience" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="paper">
+            <div class="paper-content">
+                <textarea id="experience-text" autofocus>{% if experience %} {{ experience }} {% endif %}</textarea>
+            </div>
+        </div>
+        <div class="div-button">
+            <div id="submit-experience-button" class="submit-button"> Submit Experience!</div>
+        </div>
+    </div>
     <div class="background-event">
         <div class="topspacer bgded">
           <div id="breadcrumb" class="hoc clear">
@@ -123,78 +136,13 @@
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/jquery.backtotop.js' %}"></script>
 <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
-<script src="{% static '/js/jquery.js' %}"></script>
-<script src="{% static '/js/rango-ajax.js' %}"></script>
 <script src="{% static '/js/nav_menu.js' %}"></script>
 <script>
-    // Sticky Header
-    $(window).scroll(function() {
-        if ($(window).scrollTop() > 100) {
-            $('.main_h').addClass('sticky');
-        } else {
-            $('.main_h').removeClass('sticky');
-        }
-    });
-    $(document).ready(function() {
-        $('.upvote-experience').click(function(){
-            var expid, oldstate, newstate;
-            expid = $(this).attr("data-expid");
-            oldstate = $(this).attr("data-old-state");
-            if (oldstate === "False") {
-                $(this).addClass('upvoted-button').removeClass('upvote-button');
-                newstate =  "True";
-                $(this).attr('data-old-state', "True");
-                $('#text-' + expid).html("Upvoted");
-            }
-            else {
-                $(this).addClass('upvote-button').removeClass('upvoted-button');
-                newstate = "False";
-                $(this).attr('data-old-state', "False");
-                $('#text-' + expid).html("Upvote");
-            }
-            $.get('/upvote_experience/', {experience_id: expid, state: newstate, username: "{{ username }}"}, function(data){
-                $('#upvote-' + expid).html(data);
-            });
-        });
-        $('#going-button').click(function(){
-            var oldstate, newstate;
-            oldstate = $(this).attr("data-state");
-            if (oldstate === "False") {
-                $(this).addClass('going-guided-button').removeClass('going-guide-button');
-                newstate =  "True";
-                $(this).attr('data-state', "True");
-                $('#going-text').html("I am going!");
-            }
-            else {
-                $(this).addClass('going-guide-button').removeClass('going-guided-button');
-                newstate = "False";
-                $(this).attr('data-state', "False");
-                $('#going-text').html("Are you going?");
-            }
-            $.get('/going_event/', {event_id: "{{ event_id }}", state: newstate, username: "{{ username }}"}, function(data){});
-        });
-        $('#guide-button').click(function(){
-            var oldstate, newstate;
-            oldstate = $(this).attr("data-state");
-            if (oldstate === "False") {
-                $(this).addClass('going-guided-button').removeClass('going-guide-button');
-                newstate =  "True";
-                $(this).attr('data-state', "True");
-                $('#guide-text').html("I am a guide!");
-            }
-            else {
-                $(this).addClass('going-guide-button').removeClass('going-guided-button');
-                newstate = "False";
-                $(this).attr('data-state', "False");
-                $('#guide-text').html("Are you guiding?");
-            }
-            $.get('/guiding_event/', {event_id: "{{ event_id }}", state: newstate, username: "{{ username }}"}, function(data){});
-        });
-        $('.see-more').click(function() {
-            $(this).parent().find('.question-answer').removeClass('condensed-answer');
-            $(this).remove();
-        });
-    });
+    var user_exp_id = "{{ experience_id }}";
+    var experience = {% if experience %} '{{ experience }}' {% else %} '' {% endif %};
+    var event_id = "{{ event_id }}";
+    var username = "{{ username }}";
 </script>
+<script src="{% static '/js/event_page.js' %}"></script>
 </body>
 </html>

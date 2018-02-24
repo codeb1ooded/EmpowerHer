@@ -50,17 +50,19 @@
 
 nav {
     float: right;
-    width: 80%;
+    width: 90%;
 }
 nav ul {
     list-style: none;
     overflow: hidden;
     text-align: right;
     float: right;
+    padding: 10px;
+    -webkit-padding-start: 10px;
 }
 nav ul li {
     display: inline-block;
-    margin-left: 35px;
+    margin-left: 20px;
     line-height: 1.5;
 }
 nav ul span {
