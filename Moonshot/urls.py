@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^event/$', event_page),
     url(r'^experience/$', experience_list, name='experience'),
     url(r'^question/$', answers_for_question, name='answers'),
+    url(r'^guides/$', guide_list, name='guide'),
 
     url(r'^upvote_experience/$', upvote_experience),
     url(r'^upvote_answer/$', upvote_answer),

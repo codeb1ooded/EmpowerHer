@@ -302,3 +302,15 @@ def answers_for_question(request):
     return render(request, "question.html", {'event_id': question.EVENT_KEY.EVENT_ID, 'event_name': question.EVENT_KEY.NAME,
                                             'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer,
                                             'answer_id': answer_id})
+
+
+def guide_list(request):
+    event_id = request.GET['event_id']
+    event = get_event_details(event_id)
+    all_guides = get_all_guides(event_id)
+    context = {
+        'event_id': event.EVENT_ID,
+        'event_name': event.NAME,
+        'all_guides': all_guides,
+    }
+    return render(request, "guides.html", context)
