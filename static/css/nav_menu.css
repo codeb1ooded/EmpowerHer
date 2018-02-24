@@ -64,6 +64,7 @@ nav ul li {
     display: inline-block;
     margin-left: 20px;
     line-height: 1.5;
+    margin-bottom: 12px;
 }
 nav ul span {
     color: #888888;
@@ -78,6 +79,7 @@ nav ul a {
     color: #888888;
     text-transform: uppercase;
     font-size: 15px;
+    text-decoration: None;
 }
 nav ul a:hover {
     color: #00CCBD;

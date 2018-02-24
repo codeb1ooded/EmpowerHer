@@ -97,7 +97,6 @@ $(document).ready(function() {
 
     $('#ask-button').click(function(){
         var question = $("#ask-input").val();
-        alert(question);
         $.get('/submit_question/', {event_id: event_id, question: question}, function(data){
             $("#ask-question").width(0);
             alert("Your question has been submitted");

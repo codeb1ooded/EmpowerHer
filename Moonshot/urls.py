@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from Moonshot.views import *
+from ajax_requests.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

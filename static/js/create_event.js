@@ -23,7 +23,7 @@ $('textarea').on('focusout', function() {
 $(function(){
     //Create variables we will be referencing in our tweens.
     var white = 'rgb(255,255,255)';
-    var seafoam = 'rgb(43,109,173)';
+    var seafoam = 'rgb(0, 204, 189)';
     $buttonShapes = $('rect.btn-shape');
     $buttonColorShape = $('rect.btn-shape.btn-color');
     $buttonText = $('text.textNode');
