@@ -25,8 +25,9 @@ def create_user(user, name):
     except:
         return False
 
-def create_event(name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+def create_event(username, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
     event_id = len(EVENT.objects.all()) + 1
+    user = get_user(username)
     query_add_event = EVENT( EVENT_ID = event_id,
 							   NAME = name,
 							   DESCRIPTION = description,
@@ -36,7 +37,8 @@ def create_event(name, description, reg_start_date, reg_close_date, event_start_
 					   		   EVENT_DATE_2 = event_close_date,
 					   		   DETAILS = details,
 					   		   WEBSITE = website,
-					   		   LOCATION = location) # foreign key need to be done
+					   		   LOCATION = location,
+                               USER_KEY = user)
     query_add_event.save()
     query_check_event_added = EVENT.objects.filter(EVENT_ID = event_id)[0]
     try:
@@ -45,7 +47,8 @@ def create_event(name, description, reg_start_date, reg_close_date, event_start_
         return -1
 
 
-def update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+def update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+    user = get_user(username)
     query_add_event = EVENT( EVENT_ID = event_id,
 							   NAME = name,
 							   DESCRIPTION = description,
@@ -55,7 +58,8 @@ def update_event(event_id, name, description, reg_start_date, reg_close_date, ev
 					   		   EVENT_DATE_2 = event_close_date,
 					   		   DETAILS = details,
 					   		   WEBSITE = website,
-					   		   LOCATION = location) # foreign key need to be done
+					   		   LOCATION = location,
+                               USER_KEY = user)
     query_add_event.save()
     query_check_event_added = EVENT.objects.filter(EVENT_ID = event_id)[0]
     try:

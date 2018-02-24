@@ -207,6 +207,10 @@ def experience_list(request):
 
 
 def create_event_view(request):
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
     if 'event_id' in request.GET:
         event_id = request.GET['event_id']
         name = request.GET['name']
@@ -219,9 +223,9 @@ def create_event_view(request):
         website = request.GET['website']
         location = request.GET['location']
         if event_id == '-1':
-            event_id = create_event(name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+            event_id = create_event(username, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
         else:
-            event_id  = update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+            event_id  = update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
         print event_id
         return HttpResponse(event_id)
     else:
@@ -230,7 +234,10 @@ def create_event_view(request):
 
 def update_event_view(request):
     event_id = request.GET['event_id']
-    print "Upadte"
+    is_logged_in = request.user.is_authenticated
+    username = None
+    if is_logged_in:
+        username = request.user.username
     if 'name' in request.GET:
         name = request.GET['name']
         description = request.GET['description']
@@ -241,7 +248,7 @@ def update_event_view(request):
         details = request.GET['details']
         website = request.GET['website']
         location = request.GET['location']
-        update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+        update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
         return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description,
                                                     'reg_start_date':reg_start_date, 'reg_close_date':reg_close_date, 'event_start_date': event_start_date, 'event_close_date': event_close_date,
                                                 'details':details, 'website':website, 'location':location})
@@ -256,7 +263,7 @@ def update_event_view(request):
         details = event.DETAILS
         website = event.WEBSITE
         location = event.LOCATION
-        update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
+        update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
         return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description,
                                                     'reg_start_date':reg_start_date, 'reg_close_date':reg_close_date, 'event_start_date': event_start_date, 'event_close_date': event_close_date,
                                                 'details':details, 'website':website, 'location':location})
