@@ -6,8 +6,6 @@ from django.http import *
 from django.conf import settings
 import json
 
-# from odo.backends.h5py import dataset_from_dshape
-
 from .models import EXPERIENCE
 from django.template import loader
 
