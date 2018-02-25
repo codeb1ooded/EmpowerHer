@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^question/$', answers_for_question, name='answers'),
     url(r'^guides/$', guide_list, name='guide'),
 
+    url(r'^newsfeed/$', news_feed, name='newsfeed'),
     url(r'^dashboard/$', dashboard, name='index'),
     url(r'^post/$', Post, name='post'),
     url(r'^messages/$', Messages, name='messages'),

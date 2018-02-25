@@ -6,6 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="{% static 'css/event-page.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' rel='stylesheet' type='text/css'>
 <link href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' rel='stylesheet' type='text/css'>
@@ -77,11 +78,11 @@
           <ul style="margin-left:30px;">
 
               {% for guide in guides %}
-                <li> <a href=""> {{ guide.guide_name }} ({{guide.reputation}}) </a> </li>
+                <li> <a href=""> {{ guide.guide_name }} ({{guide.reputation}}) </a><i class="material-icons"><a href="">&#xe0c9;</a></i></li>
               {% endfor %}
           </ul>
           <hr/>
-          <p style="margin-bottom:30px;text-align:center;"> <a href="../guides/?event_id={{ event_id }}"> See All </a> </p>
+          <p style="margin-bottom:30px;text-align:center;"><a href="../guides?event_id={{ event_id }}" >See All </a></p>
       </div>
     </div>
     <!-- ################################################################################################ -->

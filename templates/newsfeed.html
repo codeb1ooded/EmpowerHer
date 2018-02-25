@@ -1,0 +1,140 @@
+{%load staticfiles%}
+<!doctype html>
+<html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>News Feed</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="{% static 'assets/css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/cs-skin-elastic.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/scss/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav_menu.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div id="right-panel" class="right-panel">
+        <header class="main_h sticky">
+            <div class="row">
+                <a class="logo" href="#">P/F</a>
+                <div class="mobile-toggle"><span></span><span></span><span></span></div>
+                <nav>   <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href=".sec03">Notifications</a></li>
+                    <li><a href="../logout/">Log Out</a></li>
+                    <li><figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></li>
+                </ul>   </nav>
+            </div>
+        </header>
+        <h1 align="center" style="margin-top:70px;"><b>{{username}}</b></h1>
+
+        <div class="content mt-3">
+            <div class="col-sm-12">
+                <h5>Events you are going to: </h5><br>
+            </div>
+            {% if all_events_going %}
+            <div class="row">
+                {% for event in all_events_going %}
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card text-white bg-flat-color-1">
+                      <a href="../event/?event_id={{event.EVENT_ID}}">
+                        <div class="card-body pb-0">
+                            <p class="text-light">{{event.EVENT_ID}}</p>
+                            <div class="chart-wrapper px-0" style="height:70px;" height="70"/>
+                            </div>
+                        </div>
+                      </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="col-sm-12">
+                <h5>Other upcoming events:</h5><br>
+            </div>
+
+            {% if all_events %}
+            <div class="row">
+                {% for event in all_events %}
+                <div class="col-sm-6 col-lg-3" style="margin-bottom: 1em;" >
+                    <div class="card text-white bg-flat-color-1">
+                        <div class="card-body pb-0">
+                            <p class="text-light">{{event.EVENT_ID}}</p>
+                        <div class="chart-wrapper px-0" style="height:70px;" height="70"/></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            <div style="margin-bottom: 1em;"><h5>Experiences of people attending past events</h5></div>
+            {% if all_events_going %}
+            <div class="row">
+                {% for event in all_events_going %}
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="stat-widget-one">
+                                <a href="../experience?event_id={{ event.EVENT_ID }}"> <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div></a>
+                                <div class="stat-content dib">
+                                    <div class="stat-digit">{{event.NAME}}</div>
+                                    <div class="stat-text">10 experiences</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            <div style="margin-bottom: 1em;"><h5>FAQs regarding events you're going to attend:</h5></div>
+            {% if all_events_going %}
+            <div class="row">
+                {% for event in all_events_going %}
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="stat-widget-one">
+                                <a href="../question/?question_id={{ event.EVENT_ID }}"><div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div></a>
+                                <div class="stat-content dib">
+                                    <div class="stat-digit">{{ event.EVENT_ID }}</div>
+                                    <div class="stat-text">4 questions</div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+    <script src="{% static 'assets/js/vendor/jquery-2.1.4.min.js' %"></script>
+    <script src="{% static 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js' %"></script>
+    <script src="{% static 'assets/js/plugins.js' %"></script>
+    <script src="{% static 'assets/js/main.js' %"></script>
+
+
+    <script src="{% static 'assets/js/lib/chart-js/Chart.bundle.js' %"></script>
+    <script src="{% static 'assets/js/dashboard.js' %"></script>
+    <script src="{% static 'assets/js/widgets.js' %"></script>
+    <script src="{% static 'assets/js/lib/vector-map/jquery.vmap.js' %"></script>
+    <script src="{% static 'assets/js/lib/vector-map/jquery.vmap.min.js' %"></script>
+    <script src="{% static 'assets/js/lib/vector-map/jquery.vmap.sampledata.js' %"></script>
+    <script src="{% static 'assets/js/lib/vector-map/country/jquery.vmap.world.js' %"></script>
+
+
+</body>
+</html>

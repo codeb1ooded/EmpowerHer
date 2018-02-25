@@ -403,8 +403,35 @@ def answers_for_question(request):
             answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
         answers_array.append(answer)
     return render(request, "question.html", {'event_id': question.EVENT_KEY.EVENT_ID, 'event_name': question.EVENT_KEY.NAME,
-                                            'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer,
-                                            'answer_id': answer_id})
+                                                    'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer,
+                                                    'answer_id': answer_id})
+
+
+def guide_list(request):
+    event_id = request.GET['event_id']
+    all_guides = get_all_guides(event_id)
+    template = loader.get_template('guides.html')
+    context = {
+        'all_guides': all_guides,
+    }
+    return render(request, "guides.html", context)
+
+
+def news_feed(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    username = request.user.username
+    user = get_user(username)
+    all_events_going = get_all_events_going(username)
+    all_events = get_all_events();
+    size = len(all_events_going)
+    context = {
+            'all_events_going': all_events_going,
+            'all_events' : all_events,
+            'size' : size,
+            'username': username
+        }
+    return render(request, "newsfeed.html", context)
 
 
 def dashboard(request):

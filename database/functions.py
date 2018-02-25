@@ -362,3 +362,13 @@ def user_guiding(username, event_id, guiding):
     else :
         GUIDE_AVAILABLE.objects.filter(GUIDE_ID = guiding_id).delete()
     return not guiding
+
+
+def get_all_events_going(username):
+    user=get_user(username)
+    all_events_going = GOING_EVENT.objects.filter(USER_KEY = user)
+    return all_events_going
+
+def get_all_events():
+    all_events = EVENT.objects.all()
+    return all_events
