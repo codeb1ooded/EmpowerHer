@@ -6,13 +6,28 @@
   <title>{{ question.QUESTION }}</title>
   <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
   <link href="{% static 'css/question.css' %}" rel="stylesheet" type="text/css" media="all">
+  <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
 </head>
 <body>
-  <h3>{{ question.QUESTION }}</h3>
-  <div class="answer-button"> Answer </div>
-  {% for answer in answers %}
-      <div class="questions question-card">
-          <div style="width: 100%;">
+    <header class="main_h sticky">
+        <div class="row">
+            <a class="logo" href="#">P/F</a>
+            <div class="mobile-toggle"><span></span><span></span><span></span></div>
+            <nav>   <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href=".sec02">Ask Question</a></li>
+                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../logout/">Log Out</a></li>
+            </ul>   </nav>
+        </div>
+    </header>
+    <div class="question-page-content">
+        <a class="event-name" href="../event/?event_id={{event_id}}"> {{ event_name }} </a>
+        <h3>{{ question.QUESTION }}</h3>
+        <div class="answer-button"> Answer </div>
+        {% for answer in answers %}
+        <div class="questions question-card">
+            <div style="width: 100%;">
               <div style="float:left; width: 10%">
                   <img src="{% static 'images/avatar.png' %}" alt="">
               </div>
@@ -21,16 +36,18 @@
                   <br/>
                   <time>{{ answer.timestamp }}</time>
               </div>
-          </div>
-          <div style="clear:both"></div>
-          <div>{{ answer.answer }} </div>
-          <div class="upvote-answer {% if answer.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
-          data-ansid="{{answer.answer_id}}" data-state="{{answer.is_upvoted}}">
-              <span id="text-{{ answer.answer_id }}"> {% if answer.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
-              <span id="upvote-{{ answer.answer_id }}"> {{ answer.upvotes }} </span> </div>
-      </div>
-  {% endfor %}
+            </div>
+            <div style="clear:both"></div>
+            <div>{{ answer.answer }} </div>
+            <div class="upvote-answer {% if answer.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
+            data-ansid="{{answer.answer_id}}" data-state="{{answer.is_upvoted}}">
+                <span id="text-{{ answer.answer_id }}"> {% if answer.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
+                <span id="upvote-{{ answer.answer_id }}"> {{ answer.upvotes }} </span> </div>
+        </div>
+        {% endfor %}
+    </div>
 
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/jquery.backtotop.js' %}"></script>
   <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
@@ -81,5 +98,6 @@
           });
       });
   </script>
+  <script src="{% static '/js/nav_menu.js' %}"></script>
 </body>
 </html>

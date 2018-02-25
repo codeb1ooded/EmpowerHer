@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GUIDES - {{ event_name }}</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/guides.css' %}" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <header class="main_h sticky">
+        <div class="row">
+            <a class="logo" href="#">P/F</a>
+            <div class="mobile-toggle"><span></span><span></span><span></span></div>
+            <nav>   <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../logout/">Log Out</a></li>
+            </ul>   </nav>
+        </div>
+    </header>
+    <div id="guide-container">
+        <h1><a href="../event/?event_id={{ event_id }}"> {{ event_name }} </a></h1>
+        <h1>Guides Available</h1>
+        <div class="container-fluid">
+            <div class="table-wrapper">
+                <div class="pinned">
+                    <table class="table table-striped">
+                        <thead><tr><th>&nbsp;</th></tr></thead>
+                        <tbody>
+                            {% for guide in all_guides %}
+                            <tr><td><a class="guide-name" href=""> {{ guide.USER_KEY.NAME }} </a> </td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scrollable">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>EXPERIENCE</th>
+                                <th>ANSWER</th>
+                                <th>GUIDE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for guide in all_guides %}
+                            <tr>
+                                <td>{{ guide.USER_KEY.EXPERIENCE_UPVOTE }}</td>
+                                <td>{{ guide.USER_KEY.ANSWER_UPVOTE }}</td>
+                                <td>{{ guide.USER_KEY.GUIDE_UPVOTE }}</td>
+                                <td><i class="material-icons"><a href="">&#xe0c9;</a></i></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

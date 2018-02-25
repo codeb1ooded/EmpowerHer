@@ -18,29 +18,37 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from Moonshot.views import *
 from chat.views import *
-# from Moonshot.chat.views import call
+from ajax_requests.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home, name='HOME_PAGE'),
-    url(r'^post/$', Post, name='post'),
-    url(r'^messages/$', Messages, name='messages'),
-    url(r'^home/(?P<guide_name>\w+)/$', Home, name='home'),
-    url(r'^guides/$', Guide, name='guide'),
-    url(r'^event/$', event_page, name='event'),
-    url(r'^experience/$', experience_list, name='experience'),
-    url(r'^register/$', register, {'template_name': 'register.html'}, name='register'),
-    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}),
+
     url(r'^logout/$', auth_views.logout, {'template_name': 'logout.html'}),
+    url(r'^signinup/$', sign_in_up_view),
+    url(r'^signin/$', sign_in_view),
+    url(r'^signup/$', sign_up_view),
+
     url(r'^create_event/$', create_event_view),
     url(r'^update_event/$', update_event_view),
+
+    url(r'^user/$', user_page),
     url(r'^event/$', event_page),
     url(r'^experience/$', experience_list, name='experience'),
     url(r'^question/$', answers_for_question, name='answers'),
+    url(r'^guides/$', guide_list, name='guide'),
+
+    url(r'^dashboard/$', dashboard, name='index'),
+    url(r'^post/$', Post, name='post'),
+    url(r'^messages/$', Messages, name='messages'),
+    url(r'^home/(?P<guide_name>\w+)/$', Home, name='home'),
+    url(r'^guide/$', Guide, name='guide'),
+
     url(r'^upvote_experience/$', upvote_experience),
     url(r'^upvote_answer/$', upvote_answer),
     url(r'^going_event/$', going_event),
     url(r'^guiding_event/$', guide_event),
+    url(r'^submit_question/$', submit_question_view),
     url(r'^submit_answer/$', submit_answer_view),
-    url(r'^index/$', chart, name='index'),
+    url(r'^submit_experience/$', submit_experience_view),
 ]

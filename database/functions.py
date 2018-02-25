@@ -25,8 +25,9 @@ def create_user(user, name):
     except:
         return False
 
-def create_event(name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+def create_event(username, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
     event_id = len(EVENT.objects.all()) + 1
+    user = get_user(username)
     query_add_event = EVENT( EVENT_ID = event_id,
 							   NAME = name,
 							   DESCRIPTION = description,
@@ -36,7 +37,8 @@ def create_event(name, description, reg_start_date, reg_close_date, event_start_
 					   		   EVENT_DATE_2 = event_close_date,
 					   		   DETAILS = details,
 					   		   WEBSITE = website,
-					   		   LOCATION = location) # foreign key need to be done
+					   		   LOCATION = location,
+                               USER_KEY = user)
     query_add_event.save()
     query_check_event_added = EVENT.objects.filter(EVENT_ID = event_id)[0]
     try:
@@ -45,7 +47,8 @@ def create_event(name, description, reg_start_date, reg_close_date, event_start_
         return -1
 
 
-def update_event(event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+def update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location):
+    user = get_user(username)
     query_add_event = EVENT( EVENT_ID = event_id,
 							   NAME = name,
 							   DESCRIPTION = description,
@@ -55,7 +58,8 @@ def update_event(event_id, name, description, reg_start_date, reg_close_date, ev
 					   		   EVENT_DATE_2 = event_close_date,
 					   		   DETAILS = details,
 					   		   WEBSITE = website,
-					   		   LOCATION = location) # foreign key need to be done
+					   		   LOCATION = location,
+                               USER_KEY = user)
     query_add_event.save()
     query_check_event_added = EVENT.objects.filter(EVENT_ID = event_id)[0]
     try:
@@ -99,6 +103,59 @@ def update_answer(question_id, answer_id, answer, username):
     query_check_answer_added = ANSWER.objects.filter(ANSWER_ID = answer_id)[0]
     try:
         return query_check_answer_added.ANSWER_ID
+    except:
+        return -1
+
+
+def submit_experience(event_id, experience, username):
+    exp_id = len(EXPERIENCE.objects.all()) + 1
+    event = get_event_details(event_id)
+    user = get_user(username)
+    query_add_experience = EXPERIENCE( EXPERIENCE_ID = exp_id,
+							   EXPERIENCE = experience,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user)
+    query_add_experience.save()
+    query_check_experience_added = EXPERIENCE.objects.filter(EXPERIENCE_ID = exp_id)[0]
+    try:
+        return query_check_experience_added.EXPERIENCE_ID
+    except:
+        return -1
+
+
+def update_experience(experience_id, event_id, experience, username):
+    event = get_event_details(event_id)
+    user = get_user(username)
+    query_add_experience = EXPERIENCE( EXPERIENCE_ID = experience_id,
+							   EXPERIENCE = experience,
+							   TIMESTAMP = datetime.datetime.now(),
+							   NUM_UPVOTES = 0,
+							   EVENT_KEY = event,
+					   		   USER_KEY = user)
+    query_add_experience.save()
+    query_check_experience_added = EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id)[0]
+    try:
+        return query_check_experience_added.EXPERIENCE_ID
+    except:
+        return -1
+
+
+def submit_question(event_id, question, username):
+    ques_id = len(QUESTION.objects.all()) + 1
+    event = get_event_details(event_id)
+    user = get_user(username)
+    query_add_question = QUESTION( QUESTION_ID = ques_id,
+							   QUESTION = question,
+                               DESCRIPTION = 'NA',
+							   TIMESTAMP = datetime.datetime.now(),
+							   EVENT_KEY = event,
+					   		   USER_KEY = user)
+    query_add_question.save()
+    query_check_question_added = QUESTION.objects.filter(QUESTION_ID = ques_id)[0]
+    try:
+        return query_check_question_added.QUESTION_ID
     except:
         return -1
 
@@ -172,12 +229,51 @@ def get_user_written_answer(username, question_id):
         return None
 
 
+def get_experience_user_written(username, event_id):
+    user = get_user(username)
+    event = get_event_details(event_id)
+    experience = EXPERIENCE.objects.filter(USER_KEY = user, EVENT_KEY=event)
+    try:
+        return experience[0]
+    except:
+        return None
+
+
 def get_top_answer(question_obj):
     answers = ANSWER.objects.filter(QUESTION_KEY=question_obj).order_by('-NUM_UPVOTES')
     try:
         return answers[0]
     except:
         return None
+
+
+def get_user_events_guiding(username):
+    user = get_user(username)
+    return GUIDE_AVAILABLE.objects.filter(USER_KEY=user)
+
+
+def get_user_events_going(username):
+    user = get_user(username)
+    return GOING_EVENT.objects.filter(USER_KEY=user)
+
+
+def get_user_answers(username):
+    user = get_user(username)
+    return ANSWER.objects.filter(USER_KEY=user)
+
+
+def get_user_questions(username):
+    user = get_user(username)
+    return QUESTION.objects.filter(USER_KEY=user)
+
+
+def get_user_experiences(username):
+    user = get_user(username)
+    return EXPERIENCE.objects.filter(USER_KEY=user)
+
+def get_created_events(username):
+    user = get_user(username)
+    return EVENT.objects.filter(USER_KEY=user)
 
 
 def is_user_guide(username, event_id):
@@ -202,6 +298,12 @@ def is_user_upvoted_answer(username, answer_id):
     user = get_user(username)
     answer = get_answer(answer_id)
     return len(UPVOTE_ANSWER.objects.filter(USER_KEY=user, ANSWER_KEY=answer)) > 0
+
+
+def is_user_upvoted_experience(username, experience_id):
+    user = get_user(username)
+    experience = get_experience(experience_id)
+    return len(UPVOTE_EXPERIENCE.objects.filter(USER_KEY=user, EXPERIENCE_KEY=experience)) > 0
 
 
 def up_down_vote_experience(username, experience_id, upvote):

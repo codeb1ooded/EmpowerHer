@@ -1,63 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  <title>Dashboard</title>
-   {% load static %}
-
+<head>
+    <title>Dashboard</title>
+    {% load static %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
-
-    <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-
-<!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!-- MetisMenu CSS -->
-    <!--<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">-->
     <link href="{% static 'metisMenu/metisMenu.min.css' %}" rel="stylesheet" type="text/css" media="all">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="screen" />
-    <!-- Custom CSS -->
-    <!--<link href="../dist/css/sb-admin-2.css" rel="stylesheet">-->
     <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Morris Charts CSS -->
     <link href="{% static 'css/morris.css' %}" rel="stylesheet" type="text/css" media="all">
-    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>-->
-    <!--<link href="../vendor/morrisjs/morris.css" rel="stylesheet">-->
+    <script type="text/javascript" src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
+    <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
+</head>
 
-    <!-- Custom Fonts -->
-    <!--<link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet" type="text/css" media="all">-->
-
-    <!--<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-   <script type="text/javascript" src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
-   <script type="text/javascript" src="{% static 'fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
-
-  </head>
-
-  <body>
-
-  <div id="wrapper">
-
+<body>
+    <header class="main_h sticky">
+        <div class="row">
+            <a class="logo" href="#">P/F</a>
+            <div class="mobile-toggle"><span></span><span></span><span></span></div>
+            <nav>   <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../logout/">Log Out</a></li>
+            </ul>   </nav>
+        </div>
+    </header>
+    <div id="wrapper" style="margin-top:70px;">
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard
+                    <h1 class="page-header"> {{ user.NAME }}
                     {% if B1 %}
                         <i style="color: red;" class="fa fa-certificate" aria-hidden="true"></i>
                     {% endif %}
@@ -75,10 +53,7 @@
                     {% endif %}
                         </h1>
                     </div>
-
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
@@ -195,88 +170,29 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="chart-1">{{ output|safe }}</div>
-                            <!--<div id="morris-area-chart"></div>-->
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
-
-                    <!-- /.panel -->
-
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-8 -->
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                            <i class="fa fa-bell fa-fw"></i> Your Events
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
+                            {% for event in created_events %}
                             <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> USERNAME
-                                    <span class="pull-right text-muted small"><em>{{ B.USER_REF }}</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> Profile
-                                    <span class="pull-right text-muted small"><em>{{ B.PROFILE_LINK }}</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Answers Upvoted
-                                    <span class="pull-right text-muted small"><em>{{ B.ANSWER_UPVOTE }}</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-question fa-fw"></i> Questions Asked
-                                    <span class="pull-right text-muted small"><em>{{ B.NUM_QUESTION_ASKED }}</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-user fa-fw"></i> Guides Upvoted
-                                    <span class="pull-right text-muted small"><em>{{ B.GUIDE_UPVOTE }}</em>
-                                    </span>
-                                </a>
+                                <a href="../update_event/?event_id={{event.EVENT_ID}}" class="list-group-item">{{ event.NAME }}</a>
                             </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
+                            {% endfor %}
+                            <a href="../create_event/" class="btn btn-default btn-block">Create Event</a>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
-
-                    <!-- /.panel -->
-
-                    <!-- /.panel .chat-panel -->
                 </div>
-                <!-- /.col-lg-4 -->
             </div>
-            <!-- /.row -->
         </div>
   </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <!--<script src="../vendor/jquery/jquery.min.js"></script>-->
-
-    <!-- Bootstrap Core JavaScript -->
-    <!--<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>-->
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <!--<script src="../vendor/metisMenu/metisMenu.min.js"></script>-->
-
-    <!-- Morris Charts JavaScript -->
-    <!--<script src="../vendor/raphael/raphael.min.js"></script>-->
-    <!--<script src="../vendor/morrisjs/morris.min.js"></script>-->
-    <!--<script src="../data/morris-data.js"></script>-->
-
-    <!-- Custom Theme JavaScript -->
-    <!--<script src="../dist/js/sb-admin-2.js"></script>-->
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -285,13 +201,5 @@
 <script src="{% static 'js/morris.min.js' %}"></script>
 <script src="{% static 'js/sb-admin-2.js' %}"></script>
 <script src="{% static 'js/morris-data.js' %}"></script>
-<!--<script src="{% static 'morris.min.js' %}"></script>-->
-
-
-
-    <!-- Fusion Charts will render here-->
-
-    <!-- dumping JavaScript code here -->
   </body>
 </html>
-  

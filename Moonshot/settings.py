@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Moonshot',
     'chat',
+    'ajax_requests',
 ]
 
 MIDDLEWARE = [

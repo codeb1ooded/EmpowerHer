@@ -1,0 +1,96 @@
+/* unimportant styles here */
+@import url(https://fonts.googleapis.com/css?family=Unica+One);
+body {
+    background-size: 50px 50px;
+    color: #007a71;
+    background-size: 50px 50px;
+}
+h1 {
+    font-family: 'Unica One', cursive;
+    text-align: center;
+    text-shadow: 2px 2px 2px rgba(255, 255, 255, .8);
+    margin-top: 40px;
+    color: #007a71;
+}
+#guide-container{
+    top: 50px;
+    position: relative;
+}
+.guide-name{
+    color: #006059
+}
+.guide-name:hover{
+    text-decoration: underline;
+}
+a{
+    text-decoration: none;
+    color: #999999;
+}
+a:hover{
+    color: #00CCBD;
+}
+.container-fluid {
+    max-width: 500px;
+    margin: 20px auto;
+    border: 20px solid #d7efed;
+    padding: 0;
+    background-color: #fff;
+    box-shadow: 2px 3px 5px rgba(0,0,0,.5);
+}
+
+/* important styles below */
+table {
+    width: 100%;
+}
+.table-wrapper {
+    overflow: hidden;
+    border-right: 1px solid #c9e2e0;
+}
+.pinned {
+    width: 30%;
+    border-right: 1px solid #c9e2e0;
+    float: left;
+}
+.scrollable {
+    float: right;
+    width: 69%;
+    overflow: scroll;
+    overflow-y: hidden;
+}
+th {
+    text-transform: uppercase;
+    line-height: 12px;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+td {
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    height: 30px;
+    white-space: nowrap;
+}
+.pinned td {
+    position: relative;
+    font-weight: bold;
+    line-height: 18px;
+    text-align: left;
+    overflow: hidden;
+}
+.pinned td.wrap {
+    white-space: normal;
+}
+td .outer {
+    position: relative;
+    height: 30px;
+}
+td .inner {
+    overflow: hidden;
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+}
+.pinned td .inner.wrap {
+    white-space: normal;
+}

@@ -1,0 +1,35 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Handlee);
+
+body .experience-page-content {
+    padding: 65px;
+}
+
+h3{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+textarea[type=text] {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #00CCBD;
+    font-size: 20px;
+    color: #00CCBD;
+}
+
+.submit{
+    border: 1px solid #00CCBD;
+    width: 100%;
+    overflow:auto;
+    background-color: #00CCBD;
+    margin-bottom: 10px;
+}
+
+.event-name{
+    color:#999999;
+}
+
+.event-name:hover {
+    color: #00CCBD;
+}

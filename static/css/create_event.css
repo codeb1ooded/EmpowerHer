@@ -1,101 +1,102 @@
 body {
-  font-family: 'Lato', sans-serif;
-  color: white;
-  background-color: white;
+    font-family: 'Lato', sans-serif;
+    color: #00b5a7;
+    background-color: white;
 }
 
 div.wrap {
-  width: 500px;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  vertical-align: middle;
+    top: 70px;
+    width: 800px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    vertical-align: middle;
 }
 
 div.wrap div {
-  position: relative;
-  margin: 50px 0;
+    position: relative;
+    margin: 50px 0;
 }
 
 label {
-  position: absolute;
-  top: 0;
-  font-size: 30px;
-  margin: 10px;
-  padding: 0 10px;
-  background-color: #2b6dad;
-  -webkit-transition: top .2s ease-in-out,  font-size .2s ease-in-out;
-  transition: top .2s ease-in-out,  font-size .2s ease-in-out;
+    position: absolute;
+    top: 0;
+    font-size: 30px;
+    margin: 10px;
+    padding: 0 10px;
+    background-color: #d0edeb;
+    -webkit-transition: top .2s ease-in-out,    font-size .2s ease-in-out;
+    transition: top .2s ease-in-out,    font-size .2s ease-in-out;
 }
 
 .active {
-  top: -25px;
-  font-size: 20px;
+    top: -25px;
+    font-size: 20px;
 }
 
 input[type=text] {
-  width: 100%;
-  padding: 20px;
-  border: 1px solid white;
-  font-size: 20px;
-  background-color: #2b6dad;
-  color: white;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid white;
+    font-size: 20px;
+    background-color: #d0edeb;
+    color: #00b5a7;
 }
 
 textarea[type=text] {
-  width: 100%;
-  padding: 20px;
-  border: 1px solid white;
-  font-size: 20px;
-  background-color: #2b6dad;
-  color: white;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid white;
+    font-size: 20px;
+    background-color: #d0edeb;
+    color: #00b5a7;
 }
 
 input[type=text]:focus {
-  outline: none;
+    outline: none;
 }
 
 textarea[type=text]:focus {
-  outline: none;
+    outline: none;
 }
 
 center-component {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
 }
 
 button.colins-submit {
-  background: transparent;
-  border: none;
+    background: transparent;
+    border: none;
 }
 button.colins-submit.is-active {
-  cursor: default;
+    cursor: default;
 }
 button.colins-submit:focus {
-  outline: none;
+    outline: none;
 }
 button.colins-submit::-moz-focus-inner {
-  border: 0;
+    border: 0;
 }
 button.colins-submit svg text {
-  font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 button.colins-submit svg text.textNode {
-  fill: #2b6dad;
+    fill: #00CCBD;
 }
 button.colins-submit svg text.checkNode {
-  fill-opacity: 0;
+    fill-opacity: 0;
 }
 button.colins-submit svg rect.btn-shape.btn-bg {
-  stroke: #2b6dad;
-  fill: white;
+    stroke: #00CCBD;
+    fill: white;
 }
 button.colins-submit svg rect.btn-shape.btn-color {
-  stroke: #2b6dad;
-  fill: white;
-  stroke-dasharray: 453;
-  stroke-dashoffset: 0;
+    stroke: #00CCBD;
+    fill: white;
+    stroke-dasharray: 453;
+    stroke-dashoffset: 0;
 }
