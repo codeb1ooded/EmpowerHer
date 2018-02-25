@@ -1,5 +1,31 @@
 $(document).ready(function() {
 
+    $('.see-more').click(function() {
+        $(this).parent().find('.question-answer').removeClass('condensed-answer');
+        $(this).remove();
+    });
+
+    $('.upvote-experience').click(function(){
+       var expid, oldstate, newstate;
+       expid = $(this).attr("data-expid");
+       oldstate = $(this).attr("data-old-state");
+       if (oldstate === "False") {
+           $(this).addClass('upvoted-button').removeClass('upvote-button');
+           newstate =  "True";
+           $(this).attr('data-old-state', "True");
+           $('#text-' + expid).html("Upvoted");
+       }
+       else {
+           $(this).addClass('upvote-button').removeClass('upvoted-button');
+           newstate = "False";
+           $(this).attr('data-old-state', "False");
+           $('#text-' + expid).html("Upvote");
+       }
+       $.get('/upvote_experience/', {experience_id: expid, state: newstate, username: username}, function(data){
+           $('#upvote-' + expid).html(data);
+       });
+    });
+
     $("#li-answers").css("background-color", "#f2f7f6");
 
     $('#nav-answers').on('click',function(){

@@ -56,6 +56,8 @@ def user_page(request):
         experience = {}
         experience['experience_id'] = experiences[i].EXPERIENCE_ID
         experience['experience'] = experiences[i].EXPERIENCE
+        experience['event_id'] = experiences[i].EVENT_KEY.EVENT_ID
+        experience['event_name'] = experiences[i].EVENT_KEY.NAME
         experience['timestamp'] = experiences[i].TIMESTAMP
         experience['username'] = experiences[i].USER_KEY.USER_REF.username
         experience['name'] = experiences[i].USER_KEY.NAME
@@ -68,6 +70,7 @@ def user_page(request):
         experience_array.append(experience)
 
     context = {'username': username,
+                'login_username': login_username,
                 'user': user,
                 'reputation': user.EXPERIENCE_UPVOTE + user.ANSWER_UPVOTE + user.GUIDE_UPVOTE + user.NUM_QUESTION_ASKED,
                 'events_guiding': events_guiding,

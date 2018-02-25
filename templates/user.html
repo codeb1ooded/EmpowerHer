@@ -29,7 +29,7 @@
                 <ul>
                     <li> {{ user.EXPERIENCE_UPVOTE }} <span>Experience Upvotes</span></li>
                     <li> {{ user.ANSWER_UPVOTE }} <span>Answer Upvotes</span></li>
-                    <li> {{ user.GUIDE_UPVOTE }} <span>Guide Uopvotes</span></li>
+                    <li> {{ user.GUIDE_UPVOTE }} <span>Guide Upvotes</span></li>
                     <li> {{ user.NUM_QUESTION_ASKED }} <span>Questions Asked</span></li>
                     <li> {{ reputation }} <span>Reputation</span></li>
                 </ul>
@@ -63,30 +63,30 @@
                 <div id="section-experiences" style="display:none;">
                     <h4>{{ experiences|length }} Experiences </h4>
                     <div id="experiences" class="experience-card">
-                      <h2>Experiences</h2>
-                      <ul>
+                        <ul>
                           {% for experience in experiences %}
                           <li>
                             <article>
-                              <header>
-                                  <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure>
-                                <username>
-                                By <a href="#">{{ experience.name }}</a>
-                                </username>
-                                <time>{{ experience.timestamp }}</time>
-                              </header>
-                              <div class="comcont">
-                                <p>{{ experience.experience }}</p>
-                              </div>
-                              <div class="upvote-experience {% if experience.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
-                              data-expid="{{experience.experience_id}}" data-old-state="{{experience.is_upvoted}}">
-                                  <span id="text-{{ experience.experience_id }}"> {% if experience.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
-                                  <span id="upvote-{{ experience.experience_id }}"> {{ experience.upvotes }} </span> </div>
-                              <br/>
-                            </article>
-                          </li>
-                          {% endfor %}
-                      </ul>
+                                <a href="../event/?event_id={{ experience.event_id }}"> {{ experience.event_name }} </a>
+                                <header>
+                                    <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure>
+                                    <username>
+                                        By <a href="#">{{ experience.name }}</a>
+                                    </username>
+                                    <time>{{ experience.timestamp }}</time>
+                                </header>
+                                <div class="comcont">
+                                    <p>{{ experience.experience }}</p>
+                                </div>
+                                <div class="upvote-experience {% if experience.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
+                                    data-expid="{{experience.experience_id}}" data-old-state="{{experience.is_upvoted}}">
+                                    <span id="text-{{ experience.experience_id }}"> {% if experience.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
+                                    <span id="upvote-{{ experience.experience_id }}"> {{ experience.upvotes }} </span> </div>
+                                    <br/>
+                                </article>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
                 <div id="section-questions" style="display:none;">
@@ -134,6 +134,10 @@
         </main>
     </div>
     <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+
+    <script>
+        var username = "{{ login_username }}";
+    </script>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
