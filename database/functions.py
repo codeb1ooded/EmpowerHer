@@ -247,6 +247,31 @@ def get_top_answer(question_obj):
         return None
 
 
+def get_user_events_guiding(username):
+    user = get_user(username)
+    return GUIDE_AVAILABLE.objects.filter(USER_KEY=user)
+
+
+def get_user_events_going(username):
+    user = get_user(username)
+    return GOING_EVENT.objects.filter(USER_KEY=user)
+
+
+def get_user_answers(username):
+    user = get_user(username)
+    return ANSWER.objects.filter(USER_KEY=user)
+
+
+def get_user_questions(username):
+    user = get_user(username)
+    return QUESTION.objects.filter(USER_KEY=user)
+
+
+def get_user_experiences(username):
+    user = get_user(username)
+    return EXPERIENCE.objects.filter(USER_KEY=user)
+
+
 def is_user_guide(username, event_id):
     user = get_user(username)
     event = get_event_details(event_id)

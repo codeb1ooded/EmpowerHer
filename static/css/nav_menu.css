@@ -48,11 +48,11 @@
     margin-bottom: 10px;
 }
 
-nav {
+.main_h nav {
     float: right;
     width: 90%;
 }
-nav ul {
+.main_h  ul {
     list-style: none;
     overflow: hidden;
     text-align: right;
@@ -60,28 +60,28 @@ nav ul {
     padding: 10px;
     -webkit-padding-start: 10px;
 }
-nav ul li {
+.main_h nav ul li {
     display: inline-block;
     margin-left: 20px;
     line-height: 1.5;
     margin-bottom: 12px;
 }
-nav ul span {
+.main_h nav ul span {
     color: #888888;
     text-transform: uppercase;
     font-size: 15px;
 }
-nav ul span:hover {
+.main_h nav ul span:hover {
     color: #00CCBD;
     font-weight: bold;
 }
-nav ul a {
+.main_h nav ul a {
     color: #888888;
     text-transform: uppercase;
     font-size: 15px;
     text-decoration: None;
 }
-nav ul a:hover {
+.main_h nav ul a:hover {
     color: #00CCBD;
     font-weight: bold;
 }
@@ -113,13 +113,6 @@ nav ul a:hover {
     margin: 0 auto;
     position: relative;
     padding: 0 2%;
-}
-
-h1 {
-    font-size: 30px;
-    line-height: 1.8;
-    text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
 }
 
 .content {

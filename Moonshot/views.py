@@ -11,7 +11,70 @@ from django.template import loader
 
 from database.functions import *
 from Moonshot.forms import *
-from Moonshot.models import QUESTION,ANSWER
+
+
+def user_page(request):
+    username = request.GET['username']
+
+    is_logged_in = request.user.is_authenticated
+    loign_username = None
+    if is_logged_in:
+        login_username = request.user.username
+
+    events_guiding = get_user_events_guiding(username)
+    events_going = get_user_events_going(username)
+    answers = get_user_answers(username)
+    questions = get_user_questions(username)
+    experiences = get_user_experiences(username)
+    
+    question_array = []
+    for i in range(0, len(questions)):
+        question = {}
+        question['question_id'] = questions[i].QUESTION_ID
+        question['question'] = questions[i].QUESTION
+        question['description'] = questions[i].DESCRIPTION
+        question['timestamp'] = questions[i].TIMESTAMP
+        question['event_id'] = questions[i].EVENT_KEY.EVENT_ID
+        question['event_name'] = questions[i].EVENT_KEY.NAME
+        answer = get_top_answer(questions[i])
+        if answer is None:
+            question['answer'] = "null"
+        else:
+            question['answer'] = answer.ANSWER
+            question['upvotes'] = answer.NUM_UPVOTES
+            question['answered_by'] = answer.USER_KEY.NAME
+            question['answered_at'] = answer.TIMESTAMP
+            if is_logged_in:
+                question['is_upvoted'] = is_user_upvoted_answer(login_username, answer.ANSWER_ID)
+            else:
+                question['is_upvoted'] = False
+        question_array.append(question)
+
+    experience_array = []
+    for i in range(0, len(experiences)):
+        experience = {}
+        experience['experience_id'] = experiences[i].EXPERIENCE_ID
+        experience['experience'] = experiences[i].EXPERIENCE
+        experience['timestamp'] = experiences[i].TIMESTAMP
+        experience['username'] = experiences[i].USER_KEY.USER_REF.username
+        experience['name'] = experiences[i].USER_KEY.NAME
+        experience['upvotes'] = experiences[i].NUM_UPVOTES
+        experience['is_upvoted'] = False
+        if is_logged_in:
+            experience['is_upvoted'] = is_user_upvoted_experience(login_username, experiences[i].EXPERIENCE_ID)
+        else:
+            experience['is_upvoted'] = False
+        experience_array.append(experience)
+
+    context = {'username': username,
+                'events_guiding': events_guiding,
+                'events_going': events_going,
+                'answers': answers,
+                'questions': question_array,
+                'experiences': experience_array,
+                }
+    return render(request, 'user.html', context)
+
 
 def home(request):
     return render(request, 'home.html')

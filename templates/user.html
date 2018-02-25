@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ username }}</title>
+    <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/layout.css' %}" rel='stylesheet' type='text/css'>
+</head>
+<body id="top">
+    <header class="main_h sticky">
+        <div class="row" style="margin-left:100px;">
+            <a class="logo" href="#">P/F</a>
+            <div class="mobile-toggle"><span></span><span></span><span></span></div>
+            <nav id="top-nav">   <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href=".sec03">Notifications</a></li>
+                <li><a href=".sec04">User Profile</a></li>
+            </ul>   </nav>
+        </div>
+    </header>
+    <div class="wrapper row3">
+        <main class="hoc container clear">
+            <div class="content three_quarter first">
+                <div id="section-answers">
+                    <h4 style="margin-top:50px; margin-left:10px;">{{ answers|length }} Answers</h4>
+                    {% for answer in answers %}
+                        <div class="questions question-card">
+                            <a style="color:#999999;" href="../event/?event_id={{ answer.EVENT_KEY.EVENT_ID }}"> {{ answer.EVENT_KEY.NAME }} </a>
+                            <a href="../question/?question_id={{ answer.QUESTION_KEY.QUESTION_ID }}"> <h4 class="question-highlighted"> {{ answer.QUESTION_KEY.QUESTION }} </h4> </a>
+                            <div style="width: 100%;">
+                                <div style="float:left; width: 10%">
+                                    <img src="{% static 'images/avatar.png' %}" alt="">
+                                </div>
+                                <div style="">
+                                    <username> By <a href="#">{{ answer.USER_KEY.NAME }}</a> </username>
+                                    <br/>
+                                    <time>{{ answer.TIMESTAMP }}</time>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="question-answer condensed-answer">{{ answer.ANSWER }} </div>
+                            <div class="see-more" style="color: #00CCBD;"> See more </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="section-experiences" style="display:none;">
+                    <h4 style="margin-top:50px; margin-left:10px;">{{ experiences|length }} Experiences </h4>
+                    <div id="experiences" class="experience-card">
+                      <h2>Experiences</h2>
+                      <ul>
+                          {% for experience in experiences %}
+                          <li>
+                            <article>
+                              <header>
+                                  <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure>
+                                <username>
+                                By <a href="#">{{ experience.name }}</a>
+                                </username>
+                                <time>{{ experience.timestamp }}</time>
+                              </header>
+                              <div class="comcont">
+                                <p>{{ experience.experience }}</p>
+                              </div>
+                              <div class="upvote-experience {% if experience.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
+                              data-expid="{{experience.experience_id}}" data-old-state="{{experience.is_upvoted}}">
+                                  <span id="text-{{ experience.experience_id }}"> {% if experience.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
+                                  <span id="upvote-{{ experience.experience_id }}"> {{ experience.upvotes }} </span> </div>
+                              <br/>
+                            </article>
+                          </li>
+                          {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div id="section-questions" style="display:none;">
+                    <h4 style="margin-top:50px; margin-left:10px;">{{ questions|length }} Questions</h4>
+                    {% for question in questions %}
+                        <div class="questions question-card">
+                            <a style="color:#999999;" href="../event/?event_id={{ event_id }}"> {{ question.event_name }} </a>
+                            <a href="../question/?question_id={{ question.question_id }}"> <h4 class="question-highlighted"> {{ question.question }} </h4> </a>
+                            <div style="width: 100%;">
+                                <div style="float:left; width: 10%">
+                                    <img src="{% static 'images/avatar.png' %}" alt="">
+                                </div>
+                                <div style="">
+                                    <username> By <a href="#">{{ question.answered_by }}</a> </username>
+                                    <br/>
+                                    <time>{{ question.answered_at }}</time>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="question-answer condensed-answer">{{ question.answer }} </div>
+                            <div class="see-more" style="color: #00CCBD;"> See more </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="section-event-guiding" style="display:none;">
+                </div>
+                <div id="section-event-going" style="display:none;">
+                </div>
+            </div>
+            <div class="sidebar one_quarter">
+                <h4>Feeds</h4>
+                <nav class="sdb_holder">
+                    <ul>
+                        <li id="li-answers"><a href="#" id="nav-answers">Answers</a></li>
+                        <li id="li-experiences"><a href="#" id="nav-experiences">Experiences</a></li>
+                        <li id="li-questions"><a href="#" id="nav-questions">Questions</a></li>
+                        <li id="li-event-guiding"><a href="#" id="nav-event-guiding">Events user going</a></li>
+                        <li id="li-event-going"><a href="#" id="nav-event-going">Events user guiding</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- ################################################################################################ -->
+            <!-- / main body -->
+            <div class="clear"></div>
+        </main>
+    </div>
+    <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.backtotop.js' %}"></script>
+    <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
+    <script src="{% static '/js/user.js' %}"></script>
+</body>
+</html>

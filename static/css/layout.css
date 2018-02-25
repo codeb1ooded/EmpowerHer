@@ -13,6 +13,7 @@ File: Layout CSS
 @import url("framework.css");
 @import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url('https://fonts.googleapis.com/css?family=Asap+Condensed:600i,700');
 
 /* Rows
 --------------------------------------------------------------------------------------------------------------- */
@@ -411,7 +412,7 @@ table a, #experiences a{background-color:inherit;}
 
 	#footer{padding-bottom:50px;}/* Not neccessary, just looks a little better */
 }
-@import url('https://fonts.googleapis.com/css?family=Asap+Condensed:600i,700');
+
 .card {
   background: linear-gradient(#00CCBD, #11a398, #115650);
   border-radius: 2px;
