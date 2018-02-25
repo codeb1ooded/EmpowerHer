@@ -69,12 +69,34 @@ def user_page(request):
             experience['is_upvoted'] = False
         experience_array.append(experience)
 
+    events_guiding_array = []
+    for event in events_guiding:
+        event_json = {}
+        event_json['event_id'] = event.EVENT_KEY.EVENT_ID
+        event_json['event_name'] = event.EVENT_KEY.NAME
+        event_json['website'] = event.EVENT_KEY.WEBSITE
+        event_json['description'] = event.EVENT_KEY.DESCRIPTION
+        event_json['is_guide'] = is_user_guide(username, event.EVENT_KEY.EVENT_ID)
+        event_json['is_going'] = is_user_going(username, event.EVENT_KEY.EVENT_ID)
+        events_guiding_array.append(event_json)
+
+    events_going_array = []
+    for event in events_going:
+        event_json = {}
+        event_json['event_id'] = event.EVENT_KEY.EVENT_ID
+        event_json['event_name'] = event.EVENT_KEY.NAME
+        event_json['website'] = event.EVENT_KEY.WEBSITE
+        event_json['description'] = event.EVENT_KEY.DESCRIPTION
+        event_json['is_guide'] = is_user_guide(username, event.EVENT_KEY.EVENT_ID)
+        event_json['is_going'] = is_user_going(username, event.EVENT_KEY.EVENT_ID)
+        events_going_array.append(event_json)
+
     context = {'username': username,
                 'login_username': login_username,
                 'user': user,
                 'reputation': user.EXPERIENCE_UPVOTE + user.ANSWER_UPVOTE + user.GUIDE_UPVOTE + user.NUM_QUESTION_ASKED,
-                'events_guiding': events_guiding,
-                'events_going': events_going,
+                'events_guiding': events_guiding_array,
+                'events_going': events_going_array,
                 'answers': answers,
                 'questions': question_array,
                 'experiences': experience_array,

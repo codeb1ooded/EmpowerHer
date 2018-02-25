@@ -113,54 +113,48 @@
                 </div>
                 <div id="section-event-going" style="display:none;">
                     {% for event in events_going %}
-                    <div class="container-event">
-                        <div id="card">
-                            <article class="article tile front">
-                                <div class="article-image"></div>
-                                <section class="article-body">
-                                    <p class="article-tags"><!-- tags here --></p>
-                                    <h2 class="article-heading"> {{ event.EVENT_KEY.NAME }} </h2>
-                                    <h4> {{ event.EVENT_KEY.WEBSITE }} </h4>
-                                    <p> {{ event.EVENT_KEY.DESCRIPTION }}</p>
-                                </section>
-                                <footer class="article-footer">
-                                    <div id="going-button" class="{% if is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
-                                            data-state="{{ is_going }}">
-                                        <span id="going-text"> {% if not is_going %} Are you going? {% else %} I am going! {% endif %} </span>
-                                    </div>
-                                    <div id="guide-button" class="{% if is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
-                                        data-state="{{ is_guide }}">
-                                        <span id="guide-text"> {% if not is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
-                                    </div>
-                                </footer>
-                            </article>
-                        </div>
-                    </div>
+                    <article class="article card container-event">
+                        <div class="article-image"></div>
+                        <section class="article-body">
+                            <p class="article-tags"><!-- tags here --></p>
+                            <a href="../event/?event_id={{ event.event_id }}"> <h2 class="article-heading"> {{ event.event_name }} </h2></a>
+                            <a href="{{ event.website }}"> <h4> {{ event.website }} </h4> </a>
+                            <p> {{ event.description }}</p>
+                        </section>
+                        <footer class="article-footer">
+                            <div class="user-going-button {% if event.is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                    data-state="{{ event.is_going }}" data-event-id="{{ event.event_id }}" data-event="going">
+                                <span id="going-going-text-{{event.event_id}}"> {% if not event.is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+                            </div>
+                            <div class="user-guide-button {% if event.is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                data-state="{{ event.is_guide }}" data-event-id="{{ event.event_id }}" data-event="going">
+                                <span id="going-guide-text-{{event.event_id}}"> {% if not event.is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+                            </div>
+                        </footer>
+                    </article>
                     {% endfor %}
                 </div>
                 <div id="section-event-guiding" style="display:none;">
                     {% for event in events_guiding %}
-                    <div>
-                        <article class="article card container-event">
-                            <div class="article-image"></div>
-                            <section class="article-body">
-                                <p class="article-tags"><!-- tags here --></p>
-                                <a href="../event/?event_id={{ event.EVENT_KEY.NAME }}"> <h2 class="article-heading"> {{ event.EVENT_KEY.NAME }} </h2></a>
-                                <h4> {{ event.EVENT_KEY.WEBSITE }} </h4>
-                                <p> {{ event.EVENT_KEY.DESCRIPTION }}</p>
-                            </section>
-                            <footer class="article-footer">
-                                <div id="going-button" class="{% if is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
-                                        data-state="{{ is_going }}">
-                                    <span id="going-text"> {% if not is_going %} Are you going? {% else %} I am going! {% endif %} </span>
-                                </div>
-                                <div id="guide-button" class="{% if is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
-                                    data-state="{{ is_guide }}">
-                                    <span id="guide-text"> {% if not is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
-                                </div>
-                            </footer>
-                        </article>
-                    </div>
+                    <article class="article card container-event">
+                        <div class="article-image"></div>
+                        <section class="article-body">
+                            <p class="article-tags"><!-- tags here --></p>
+                            <a href="../event/?event_id={{ event.event_id }}"> <h2 class="article-heading"> {{ event.event_name }} </h2></a>
+                            <a href="{{ event.website }}"> <h4> {{ event.website }} </h4> </a>
+                            <p> {{ event.description }}</p>
+                        </section>
+                        <footer class="article-footer">
+                            <div class="user-going-button {% if event.is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                    data-state="{{ event.is_going }}" data-event-id="{{ event.event_id }}" data-event="guide">
+                                <span id="guide-going-text-{{event.event_id}}"> {% if not event.is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+                            </div>
+                            <div class="user-guide-button {% if event.is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                data-state="{{ event.is_guide }}" data-event-id="{{ event.event_id }}" data-event="guide">
+                                <span id="guide-guide-text-{{event.event_id}}"> {% if not event.is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+                            </div>
+                        </footer>
+                    </article>
                     {% endfor %}
                 </div>
             </div>

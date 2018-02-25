@@ -214,3 +214,7 @@ div.profile-stats li span {
   -o-backface-visibility: hidden;
   backface-visibility: hidden;
 }
+
+.article-heading: hover{
+    color: #00CCBD;
+}
