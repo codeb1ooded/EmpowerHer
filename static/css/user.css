@@ -79,3 +79,138 @@ div.profile-stats li span {
 .container{
     padding-top: 20px;
 }
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+#section-event-guiding article {
+  background: #fff;
+  border-radius: 2px;
+  margin: 0 auto;
+  overflow: auto;
+  width: 600px;
+  padding-top: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.075);
+  color: black;
+  margin-bottom: 20px;
+}
+
+#section-event-going article {
+  background: #fff;
+  border-radius: 2px;
+  margin: 0 auto;
+  overflow: auto;
+  width: 600px;
+  padding-top: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.075);
+  color: black;
+  margin-bottom: 10px;
+}
+
+.article-image {
+  background: url(http://lorempixel.com/640/220/nature);
+  background-position: center;
+  border-radius: 2px 2px 0 0;
+  height: 220px;
+  max-width: 100%;
+}
+
+.article-body {
+  padding: 24px 30px 0;
+}
+
+.article-heading {
+  color: #2f3032;
+  font-size: 1.5em;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.article-tags {
+  color: #a7aab0;
+  font-size: .8125em;
+  margin-bottom: .8125em;
+}
+
+.article-footer {
+  border-top: 1px solid #f1f2f3;
+  margin-top: 25px;
+  padding: 1em 30px;
+}
+
+.going-guide-button {
+    border: 2px solid #00CCBD;
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    padding: 5px 5px;
+    color: #00CCBD;
+    font-size:14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    letter-spacing: .08em;
+    border-radius: 0;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+.going-guided-button {
+    border: 2px solid #00CCBD;
+    position: relative;
+    display: inline-block;
+    margin-right: 30px;
+    padding: 5px 5px;
+    color: #FFFFFF;
+    font-size:14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    letter-spacing: .08em;
+    border-radius: 0;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    text-shadow: none;
+    background: #00CCBD;
+}
+
+
+/*  CARD FLIP STUFF
+    http://24ways.org/2010/intro-to-css-3d-transforms/ */
+.container-event {
+  width: 602px;
+  position: relative;
+  margin: 0 auto 40px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: #ddd;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1);
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  -o-perspective: 800px;
+  perspective: 800px;
+}
+
+#card {
+  width: 400px;
+  height: 100%;
+  position: absolute;
+  -webkit-transition: -webkit-transform 1s;
+  -moz-transition: -moz-transform 1s;
+  -o-transition: -o-transform 1s;
+  transition: transform 1s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+}

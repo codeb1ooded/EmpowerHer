@@ -3,7 +3,7 @@
 <html lang="">
 <head>
     <meta charset="UTF-8">
-    <title>{{ username }}</title>
+    <title>{{ user.NAME }}</title>
     <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
     <link href="{% static 'css/layout.css' %}" rel='stylesheet' type='text/css'>
     <link href="{% static 'css/user.css' %}" rel='stylesheet' type='text/css'>
@@ -111,9 +111,57 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div id="section-event-guiding" style="display:none;">
-                </div>
                 <div id="section-event-going" style="display:none;">
+                    {% for event in events_going %}
+                    <div class="container-event">
+                        <div id="card">
+                            <article class="article tile front">
+                                <div class="article-image"></div>
+                                <section class="article-body">
+                                    <p class="article-tags"><!-- tags here --></p>
+                                    <h2 class="article-heading"> {{ event.EVENT_KEY.NAME }} </h2>
+                                    <h4> {{ event.EVENT_KEY.WEBSITE }} </h4>
+                                    <p> {{ event.EVENT_KEY.DESCRIPTION }}</p>
+                                </section>
+                                <footer class="article-footer">
+                                    <div id="going-button" class="{% if is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                            data-state="{{ is_going }}">
+                                        <span id="going-text"> {% if not is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+                                    </div>
+                                    <div id="guide-button" class="{% if is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                        data-state="{{ is_guide }}">
+                                        <span id="guide-text"> {% if not is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+                                    </div>
+                                </footer>
+                            </article>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div id="section-event-guiding" style="display:none;">
+                    {% for event in events_guiding %}
+                    <div>
+                        <article class="article card container-event">
+                            <div class="article-image"></div>
+                            <section class="article-body">
+                                <p class="article-tags"><!-- tags here --></p>
+                                <a href="../event/?event_id={{ event.EVENT_KEY.NAME }}"> <h2 class="article-heading"> {{ event.EVENT_KEY.NAME }} </h2></a>
+                                <h4> {{ event.EVENT_KEY.WEBSITE }} </h4>
+                                <p> {{ event.EVENT_KEY.DESCRIPTION }}</p>
+                            </section>
+                            <footer class="article-footer">
+                                <div id="going-button" class="{% if is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                        data-state="{{ is_going }}">
+                                    <span id="going-text"> {% if not is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+                                </div>
+                                <div id="guide-button" class="{% if is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+                                    data-state="{{ is_guide }}">
+                                    <span id="guide-text"> {% if not is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+                                </div>
+                            </footer>
+                        </article>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="sidebar one_quarter">
@@ -123,8 +171,8 @@
                         <li id="li-answers"><a href="#" id="nav-answers">Answers</a></li>
                         <li id="li-experiences"><a href="#" id="nav-experiences">Experiences</a></li>
                         <li id="li-questions"><a href="#" id="nav-questions">Questions</a></li>
-                        <li id="li-event-guiding"><a href="#" id="nav-event-guiding">Events user going</a></li>
-                        <li id="li-event-going"><a href="#" id="nav-event-going">Events user guiding</a></li>
+                        <li id="li-event-going"><a href="#" id="nav-event-going">Events user going</a></li>
+                        <li id="li-event-guiding"><a href="#" id="nav-event-guiding">Events user guiding</a></li>
                     </ul>
                 </nav>
             </div>

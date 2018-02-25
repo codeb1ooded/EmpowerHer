@@ -17,7 +17,7 @@ def user_page(request):
     username = request.GET['username']
 
     is_logged_in = request.user.is_authenticated
-    loign_username = None
+    login_username = None
     if is_logged_in:
         login_username = request.user.username
 
