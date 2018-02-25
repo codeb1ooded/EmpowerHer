@@ -21,12 +21,13 @@ def user_page(request):
     if is_logged_in:
         login_username = request.user.username
 
+    user = get_user(username)
     events_guiding = get_user_events_guiding(username)
     events_going = get_user_events_going(username)
     answers = get_user_answers(username)
     questions = get_user_questions(username)
     experiences = get_user_experiences(username)
-    
+
     question_array = []
     for i in range(0, len(questions)):
         question = {}
@@ -67,6 +68,8 @@ def user_page(request):
         experience_array.append(experience)
 
     context = {'username': username,
+                'user': user,
+                'reputation': user.EXPERIENCE_UPVOTE + user.ANSWER_UPVOTE + user.GUIDE_UPVOTE + user.NUM_QUESTION_ASKED,
                 'events_guiding': events_guiding,
                 'events_going': events_going,
                 'answers': answers,

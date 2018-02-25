@@ -6,6 +6,7 @@
     <title>{{ username }}</title>
     <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
     <link href="{% static 'css/layout.css' %}" rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/user.css' %}" rel='stylesheet' type='text/css'>
 </head>
 <body id="top">
     <header class="main_h sticky">
@@ -20,10 +21,25 @@
         </div>
     </header>
     <div class="wrapper row3">
+        <header class="profile-section">
+            <figure class="profile-picture"
+                style="background-image: url('http://unsplash.it/150/150')">
+            </figure>
+            <div class="profile-stats">
+                <ul>
+                    <li> {{ user.EXPERIENCE_UPVOTE }} <span>Experience Upvotes</span></li>
+                    <li> {{ user.ANSWER_UPVOTE }} <span>Answer Upvotes</span></li>
+                    <li> {{ user.GUIDE_UPVOTE }} <span>Guide Uopvotes</span></li>
+                    <li> {{ user.NUM_QUESTION_ASKED }} <span>Questions Asked</span></li>
+                    <li> {{ reputation }} <span>Reputation</span></li>
+                </ul>
+            </div>
+            <h1> {{ user.NAME }} <small> {{ username }} </small></h1>
+        </header>
         <main class="hoc container clear">
             <div class="content three_quarter first">
                 <div id="section-answers">
-                    <h4 style="margin-top:50px; margin-left:10px;">{{ answers|length }} Answers</h4>
+                    <h4>{{ answers|length }} Answers</h4>
                     {% for answer in answers %}
                         <div class="questions question-card">
                             <a style="color:#999999;" href="../event/?event_id={{ answer.EVENT_KEY.EVENT_ID }}"> {{ answer.EVENT_KEY.NAME }} </a>
@@ -45,7 +61,7 @@
                     {% endfor %}
                 </div>
                 <div id="section-experiences" style="display:none;">
-                    <h4 style="margin-top:50px; margin-left:10px;">{{ experiences|length }} Experiences </h4>
+                    <h4>{{ experiences|length }} Experiences </h4>
                     <div id="experiences" class="experience-card">
                       <h2>Experiences</h2>
                       <ul>
@@ -74,7 +90,7 @@
                     </div>
                 </div>
                 <div id="section-questions" style="display:none;">
-                    <h4 style="margin-top:50px; margin-left:10px;">{{ questions|length }} Questions</h4>
+                    <h4>{{ questions|length }} Questions</h4>
                     {% for question in questions %}
                         <div class="questions question-card">
                             <a style="color:#999999;" href="../event/?event_id={{ event_id }}"> {{ question.event_name }} </a>
