@@ -80,7 +80,7 @@
 
               {% for guide in guides %}
                 <li> <a href="../user/?username={{guide.username}}"> {{ guide.guide_name }} ({{guide.reputation}}) </a>
-                    <i class="material-icons"><a href="">&#xe0c9;</a></i></li>
+                    <i class="material-icons"><a href="../chat/?receiver={{guide.username}}">&#xe0c9;</a></i></li>
               {% endfor %}
           </ul>
           <hr/>

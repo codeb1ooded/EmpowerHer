@@ -1,9 +1,9 @@
 {% for obj in chat %}
-    {% if obj.user == request.user %}
-        <li class="text-right list-group-item">{{ obj.MESSAGE }}</li>
+    {% if obj.SENDER_KEY.USER_REF.username == sender %}
+        <div class="chat-container"><div class="chat chat-right">{{ obj.MESSAGE }}</div></div>
     {% else %}
-        <li class="text-left list-group-item">{{ obj.MESSAGE }}</li>
+        <div class="chat-container"><div class="chat chat-left">{{ obj.MESSAGE }}</div></div>
     {% endif %}
 {% empty %}
-    <li class="text-right list-group-item">No messages yet!</li>
+    <div class="chat-container"><div class="chat chat-right">No messages yet!</div></div>
 {% endfor %}

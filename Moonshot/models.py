@@ -236,7 +236,7 @@ class LIVE_CHAT(models.Model):
         related_name='sender'
     )
     RECEIVER_ID = models.ForeignKey(
-        GUIDE_AVAILABLE,
+        USER,
         on_delete=models.CASCADE,
         null=True,
         blank=False,

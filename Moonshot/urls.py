@@ -39,10 +39,9 @@ urlpatterns = [
     url(r'^guides/$', guide_list, name='guide'),
 
     url(r'^dashboard/$', dashboard, name='index'),
-    url(r'^post/$', Post, name='post'),
-    url(r'^messages/$', Messages, name='messages'),
-    url(r'^home/(?P<guide_name>\w+)/$', Home, name='home'),
-    url(r'^guide/$', Guide, name='guide'),
+    url(r'^post/$', post_message, name='post'),
+    url(r'^chat_refresh/$', chat_refresh, name='messages'),
+    url(r'^chat/$', chat, name='home'),
 
     url(r'^upvote_experience/$', upvote_experience),
     url(r'^upvote_answer/$', upvote_answer),

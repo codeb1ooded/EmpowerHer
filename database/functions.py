@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from datetime import date
 
@@ -159,6 +160,22 @@ def submit_question(event_id, question, username):
     except:
         return -1
 
+def store_message(sender_username, receiver_username, message):
+    message_id = len(LIVE_CHAT.objects.all()) + 1
+    sender = get_user(sender_username)
+    receiver = get_user(receiver_username)
+    messageObj = LIVE_CHAT( CHAT_ID=message_id,
+                            TIMESTAMP = datetime.datetime.now(),
+                            MESSAGE = message,
+                            SENDER_KEY = sender,
+                            RECEIVER_ID = receiver)
+    messageObj.save()
+    message_check = LIVE_CHAT.objects.filter(SENDER_KEY = sender, RECEIVER_ID = receiver)[0]
+    try:
+        return message_check.CHAT_ID
+    except:
+        return -1
+
 
 def get_user(username):
     inbuilt_user = User.objects.filter(username=username)
@@ -218,6 +235,16 @@ def get_answer(answer_id):
         return answer[0]
     except:
         return None
+
+
+def get_all_messages(sender_username, receiver_username):
+    sender = get_user(sender_username)
+    receiver = get_user(receiver_username)
+    messages = LIVE_CHAT.objects.filter(
+                        (Q(SENDER_KEY=sender) & Q(RECEIVER_ID=receiver)) |
+                        (Q(SENDER_KEY=receiver) & Q(RECEIVER_ID=sender)))
+    return messages
+
 
 def get_user_written_answer(username, question_id):
     user = get_user(username)

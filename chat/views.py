@@ -1,33 +1,40 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, logout, login
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-# from chat import settings
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse
+
+from database.functions import *
 from Moonshot.models import LIVE_CHAT,USER, GUIDE_AVAILABLE
 
 
-def Home(request, guide_name):
-    c = LIVE_CHAT.objects.all()
-    return render(request, "ChatAppPage.html", {'home': 'active', 'chat': c, 'guide':guide_name})
+def chat(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
 
-def Post(request):
+    receiver_username = request.GET['receiver']
+    sender_username = request.user.username
+    receiver = get_user(receiver_username)
+
+    c = get_all_messages(sender_username, receiver_username)
+    return render(request, "ChatAppPage.html", {'home': 'active', 'chat': c, 'receiver_name': receiver.NAME,
+                                                'sender':sender_username, 'receiver':receiver_username})
+
+
+def post_message(request):
     if request.method == "POST":
-        msg = request.POST.get('msgbox', None)
-        # print request.user
-        my_p = get_object_or_404(USER, USER_REF = request.user)
-        print "="*30
-        c = LIVE_CHAT(SENDER_KEY=my_p, MESSAGE=msg)
-        print c.SENDER_KEY
-        if msg != '':
-            c.save()
-        return JsonResponse({ 'msg': msg, 'user': c.SENDER_KEY.NAME })
+        message = request.POST.get('msgbox', None)
+        receiver = request.POST.get('receiver', None)
+        sender = request.POST.get('sender', None)
+
+        if message != '':
+            store_message(sender, receiver, message)
+        return JsonResponse({'msg': message})
     else:
         return HttpResponse('Request must be POST.')
 
-def Messages(request):
-    c = LIVE_CHAT.objects.all()
-    return render(request, 'messages.html', {'chat': c})
 
-def Guide(request):
-    c = GUIDE_AVAILABLE.objects.all()
-    return render(request, "All_guide.html", {'home': 'active', 'chat': c})
+def chat_refresh(request):
+    receiver_username = request.GET['receiver']
+    sender_username = request.GET['sender']
+    c = get_all_messages(sender_username, receiver_username)
+    return render(request, 'messages.html', {'chat': c, 'sender':sender_username, 'receiver':receiver_username})

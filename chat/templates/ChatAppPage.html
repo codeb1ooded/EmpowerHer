@@ -1,7 +1,5 @@
 {% load staticfiles %}
-
 <html>
-
 <head>
     <title>Chat Panel</title>
   <style>
@@ -16,33 +14,28 @@
 }
   </style>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'chat.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/chat_box.css' %}">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><!-- jQuery library -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script><!-- Latest compiled JavaScript -->
 </head>
 
 <body>
     <div id="chat-body" class="panel panel-default">
-        <div class="panel-heading text-center">Chat with {{ guide }}</div>
+        <div class="panel-heading text-center">Chat with {{ receiver_name }}</div>
 
         <div id="msg-list-div" class="panel-body">
-
             <div class="col-sm-3 col-sm-offset-4 frame">
             <ul id="msg-list" class="list-group">
                 {% for obj in chat %}
-                    {% if obj.SENDER_KEY == request.user and obj.RECEIVER_KEY.NAME == obj.guide %}
-                        <li class="text-right list-group-item">{{ obj.MESSAGE }}</li>
+                    {% if obj.SENDER_KEY.USER_REF.username == sender %}
+                    <div class="chat-container"><div class="chat chat-right">{{ obj.MESSAGE }}</div></div>
                     {% else %}
-
-                        <li class="text-left list-group-item">{{ obj.MESSAGE }}</li>
+                    <div class="chat-container"><div class="chat chat-left">{{ obj.MESSAGE }}</div></div>
                     {% endif %}
                 {% empty %}
-                    <li class="text-right list-group-item">No messages yet!</li>
+                    <div class="chat-container"><div class="chat chat-right">No messages yet!</div></div>
                 {% endfor %}
                 <script>
                     var chatlist = document.getElementById('msg-list-div');
@@ -66,17 +59,16 @@
 </body>
 
 <script>
+// Chat submit function
 $('#chat-form').on('submit', function(event){
     event.preventDefault();
-
     $.ajax({
         url : '/post/',
         type : 'POST',
-        data : { msgbox : $('#chat-msg').val() },
-
+        data : { msgbox: $('#chat-msg').val() , receiver: "{{ receiver }}", sender: "{{ sender }}"},
         success : function(json){
             $('#chat-msg').val('');
-            $('#msg-list').append('<li class="text-right list-group-item">' + json.msg + '</li>');
+            $('#msg-list').append('<div class="chat-container"><div class="chat chat-right">' + json.msg + '</div></div>');
             var chatlist = document.getElementById('msg-list-div');
             chatlist.scrollTop = chatlist.scrollHeight;
         }
@@ -84,14 +76,9 @@ $('#chat-form').on('submit', function(event){
 });
 
 function getMessages(){
-    if (!scrolling) {
-        $.get('/messages/', function(messages){
-            $('#msg-list').html(messages);
-            var chatlist = document.getElementById('msg-list-div');
-            chatlist.scrollTop = chatlist.scrollHeight;
-        });
-    }
-    scrolling = false;
+    $.get('/chat_refresh/?sender={{sender}}&receiver={{receiver}}', function(messages){
+        $('#msg-list').html(messages);
+    });
 }
 
 var scrolling = false;
