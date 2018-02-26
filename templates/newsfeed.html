@@ -4,22 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>News Feed</title>
+    <title>{{ name }}</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
-
-    <link rel="stylesheet" href="{% static 'assets/css/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/flag-icon.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/cs-skin-elastic.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/scss/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/nav_menu.css' %}">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav_menu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/newsfeed.css' %}">
 </head>
 <body>
     <div id="right-panel" class="right-panel">
@@ -35,106 +29,124 @@
                 </ul>   </nav>
             </div>
         </header>
-        <h1 align="center" style="margin-top:70px;"><b>{{username}}</b></h1>
 
-        <div class="content mt-3">
-            <div class="col-sm-12">
-                <h5>Events you are going to: </h5><br>
+        <h1 align="center" style="margin-top:70px;"><b>{{name}}</b></h1>
+
+        {% if all_events_going %}
+        <h3>Events you are going to: </h3>
+        <div class="horizontal-scroll-container">
+            <div class="articles-container" style="background-color:#c9e5e3;">
+            {% for event in all_events_going %}
+            <article class="container-event">
+                <section class="article-body">
+                    <p class="article-tags"><!-- tags here --></p>
+                    <a href="../event/?event_id={{ event.event_id }}"> <h2 class="article-heading"> {{ event.event_name }} </h2></a>
+                    <a href="{{ event.website }}"> <h4> {{ event.website }} </h4> </a>
+                    <p class="condensed-answer"> {{ event.description }}</p>
+                </section>
+                <footer class="article-footer">
+                    <div class="user-going-button {% if event.is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                            data-state="{{ event.is_going }}" data-event-id="{{ event.event_id }}" data-event="going">
+                        <span id="going-going-text-{{event.event_id}}"> {% if not event.is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+                    </div>
+                    <div class="user-guide-button {% if event.is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+                        data-state="{{ event.is_guide }}" data-event-id="{{ event.event_id }}" data-event="going">
+                        <span id="going-guide-text-{{event.event_id}}"> {% if not event.is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+                    </div>
+                </footer>
+            </article>
+            {% endfor %}
+        </div>
+        </div>
+        {% endif %}
+
+        {% if all_events %}
+        <h3>Other upcoming events:</h3>
+        <div class="horizontal-scroll-container">
+            <div class="articles-container" style="background-color:#01514b;">
+            {% for event in all_events %}
+            <article class="container-event">
+                <section class="article-body">
+                    <p class="article-tags"><!-- tags here --></p>
+                    <a href="../event/?event_id={{ event.event_id }}"> <h2 class="article-heading"> {{ event.event_name }} </h2></a>
+                    <a href="{{ event.website }}"> <h4> {{ event.website }} </h4> </a>
+                    <p class="condensed-answer"> {{ event.description }}</p>
+                </section>
+                <footer class="article-footer">
+                    <div class="user-going-button {% if event.is_going %} going-guided-button {% else %} going-guide-button {% endif %}"
+                            data-state="{{ event.is_going }}" data-event-id="{{ event.event_id }}" data-event="event">
+                        <span id="event-going-text-{{event.event_id}}"> {% if not event.is_going %} Are you going? {% else %} I am going! {% endif %} </span>
+                    </div>
+                    <div class="user-guide-button {% if event.is_guide %} going-guided-button {% else %} going-guide-button {% endif %}"
+                        data-state="{{ event.is_guide }}" data-event-id="{{ event.event_id }}" data-event="event">
+                        <span id="event-guide-text-{{event.event_id}}"> {% if not event.is_guide %} Are you guiding? {% else %} I am a guide! {% endif %} </span>
+                    </div>
+                </footer>
+            </article>
+            {% endfor %}
+        </div>
+        </div>
+        {% endif %}
+
+        {% if all_experiences %}
+        <h3>Experiences of people attending past events</h3>
+        <div class="horizontal-scroll-container">
+            <div class="articles-container" style="background-color:#c9e5e3;">
+            {% for experience in all_experiences %}
+            <article class="experience-card">
+                <header>
+                    <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure>
+                    <username>By <a href="../user/?username={{experience.username}}">{{ experience.name }}</a></username>
+                    <time>{{ experience.timestamp }}</time>
+                </header>
+                <div class="experience-section comcont condensed-answer"><p>{{ experience.experience }}</p></div>
+                <footer class="article-footer" style="padding-left:0;">
+                    <div class="upvote-experience {% if experience.is_upvoted %} upvoted-button {% else %} upvote-button {% endif %}"
+                        data-expid="{{experience.experience_id}}" data-old-state="{{experience.is_upvoted}}">
+                        <span id="text-{{ experience.experience_id }}"> {% if experience.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
+                        <span id="upvote-{{ experience.experience_id }}"> {{ experience.upvotes }} </span> </div>
+                </footer>
+            </article>
+            {% endfor %}
+        </div>
+        </div>
+        {% endif %}
+
+        {% if all_questions %}
+        <h3>Questions asked in events you're going to attend:</h3>
+        <div class="horizontal-scroll-container">
+            <div class="articles-container" style="background-color:#01514b;">
+            {% for question in all_questions %}
+            <div class="questions question-card">
+                <a style="color:#999999;" href="../event/?event_id={{ event_id }}"> {{ question.event_name }} </a>
+                <a href="../question/?question_id={{ question.question_id }}"> <h4 class="question-highlighted"> {{ question.question }} </h4> </a>
+                <div style="width: 100%;">
+                    <div style="float:left; width: 10%">
+                        <img src="{% static 'images/avatar.png' %}" alt="">
+                    </div>
+                    <div style="">
+                        <username> By <a href="#">{{ question.answered_by }}</a> </username>
+                        <br/>
+                        <time>{{ question.answered_at }}</time>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="question-answer condensed-answer">{{ question.answer }} </div>
             </div>
-            {% if all_events_going %}
-            <div class="row">
-                {% for event in all_events_going %}
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card text-white bg-flat-color-1">
-                      <a href="../event/?event_id={{event.EVENT_ID}}">
-                        <div class="card-body pb-0">
-                            <p class="text-light">{{event.EVENT_ID}}</p>
-                            <div class="chart-wrapper px-0" style="height:70px;" height="70"/>
-                            </div>
-                        </div>
-                      </a>
-                    </div>
-                </div>
-                {% endfor %}
+            {% endfor %}
             </div>
-            {% endif %}
+        </div>
+        {% endif %}
+    <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 
-            <div class="col-sm-12">
-                <h5>Other upcoming events:</h5><br>
-            </div>
+    <script>
+        var username = "{{ username }}";
+    </script>
 
-            {% if all_events %}
-            <div class="row">
-                {% for event in all_events %}
-                <div class="col-sm-6 col-lg-3" style="margin-bottom: 1em;" >
-                    <div class="card text-white bg-flat-color-1">
-                        <div class="card-body pb-0">
-                            <p class="text-light">{{event.EVENT_ID}}</p>
-                        <div class="chart-wrapper px-0" style="height:70px;" height="70"/></div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            {% endif %}
-
-            <div style="margin-bottom: 1em;"><h5>Experiences of people attending past events</h5></div>
-            {% if all_events_going %}
-            <div class="row">
-                {% for event in all_events_going %}
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-one">
-                                <a href="../experience?event_id={{ event.EVENT_ID }}"> <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div></a>
-                                <div class="stat-content dib">
-                                    <div class="stat-digit">{{event.NAME}}</div>
-                                    <div class="stat-text">10 experiences</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            {% endif %}
-
-            <div style="margin-bottom: 1em;"><h5>FAQs regarding events you're going to attend:</h5></div>
-            {% if all_events_going %}
-            <div class="row">
-                {% for event in all_events_going %}
-                <div class="col-xl-3 col-lg-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-one">
-                                <a href="../question/?question_id={{ event.EVENT_ID }}"><div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div></a>
-                                <div class="stat-content dib">
-                                    <div class="stat-digit">{{ event.EVENT_ID }}</div>
-                                    <div class="stat-text">4 questions</div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-                </div>
-            {% endif %}
-
-    <script src="{% static 'assets/js/vendor/jquery-2.1.4.min.js' %"></script>
-    <script src="{% static 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js' %"></script>
-    <script src="{% static 'assets/js/plugins.js' %"></script>
-    <script src="{% static 'assets/js/main.js' %"></script>
-
-
-    <script src="{% static 'assets/js/lib/chart-js/Chart.bundle.js' %"></script>
-    <script src="{% static 'assets/js/dashboard.js' %"></script>
-    <script src="{% static 'assets/js/widgets.js' %"></script>
-    <script src="{% static 'assets/js/lib/vector-map/jquery.vmap.js' %"></script>
-    <script src="{% static 'assets/js/lib/vector-map/jquery.vmap.min.js' %"></script>
-    <script src="{% static 'assets/js/lib/vector-map/jquery.vmap.sampledata.js' %"></script>
-    <script src="{% static 'assets/js/lib/vector-map/country/jquery.vmap.world.js' %"></script>
-
-
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.backtotop.js' %}"></script>
+    <script src="{% static 'js/jquery.mobilemenu.js' %}"></script>
+    <script src="{% static 'js/newsfeed.js' %}"></script>
 </body>
 </html>

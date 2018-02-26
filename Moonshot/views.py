@@ -422,16 +422,78 @@ def guide_list(request):
 def news_feed(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/')
+
+    is_logged_in = request.user.is_authenticated
     username = request.user.username
     user = get_user(username)
-    all_events_going = get_all_events_going(username)
-    all_events = get_all_events();
-    size = len(all_events_going)
+    events_going = get_all_events_going(username)
+    events = get_all_events()
+
+    all_events = []
+    for event in events:
+        event_json = {}
+        event_json['event_id'] = event.EVENT_ID
+        event_json['event_name'] = event.NAME
+        event_json['website'] = event.WEBSITE
+        event_json['description'] = event.DESCRIPTION
+        event_json['is_guide'] = is_user_guide(username, event.EVENT_ID)
+        event_json['is_going'] = is_user_going(username, event.EVENT_ID)
+        all_events.append(event_json)
+
+    all_experiences = []
+    all_questions = []
+    all_events_going = []
+    for going_event in events_going:
+        event_json = {}
+        event_json['event_id'] = going_event.EVENT_KEY.EVENT_ID
+        event_json['event_name'] = going_event.EVENT_KEY.NAME
+        event_json['website'] = going_event.EVENT_KEY.WEBSITE
+        event_json['description'] = going_event.EVENT_KEY.DESCRIPTION
+        event_json['is_guide'] = is_user_guide(username, going_event.EVENT_KEY.EVENT_ID)
+        event_json['is_going'] = is_user_going(username, going_event.EVENT_KEY.EVENT_ID)
+        all_events_going.append(event_json)
+
+        experiences = get_all_experiences(going_event.EVENT_KEY.EVENT_ID)
+        for i in range(0, len(experiences)):
+            experience_json = {}
+            experience_json['experience_id'] = experiences[i].EXPERIENCE_ID
+            experience_json['experience'] = experiences[i].EXPERIENCE
+            experience_json['timestamp'] = experiences[i].TIMESTAMP
+            experience_json['username'] = experiences[i].USER_KEY.USER_REF.username
+            experience_json['name'] = experiences[i].USER_KEY.NAME
+            experience_json['upvotes'] = experiences[i].NUM_UPVOTES
+            experience_json['is_upvoted'] = False
+            if is_logged_in:
+                experience_json['is_upvoted'] = is_user_upvoted_experience(username, experiences[i].EXPERIENCE_ID)
+            all_experiences.append(experience_json)
+
+        questions = get_all_questions(going_event.EVENT_KEY.EVENT_ID)
+        for i in range(0, len(questions)):
+            question_json = {}
+            question_json['question_id'] = questions[i].QUESTION_ID
+            question_json['question'] = questions[i].QUESTION
+            question_json['description'] = questions[i].DESCRIPTION
+            question_json['timestamp'] = questions[i].TIMESTAMP
+            question_json['event_id'] = questions[i].EVENT_KEY.EVENT_ID
+            question_json['event_name'] = questions[i].EVENT_KEY.NAME
+            answer = get_top_answer(questions[i])
+            if answer is not None:
+                question_json['answer'] = answer.ANSWER
+                question_json['upvotes'] = answer.NUM_UPVOTES
+                question_json['answered_by'] = answer.USER_KEY.NAME
+                question_json['answered_at'] = answer.TIMESTAMP
+                question_json['is_upvoted'] = False
+                if is_logged_in:
+                    question_json['is_upvoted'] = is_user_upvoted_answer(username, answer.ANSWER_ID)
+            all_questions.append(question_json)
+
     context = {
+            'username': username,
+            'name': user.NAME,
             'all_events_going': all_events_going,
             'all_events' : all_events,
-            'size' : size,
-            'username': username
+            'all_experiences': all_experiences,
+            'all_questions': all_questions,
         }
     return render(request, "newsfeed.html", context)
 
