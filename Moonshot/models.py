@@ -20,7 +20,7 @@ class USER(models.Model):
     BADGE4 = models.BooleanField(default=False)
     BADGE5 = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.NAME + '\tKarma Score: ' + str(self.EXPERIENCE_UPVOTE + self.ANSWER_UPVOTE + self.GUIDE_UPVOTE)
 
 
@@ -42,7 +42,7 @@ class EVENT(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.NAME + '\n' + self.WEBSITE
 
 
@@ -62,7 +62,7 @@ class QUESTION(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.QUESTION + '\n' + self.EVENT_KEY.NAME
 
 
@@ -87,7 +87,7 @@ class ANSWER(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.ANSWER + '\n' + self.EVENT_KEY.NAME
 
 
@@ -107,7 +107,7 @@ class EXPERIENCE(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.EVENT_KEY.NAME + " By " + self.USER_KEY.NAME
 
 
@@ -125,7 +125,7 @@ class GUIDE_AVAILABLE(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.EVENT_KEY.NAME + " By " + self.USER_KEY.NAME
 
 
@@ -133,7 +133,7 @@ class TAG(models.Model):
     TAG_ID = models.IntegerField(primary_key=True)
     NAME = models.CharField(max_length=1000)
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.NAME
 
 
@@ -150,7 +150,7 @@ class TAGGED_EVENT(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.TAG_KEY.NAME + self.EVENT_KEY.NAME
 
 
@@ -167,7 +167,7 @@ class GOING_EVENT(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.EVENT_KEY.NAME
 
 
@@ -184,7 +184,7 @@ class UPVOTE_ANSWER(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.ANSWER_KEY.EVENT_KEY.NAME
 
 
@@ -201,7 +201,7 @@ class UPVOTE_EXPERIENCE(models.Model):
 		blank=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.EXPERIENCE_KEY.EVENT_KEY.NAME
 
 
@@ -220,7 +220,7 @@ class UPVOTE_GUIDE(models.Model):
         related_name='guided',
     )
 
-    def __unicode__(self):
+    def __str__(self):
 		return self.GUIDE_KEY.NAME
 
 
@@ -243,7 +243,7 @@ class LIVE_CHAT(models.Model):
         related_name='receiver'
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.MESSAGE
 
 
