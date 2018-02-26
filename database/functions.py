@@ -352,15 +352,19 @@ def up_down_vote_experience(username, experience_id, upvote):
     user = get_user(username)
     experience = get_experience(experience_id)
     upvoteid = username + "-" + experience_id
+    inbuilt_user = experience.USER_KEY.USER_REF
+    user_upvotes = get_user(experience.USER_KEY.USER_REF.username).EXPERIENCE_UPVOTE
     if upvote:
         query_upvote = UPVOTE_EXPERIENCE( UPVOTE_EXPERIENCE_ID = upvoteid,
                                             USER_KEY = user,
-                                            EXPERIENCE_KEY = experience) # foreign key need to be done
+                                            EXPERIENCE_KEY = experience)
         query_upvote.save()
+        USER.objects.filter(USER_REF=inbuilt_user).update(EXPERIENCE_UPVOTE = user_upvotes+1)
         EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES + 1)
         return experience.NUM_UPVOTES + 1
     else:
         UPVOTE_EXPERIENCE.objects.filter(UPVOTE_EXPERIENCE_ID = upvoteid).delete()
+        USER.objects.filter(USER_REF=inbuilt_user).update(EXPERIENCE_UPVOTE = user_upvotes-1)
         EXPERIENCE.objects.filter(EXPERIENCE_ID = experience_id).update (NUM_UPVOTES = experience.NUM_UPVOTES - 1)
         return experience.NUM_UPVOTES - 1
 
@@ -369,15 +373,19 @@ def up_down_vote_answer(username, answer_id, upvote):
     user = get_user(username)
     answer = get_answer(answer_id)
     upvoteid = username + "-" + answer_id
+    inbuilt_user = answer.USER_KEY.USER_REF
+    user_upvotes = get_user(answer.USER_KEY.USER_REF.username).ANSWER_UPVOTE
     if upvote:
         query_upvote = UPVOTE_ANSWER( UPVOTE_ANSWER_ID = upvoteid,
                                             USER_KEY = user,
                                             ANSWER_KEY = answer)
         query_upvote.save()
+        USER.objects.filter(USER_REF=inbuilt_user).update(ANSWER_UPVOTE = user_upvotes+1)
         ANSWER.objects.filter(ANSWER_ID = answer_id).update (NUM_UPVOTES = answer.NUM_UPVOTES + 1)
         return answer.NUM_UPVOTES + 1
     else:
         UPVOTE_ANSWER.objects.filter(UPVOTE_ANSWER_ID = upvoteid).delete()
+        USER.objects.filter(USER_REF=inbuilt_user).update(ANSWER_UPVOTE = user_upvotes-1)
         ANSWER.objects.filter(ANSWER_ID = answer_id).update (NUM_UPVOTES = answer.NUM_UPVOTES - 1)
         return answer.NUM_UPVOTES - 1
 
