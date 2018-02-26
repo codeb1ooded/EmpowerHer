@@ -110,7 +110,7 @@ def user_page(request):
 def home(request):
     is_logged_in = request.user.is_authenticated
     if is_logged_in:
-        return HttpResponseRedirect('/dashboard/')
+        return news_feed(request)
     else:
         return render(request, 'home.html')
 
@@ -215,6 +215,7 @@ def event_page(request):
         question['question'] = questions[i].QUESTION
         question['description'] = questions[i].DESCRIPTION
         question['timestamp'] = questions[i].TIMESTAMP
+        question['event_id'] = questions[i].EVENT_KEY.EVENT_ID
         question['event_name'] = questions[i].EVENT_KEY.NAME
         answer = get_top_answer(questions[i])
         if answer is None:
@@ -223,6 +224,7 @@ def event_page(request):
             question['answer'] = answer.ANSWER
             question['upvotes'] = answer.NUM_UPVOTES
             question['answered_by'] = answer.USER_KEY.NAME
+            question['username'] = answer.USER_KEY.USER_REF.username
             question['answered_at'] = answer.TIMESTAMP
             if is_logged_in:
                 question['is_upvoted'] = is_user_upvoted_answer(username, answer.ANSWER_ID)
@@ -330,7 +332,7 @@ def create_event_view(request):
         print event_id
         return HttpResponse(event_id)
     else:
-        return render(request, 'create_event.html', {'event_id':-1})
+        return render(request, 'create_event.html', {'event_id':-1, 'username':username})
 
 
 def update_event_view(request):
@@ -512,14 +514,18 @@ def dashboard(request):
     column2D = FusionCharts("mscolumn2d", "ex1" , "600", "400", "chart-1", "json", dataSource)
       # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
     return render(request, 'dashboard.html', {'output': column2D.render(),'B':b,'B1':b1,'B2':b2,'B3':b3,'B4':b4,'B5':b5,
-                                                'user': b, 'created_events': created_events})
+                                                'user': b, 'created_events': created_events, 'username':user.username})
 
 
 def guide_list(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    username = request.user.username
     event_id = request.GET['event_id']
     event = get_event_details(event_id)
     all_guides = get_all_guides(event_id)
     context = {
+        'username': username,
         'event_id': event.EVENT_ID,
         'event_name': event.NAME,
         'all_guides': all_guides,

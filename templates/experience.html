@@ -28,8 +28,9 @@
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
                 <li> <span onclick="openNav()">Share Experience</span></li>
-                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../dashboard/">Dashboard</a></li>
                 <li><a href="../logout/">Log Out</a></li>
+                <li><a href="../user/?username={{username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
     </header>
@@ -42,7 +43,7 @@
                   <img src="{% static 'images/avatar.png' %}" alt="">
               </div>
               <div style="">
-                  <username> By <a href="#">{{ experience.name }}</a> </username>
+                  <username> By <a href="../user/?username={{experience.username}}">{{ experience.name }}</a> </username>
                   <br/>
                   <time>{{ experience.timestamp }}</time>
               </div>

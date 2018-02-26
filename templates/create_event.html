@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href='https://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
     <link href="{% static 'css/create_event.css' %}" rel="stylesheet" type="text/css" media="all">
     <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
 </head>
@@ -17,8 +18,9 @@
             <div class="mobile-toggle"><span></span><span></span><span></span></div>
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../dashboard/">Dashboard</a></li>
                 <li><a href="../logout/">Log Out</a></li>
+                <li><a href="../user/?username={{username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
     </header>

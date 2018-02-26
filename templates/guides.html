@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GUIDES - {{ event_name }}</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <title>GUIDES - {{ event_name }}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static 'css/nav_menu.css' %}" rel='stylesheet' type='text/css'>
     <link href="{% static 'css/guides.css' %}" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
@@ -15,8 +16,9 @@
             <div class="mobile-toggle"><span></span><span></span><span></span></div>
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../dashboard/">Dashboard</a></li>
                 <li><a href="../logout/">Log Out</a></li>
+                <li><a href="../user/?username={{username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
     </header>
@@ -30,7 +32,7 @@
                         <thead><tr><th>&nbsp;</th></tr></thead>
                         <tbody>
                             {% for guide in all_guides %}
-                            <tr><td><a class="guide-name" href=""> {{ guide.USER_KEY.NAME }} </a> </td></tr>
+                            <tr><td><a class="guide-name" href="../user/?username={{guide.USER_KEY.USER_REF.username}}"> {{ guide.USER_KEY.NAME }} </a> </td></tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -50,7 +52,7 @@
                                 <td>{{ guide.USER_KEY.EXPERIENCE_UPVOTE }}</td>
                                 <td>{{ guide.USER_KEY.ANSWER_UPVOTE }}</td>
                                 <td>{{ guide.USER_KEY.GUIDE_UPVOTE }}</td>
-                                <td><i class="material-icons"><a href="">&#xe0c9;</a></i></td>
+                                <td><i class="material-icons"><a href="../user/?username={{guide.USER_KEY.USER_REF.username}}">&#xe0c9;</a></i></td>
                             </tr>
                             {% endfor %}
                         </tbody>

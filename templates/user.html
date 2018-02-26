@@ -15,8 +15,9 @@
             <div class="mobile-toggle"><span></span><span></span><span></span></div>
             <nav id="top-nav">   <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../dashboard/">Dashboard</a></li>
                 <li><a href="../logout/">Log Out</a></li>
+                <li><a href="../user/?username={{login_username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
     </header>
@@ -49,7 +50,7 @@
                                     <img src="{% static 'images/avatar.png' %}" alt="">
                                 </div>
                                 <div style="">
-                                    <username> By <a href="#">{{ answer.USER_KEY.NAME }}</a> </username>
+                                    <username> By <a href="../user/?username={{answer.USER_KEY.USER_REF.username}}">{{ answer.USER_KEY.NAME }}</a> </username>
                                     <br/>
                                     <time>{{ answer.TIMESTAMP }}</time>
                                 </div>

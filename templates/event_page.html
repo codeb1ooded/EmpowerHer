@@ -22,8 +22,9 @@
                 <li><a href="/">Home</a></li>
                 <li> <span onclick="openAskQuestion()">Ask Question</span></li>
                 <li> <span onclick="openNav()">Share Experience</span></li>
-                <li><a href=".sec03">Notifications</a></li>
+                <li><a href="../dashboard/">Dashboard</a></li>
                 <li><a href="../logout/">Log Out</a></li>
+                <li><a href="../user/?username={{username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
     </header>
@@ -78,7 +79,8 @@
           <ul style="margin-left:30px;">
 
               {% for guide in guides %}
-                <li> <a href=""> {{ guide.guide_name }} ({{guide.reputation}}) </a><i class="material-icons"><a href="">&#xe0c9;</a></i></li>
+                <li> <a href="../user/?username={{guide.username}}"> {{ guide.guide_name }} ({{guide.reputation}}) </a>
+                    <i class="material-icons"><a href="">&#xe0c9;</a></i></li>
               {% endfor %}
           </ul>
           <hr/>
@@ -97,7 +99,7 @@
                 <header>
                     <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure>
                   <username>
-                  By <a href="#">{{ experience.name }}</a>
+                  By <a href="../user/?username={{experience.username}}">{{ experience.name }}</a>
                   </username>
                   <time>{{ experience.timestamp }}</time>
                 </header>
@@ -119,14 +121,14 @@
       <h2 style="margin-top:50px; margin-left:10px;">Questions</h2>
       {% for question in questions %}
           <div class="questions question-card">
-              <a style="color:#999999;" href=""> {{ question.event_name }} </a>
+              <a style="color:#999999;" href="../event/?event_id={{question.event_id}}"> {{ question.event_name }} </a>
               <a href="../question/?question_id={{ question.question_id }}"> <h4 class="question-highlighted"> {{ question.question }} </h4> </a>
               <div style="width: 100%;">
                   <div style="float:left; width: 10%">
                       <img src="{% static 'images/avatar.png' %}" alt="">
                   </div>
                   <div style="">
-                      <username> By <a href="#">{{ question.answered_by }}</a> </username>
+                      <username> By <a href="../user/?username={{question.username}}">{{ question.answered_by }}</a> </username>
                       <br/>
                       <time>{{ question.answered_at }}</time>
                   </div>
