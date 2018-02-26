@@ -16,7 +16,11 @@
             <nav id="top-nav">   <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="../dashboard/">Dashboard</a></li>
-                <li><a href="../logout/">Log Out</a></li>
+                {% if is_logged_in %}
+                    <li><a href="../logout/">Log Out</a></li>
+                {% else %}
+                    <li><a href="../">Sign In/Up </a></li>
+                {% endif %}
                 <li><a href="../user/?username={{login_username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
@@ -36,6 +40,9 @@
                 </ul>
             </div>
             <h1> {{ user.NAME }} <small> {{ username }} </small></h1>
+            {% if username != login_username %}
+            <a href="../chat/?receiver={{username}}"> <div class="message-button"> Message </div> </a>
+            {% endif %}
         </header>
         <main class="hoc container clear">
             <div class="content three_quarter first">
@@ -83,7 +90,6 @@
                                     data-expid="{{experience.experience_id}}" data-old-state="{{experience.is_upvoted}}">
                                     <span id="text-{{ experience.experience_id }}"> {% if experience.is_upvoted %} Upvoted {% else %} Upvote {% endif %} </span> |
                                     <span id="upvote-{{ experience.experience_id }}"> {{ experience.upvotes }} </span> </div>
-                                    <br/>
                                 </article>
                             </li>
                             {% endfor %}

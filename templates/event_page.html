@@ -23,7 +23,11 @@
                 <li> <span onclick="openAskQuestion()">Ask Question</span></li>
                 <li> <span onclick="openNav()">Share Experience</span></li>
                 <li><a href="../dashboard/">Dashboard</a></li>
-                <li><a href="../logout/">Log Out</a></li>
+                {% if is_logged_in %}
+                    <li><a href="../logout/">Log Out</a></li>
+                {% else %}
+                    <li><a href="../">Sign In/Up </a></li>
+                {% endif %}
                 <li><a href="../user/?username={{username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>

@@ -95,6 +95,7 @@ def user_page(request):
         events_going_array.append(event_json)
 
     context = {'username': username,
+                'is_logged_in': is_logged_in,
                 'login_username': login_username,
                 'user': user,
                 'reputation': user.EXPERIENCE_UPVOTE + user.ANSWER_UPVOTE + user.GUIDE_UPVOTE + user.NUM_QUESTION_ASKED,
@@ -252,7 +253,7 @@ def event_page(request):
         'website':event.WEBSITE,
         'location':event.LOCATION,
         'username': username,
-        'logged_in': is_logged_in,
+        'is_logged_in': is_logged_in,
         'is_guide': is_guide,
         'is_going': is_going,
         'experience':user_experience,
@@ -299,6 +300,7 @@ def experience_list(request):
         'event_id': event_id,
         'event_name': event.NAME,
         'all_experiences': all_experiences,
+        'is_logged_in': is_logged_in,
         'username':username,
         'experience':user_experience,
         'experience_id': experience_id
@@ -332,7 +334,7 @@ def create_event_view(request):
         print event_id
         return HttpResponse(event_id)
     else:
-        return render(request, 'create_event.html', {'event_id':-1, 'username':username})
+        return render(request, 'create_event.html', {'event_id':-1, 'is_logged_in':is_logged_in, 'username':username})
 
 
 def update_event_view(request):
@@ -355,7 +357,7 @@ def update_event_view(request):
         website = request.GET['website']
         location = request.GET['location']
         update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
-        return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description,
+        return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description, 'is_logged_in': is_logged_in,
                                                     'reg_start_date':reg_start_date, 'reg_close_date':reg_close_date, 'event_start_date': event_start_date, 'event_close_date': event_close_date,
                                                 'details':details, 'website':website, 'location':location})
     else:
@@ -370,7 +372,7 @@ def update_event_view(request):
         website = event.WEBSITE
         location = event.LOCATION
         update_event(username, event_id, name, description, reg_start_date, reg_close_date, event_start_date, event_close_date, details, website, location)
-        return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description,
+        return render(request, 'create_event.html', {'event_id':event_id, 'name':name, 'description':description, 'is_logged_in': is_logged_in,
                                                     'reg_start_date':reg_start_date, 'reg_close_date':reg_close_date, 'event_start_date': event_start_date, 'event_close_date': event_close_date,
                                                 'details':details, 'website':website, 'location':location})
 
@@ -404,20 +406,27 @@ def answers_for_question(request):
         if is_logged_in:
             answer['is_upvoted'] = is_user_upvoted_answer(username, answers[i].ANSWER_ID)
         answers_array.append(answer)
-    return render(request, "question.html", {'event_id': question.EVENT_KEY.EVENT_ID, 'event_name': question.EVENT_KEY.NAME,
+    return render(request, "question.html", {'event_id': question.EVENT_KEY.EVENT_ID, 'event_name': question.EVENT_KEY.NAME, 'is_logged_in': is_logged_in,
                                                     'question':question, 'answers':answers_array, 'username':username, 'answer':user_answer,
                                                     'answer_id': answer_id})
 
 
 def guide_list(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    is_logged_in = request.user.is_authenticated
+    username = request.user.username
     event_id = request.GET['event_id']
+    event = get_event_details(event_id)
     all_guides = get_all_guides(event_id)
-    template = loader.get_template('guides.html')
     context = {
+        'is_logged_in': is_logged_in,
+        'username': username,
+        'event_id': event.EVENT_ID,
+        'event_name': event.NAME,
         'all_guides': all_guides,
     }
     return render(request, "guides.html", context)
-
 
 def news_feed(request):
     if not request.user.is_authenticated():
@@ -488,6 +497,7 @@ def news_feed(request):
             all_questions.append(question_json)
 
     context = {
+            'is_logged_in': is_logged_in,
             'username': username,
             'name': user.NAME,
             'all_events_going': all_events_going,
@@ -511,6 +521,7 @@ def dashboard(request):
         "theme": "zune"
       }
 
+    is_logged_in = request.user.is_authenticated
     if request.user.is_authenticated():
         user = request.user
 
@@ -576,20 +587,5 @@ def dashboard(request):
     column2D = FusionCharts("mscolumn2d", "ex1" , "600", "400", "chart-1", "json", dataSource)
       # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
     return render(request, 'dashboard.html', {'output': column2D.render(),'B':b,'B1':b1,'B2':b2,'B3':b3,'B4':b4,'B5':b5,
-                                                'user': b, 'created_events': created_events, 'username':user.username})
-
-
-def guide_list(request):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/')
-    username = request.user.username
-    event_id = request.GET['event_id']
-    event = get_event_details(event_id)
-    all_guides = get_all_guides(event_id)
-    context = {
-        'username': username,
-        'event_id': event.EVENT_ID,
-        'event_name': event.NAME,
-        'all_guides': all_guides,
-    }
-    return render(request, "guides.html", context)
+                                                'inbox':get_all_inbox(user.username), 'user': b, 'created_events': created_events,
+                                                'username':user.username, 'is_logged_in': is_logged_in})

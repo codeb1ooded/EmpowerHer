@@ -170,6 +170,15 @@ def store_message(sender_username, receiver_username, message):
                             SENDER_KEY = sender,
                             RECEIVER_ID = receiver)
     messageObj.save()
+
+    inbox_id_1 = sender_username + "-" +  receiver_username
+    inbox1 = INBOX(INBOX_ID=inbox_id_1, SENDER_KEY=sender, RECEIVER_KEY=receiver)
+    inbox1.save()
+
+    inbox_id_2 = receiver_username + "-" +  sender_username
+    inbox2 = INBOX(INBOX_ID=inbox_id_2, SENDER_KEY=receiver, RECEIVER_KEY=sender)
+    inbox2.save()
+
     message_check = LIVE_CHAT.objects.filter(SENDER_KEY = sender, RECEIVER_ID = receiver)[0]
     try:
         return message_check.CHAT_ID
@@ -244,6 +253,12 @@ def get_all_messages(sender_username, receiver_username):
                         (Q(SENDER_KEY=sender) & Q(RECEIVER_ID=receiver)) |
                         (Q(SENDER_KEY=receiver) & Q(RECEIVER_ID=sender)))
     return messages
+
+
+def get_all_inbox(username):
+    user = get_user(username)
+    inbox = INBOX.objects.filter(SENDER_KEY=user)
+    return inbox
 
 
 def get_user_written_answer(username, question_id):

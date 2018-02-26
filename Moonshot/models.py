@@ -245,3 +245,21 @@ class LIVE_CHAT(models.Model):
 
     def __unicode__(self):
         return self.MESSAGE
+
+
+class INBOX(models.Model):
+    INBOX_ID = models.CharField(primary_key=True, max_length=100) # (sender_username + "-" + receiver_username)
+    SENDER_KEY = models.ForeignKey(
+        USER,
+        on_delete=models.CASCADE,
+        null=False,
+        blank=False,
+        related_name='inbox_sender'
+    )
+    RECEIVER_KEY = models.ForeignKey(
+        USER,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=False,
+        related_name='inbox_receiver'
+    )

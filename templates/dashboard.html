@@ -27,7 +27,11 @@
             <nav>   <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="../dashboard/">Dashboard</a></li>
-                <li><a href="../logout/">Log Out</a></li>
+                {% if is_logged_in %}
+                    <li><a href="../logout/">Log Out</a></li>
+                {% else %}
+                    <li><a href="../">Sign In/Up </a></li>
+                {% endif %}
                 <li><a href="../user/?username={{username}}"> <figure class="avatar"><img src="{% static 'images/avatar.png' %}" alt=""></figure></a></li>
             </ul>   </nav>
         </div>
@@ -150,7 +154,7 @@
                 <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+                            <i class="fa fa-envelope" aria-hidden="true"></i> Inbox
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -172,7 +176,13 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <div id="chart-1">{{ output|safe }}</div>
+                            {% for user in inbox %}
+                            <div class="list-group">
+                                <a href="../chat/?receiver={{user.RECEIVER_KEY.USER_REF.username}}" class="list-group-item">
+                                    {{ user.RECEIVER_KEY.NAME }}
+                                </a>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

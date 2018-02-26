@@ -68,11 +68,11 @@ div.profile-stats li span {
 }
 
 .profile-section>h1 {
-    bottom: -60px;
     color: #00CCBD;
     font-size: 40px;
-    left: 350px;
     position: absolute;
+    bottom: -60px;
+    left: 350px;
     z-index: 5;
 }
 
@@ -180,6 +180,27 @@ div.profile-stats li span {
     background: #00CCBD;
 }
 
+.message-button{
+    margin-right: 12px;
+    box-sizing: border-box;
+    transition: opacity ease-in-out 100ms,color ease-in-out 100ms,background-color ease-in-out 100ms,border-color ease-in-out 100ms;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px 0 rgba(175, 247, 241, 0.2);
+    position: absolute;
+    font-size: 17.5px;
+    font-weight: bold;
+    outline: 0;
+    padding: 3px 7px 4px 7px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background: #b4e8e4;
+    color: #045e57;
+    border: 1px solid #00CCBD;
+    bottom: -50px;
+    right: 200px;
+    z-index: 5;
+}
 
 /*  CARD FLIP STUFF
     http://24ways.org/2010/intro-to-css-3d-transforms/ */
