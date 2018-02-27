@@ -104,6 +104,7 @@ def user_page(request):
                 'answers': answers,
                 'questions': question_array,
                 'experiences': experience_array,
+                'num_of_questions': get_number_of_questions(username)
                 }
     return render(request, 'user.html', context)
 
