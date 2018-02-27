@@ -585,4 +585,4 @@ def dashboard(request):
       # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
     return render(request, 'dashboard.html', {'output': column2D.render(),'B':b,'B1':b1,'B2':b2,'B3':b3,'B4':b4,'B5':b5,
                                                 'inbox':get_all_inbox(user.username), 'user': b, 'created_events': created_events,
-                                                'username':user.username, 'is_logged_in': is_logged_in})
+                                                'username':user.username, 'is_logged_in': is_logged_in, 'num_of_questions': get_number_of_questions(user.username)})
