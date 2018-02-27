@@ -70,7 +70,7 @@ def update_event(username, event_id, name, description, reg_start_date, reg_clos
 
 
 def submit_answer(question_id, answer, username):
-    ans_id = len(ANSWER.objects.all()) + 1
+    ans_id = len(EVENT.objects.all()) + 1
     question = get_question(question_id)
     user = get_user(username)
     event = question.EVENT_KEY
@@ -313,16 +313,9 @@ def get_user_experiences(username):
     user = get_user(username)
     return EXPERIENCE.objects.filter(USER_KEY=user)
 
-
 def get_created_events(username):
     user = get_user(username)
     return EVENT.objects.filter(USER_KEY=user)
-
-
-def get_number_of_questions(username):
-    user = get_user(username)
-    questions = QUESTION.objects.filter(USER_KEY=user)
-    return len(questions)
 
 
 def is_user_guide(username, event_id):

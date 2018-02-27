@@ -207,7 +207,10 @@ def event_page(request):
         experience_array.append(experience)
 
     question_array = []
-    for i in range(0, len(questions)):
+    rn = len(questions)
+    if len(questions) > 5:
+        rn = 5
+    for i in range(0, rn):
         question = {}
         question['question_id'] = questions[i].QUESTION_ID
         question['question'] = questions[i].QUESTION
@@ -585,4 +588,4 @@ def dashboard(request):
       # returning complete JavaScript and HTML code, which is used to generate chart in the browsers.
     return render(request, 'dashboard.html', {'output': column2D.render(),'B':b,'B1':b1,'B2':b2,'B3':b3,'B4':b4,'B5':b5,
                                                 'inbox':get_all_inbox(user.username), 'user': b, 'created_events': created_events,
-                                                'username':user.username, 'is_logged_in': is_logged_in, 'num_of_questions': get_number_of_questions(user.username)})
+                                                'username':user.username, 'is_logged_in': is_logged_in})
