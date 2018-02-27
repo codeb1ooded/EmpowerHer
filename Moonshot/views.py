@@ -207,10 +207,7 @@ def event_page(request):
         experience_array.append(experience)
 
     question_array = []
-    rn = len(questions)
-    if len(questions) > 5:
-        rn = 5
-    for i in range(0, rn):
+    for i in range(0, len(questions)):
         question = {}
         question['question_id'] = questions[i].QUESTION_ID
         question['question'] = questions[i].QUESTION
