@@ -70,7 +70,7 @@ def update_event(username, event_id, name, description, reg_start_date, reg_clos
 
 
 def submit_answer(question_id, answer, username):
-    ans_id = len(EVENT.objects.all()) + 1
+    ans_id = len(ANSWER.objects.all()) + 1
     question = get_question(question_id)
     user = get_user(username)
     event = question.EVENT_KEY
