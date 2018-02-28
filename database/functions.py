@@ -251,7 +251,8 @@ def get_all_messages(sender_username, receiver_username):
     receiver = get_user(receiver_username)
     messages = LIVE_CHAT.objects.filter(
                         (Q(SENDER_KEY=sender) & Q(RECEIVER_ID=receiver)) |
-                        (Q(SENDER_KEY=receiver) & Q(RECEIVER_ID=sender)))
+                        (Q(SENDER_KEY=receiver) & Q(RECEIVER_ID=sender))).order_by('TIMESTAMP')
+    print messages
     return messages
 
 
