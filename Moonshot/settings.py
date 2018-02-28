@@ -25,7 +25,11 @@ SECRET_KEY = '3aw%p+hyo^+4!r$6$y-k$y3rcp621u6jtmdmt3=qrbq)1wsfl#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['moonshotpp.herokuapp.com', 'https://moonshotpp.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['empowerher.herokuapp.com', 
+                'https://empowerher.herokuapp.com',
+                'moonshotpp.herokuapp.com',
+                'https://moonshotpp.herokuapp.com',
+                '127.0.0.1']
 
 
 # Application definition
