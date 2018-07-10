@@ -1,15 +1,16 @@
 # EmpowerHer++
 #### (Inspired by goals of tech communities like Systers in a unique way)
 
+#### Youtube link: https://www.youtube.com/watch?v=5UIZhrheBkE&t=7s
+
 
 ### Problem statement
 We went to ACM-ICPC regionals
-In about 400 participants there were not even 10 girls while there are women in women hackathons!!
-Why???
-
-We tried to identify the root cause of problem. 
-Why it becomes difficult to reach out to all girls??
-We present a solution which empowers them to come out of their shell with the comfort of their home, school or university.
+In about 400 participants there were not even 10 girls while there are women in women hackathons!! <br/>
+Why???<br/><br/>
+We tried to identify the root cause of problem. <br/>
+Why it becomes difficult to reach out to all girls?? <br/>
+We present a solution which empowers them to come out of their shell with the comfort of their home, school or university. <br/>
 We motivate & aware them to seek help and join other tech communities like Systers, Women Techmakers, etc.
 
 
@@ -35,6 +36,5 @@ With your contribution to platform and community in terms of answering questions
 #### More women in tech:
 Tech is considered to be male-dominated but when girls will get identified, the notion will change and they would no more feel like I am not made for Tech!!
 
-
-### Team Members: Megha Aggarwal, Aishna Gupta, Shijanee Gupta, Apoorva Singh
+### Team Members: Megha Aggarwal, Aishna Gupta, Shinjanee Gupta, Apoorva Singh
 
