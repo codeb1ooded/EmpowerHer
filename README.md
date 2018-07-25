@@ -1,6 +1,7 @@
 # EmpowerHer++
 #### (Inspired by goals of tech communities like Systers in a unique way)
 
+#### Demo link: http://empowerher.herokuapp.com/
 #### Youtube link: https://www.youtube.com/watch?v=5UIZhrheBkE&t=7s
 
 
@@ -35,6 +36,42 @@ With your contribution to platform and community in terms of answering questions
 
 #### More women in tech:
 Tech is considered to be male-dominated but when girls will get identified, the notion will change and they would no more feel like I am not made for Tech!!
+
+### Demo login
+<table>
+  <tr>
+    <th> Username </th>
+    <th> Password </th>
+  </tr>
+  <tr>
+    <td> megha </td>
+    <td> qwertyuiop </td>
+  </tr>
+  <tr>
+    <td> aishna </td>
+    <td> qwertyuiop </td>
+  </tr>
+  <tr>
+    <td> shinjanee </td>
+    <td> asdfghjkl </td>
+  </tr>
+  <tr>
+    <td> apoorvasingh </td>
+    <td> Pswd#.12 </td>
+  </tr>
+</table>
+
+#### Admin privilege (Access with care) 
+<table>
+  <tr>
+    <th> Username </th>
+    <th> Password </th>
+  </tr>
+  <tr>
+    <td> Admin </td>
+    <td> qwertyuiop </td>
+  </tr>
+</table>
 
 ### Team Members: Megha Aggarwal, Aishna Gupta, Shinjanee Gupta, Apoorva Singh
 
